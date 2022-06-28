@@ -3,6 +3,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.6'
 
+# adding jquery
+gem 'jquery-rails'
+
+# adding Bootstrap
+gem 'bootstrap', '~> 5.1.3'
 # installing devise for authentication
 gem 'devise'
 
