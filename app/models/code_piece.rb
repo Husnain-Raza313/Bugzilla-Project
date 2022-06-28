@@ -1,0 +1,2 @@
+class CodePiece < ApplicationRecord
+end
