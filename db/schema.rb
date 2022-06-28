@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_28_180642) do
+ActiveRecord::Schema.define(version: 2022_06_28_213711) do
 
   create_table "projects", force: :cascade do |t|
     t.integer "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "unique_project_ids", unique: true
+  end
+
+  create_table "user_projects", force: :cascade do |t|
+    t.integer "User_id"
+    t.integer "Project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["Project_id"], name: "index_user_projects_on_Project_id"
+    t.index ["User_id"], name: "index_user_projects_on_User_id"
   end
 
   create_table "users", force: :cascade do |t|
