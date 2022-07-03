@@ -10,12 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_28_220742) do
+ActiveRecord::Schema.define(version: 2022_07_03_194502) do
 
   create_table "code_pieces", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "title"
+    t.string "title", default: "", null: false
+    t.integer "type", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.date "deadline"
+    t.string "screenshot"
+    t.string "description"
     t.index ["title"], name: "index_code_pieces_on_title", unique: true
   end
 

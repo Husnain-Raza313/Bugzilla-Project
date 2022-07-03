@@ -6,6 +6,9 @@ ruby '2.6.6'
 # adding jquery
 gem 'jquery-rails'
 
+# Carrierwave for images
+gem 'carrierwave', '~> 2.0'
+
 # adding Bootstrap
 gem 'bootstrap', '~> 5.1.3'
 # installing devise for authentication

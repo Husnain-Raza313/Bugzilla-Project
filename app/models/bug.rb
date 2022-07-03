@@ -1,4 +1,6 @@
 class Bug < CodePiece
-  validates :title, presence: true
-  validates :status, presence: true
+  enum status: [:new, :started, :resolved]
+
+  validates :status, inclusion: { in: [:new, :started, :resolved] }
+
 end
