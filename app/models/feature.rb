@@ -1,5 +1,5 @@
 class Feature < CodePiece
-  enum status: [:new, :started, :completed]
-
-  validates :status, inclusion: { in: [:new, :started, :completed] }
+   enum piece_status: [:new, :started, :completed]
+  belongs_to :project
+   validates :piece_status, inclusion: { in: [:new, :started, :completed] }
 end

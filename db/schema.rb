@@ -10,15 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_03_194502) do
+ActiveRecord::Schema.define(version: 2022_07_04_174001) do
 
   create_table "code_pieces", force: :cascade do |t|
     t.integer "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title", default: "", null: false
-    t.integer "type", default: 0, null: false
-    t.integer "status", default: 0, null: false
+    t.integer "piece_status", default: 0, null: false
     t.date "deadline"
     t.string "screenshot"
     t.text "description"

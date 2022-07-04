@@ -1,6 +1,6 @@
 class Bug < CodePiece
-  enum status: [:new, :started, :resolved]
-
-  validates :status, inclusion: { in: [:new, :started, :resolved] }
+  enum piece_status: [:new, :started, :resolved]
+  belongs_to :project
+  validates :piece_status, inclusion: { in: [:new, :started, :resolved] }
 
 end
