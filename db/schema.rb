@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2022_07_03_194502) do
 
   create_table "code_pieces", force: :cascade do |t|
+    t.integer "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title", default: "", null: false
@@ -20,7 +21,8 @@ ActiveRecord::Schema.define(version: 2022_07_03_194502) do
     t.integer "status", default: 0, null: false
     t.date "deadline"
     t.string "screenshot"
-    t.string "description"
+    t.text "description"
+    t.index ["project_id"], name: "index_code_pieces_on_project_id"
     t.index ["title"], name: "index_code_pieces_on_title", unique: true
   end
 

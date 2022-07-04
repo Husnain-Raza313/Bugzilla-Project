@@ -1,5 +1,5 @@
 class CodePiece < ApplicationRecord
-  belongs_to :projects
+  belongs_to :project
 
   mount_uploader :screenshot, ScreenshotUploader
   enum type: [:bug,:feature]
