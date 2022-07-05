@@ -10,7 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_20_194722) do
+ActiveRecord::Schema.define(version: 2022_07_04_174001) do
+
+  create_table "code_pieces", force: :cascade do |t|
+    t.integer "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "title", default: "", null: false
+    t.integer "piece_status", default: 0, null: false
+    t.date "deadline"
+    t.string "screenshot"
+    t.text "description"
+    t.index ["project_id"], name: "index_code_pieces_on_project_id"
+    t.index ["title"], name: "index_code_pieces_on_title", unique: true
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_projects", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["project_id"], name: "index_user_projects_on_project_id"
+    t.index ["user_id"], name: "index_user_projects_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
