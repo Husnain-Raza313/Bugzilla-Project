@@ -9,9 +9,10 @@
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended that you check this file into your version control system.
-enable_extension "plpgsql"
+
 
 ActiveRecord::Schema.define(version: 2022_07_04_174001) do
+
 
   create_table "code_pieces", force: :cascade do |t|
     t.integer "project_id"
