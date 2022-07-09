@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # get 'home/index'
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
@@ -8,6 +9,8 @@ Rails.application.routes.draw do
       # get '/projects/index', to: 'project#index'
 
       resources :projects
+      get 'users/index'
+      get "/users/:id", to: "users#show", as: :users_show
 
     end
 
