@@ -19,9 +19,9 @@
       <td><%= user.name %></td>
       <td><%= user.email %></td>
       <td><%= user.user_type.capitalize %></td>
-      <td><%= link_to "Show ", users_show_path(user), class:"btn btn-warning" %></td>
+      <td><%= link_to "Show ", users_show_path(user), class:"btn btn-primary" %></td>
       <td><%= link_to "Show Assigned Projects", user_projects_show_path(user), class:"btn btn-warning" %></td>
-      <td><%= link_to "Show Unassigned Projects", user_projects_unassigned_show_path(user), class:"btn btn-warning" %></td>
+      <td><%= link_to "Show Unassigned Projects", user_projects_unassigned_show_path(user), class:"btn btn-success" %></td>
 
 
 

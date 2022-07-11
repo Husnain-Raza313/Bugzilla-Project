@@ -8,10 +8,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum user_type: [:user, :manager, :developer, :qa]
-
-  scope :active1, -> { ('id = ?, user.id') }
-
-
   after_initialize :set_default_user_type, :if => :new_record?
 
   def set_default_user_type

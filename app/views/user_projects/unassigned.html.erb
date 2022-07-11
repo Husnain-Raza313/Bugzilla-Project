@@ -1,12 +1,13 @@
+<h1 class='m-3'>Unassigned Projects </h1>
+
 <div class="m-3">
 <table class="table table-hover table-striped table-bordered">
   <thead >
     <tr class="table-dark">
-      <th scope="col">#</th>
+      <th scope="col">ID</th>
       <th scope="col">Name</th>
       <th scope="col">Created At</th>
       <th scope="col">Updated At</th>
-      <th scope="col"></th>
       <th scope="col"></th>
       <th scope="col"></th>
     </tr>
@@ -16,9 +17,16 @@
     <tbody>
     <tr>
       <th scope="row"><%= userproject.id%></th>
-      <%# <td><%= project.name %></td>
+      <td><%= userproject.name %></td>
       <td><%= userproject.created_at %></td>
       <td><%= userproject.updated_at %></td>
+      <td><%= link_to "Show ", userproject, class:"btn btn-primary" %></td>
+
+      <td><%= link_to "Assign ", projects_assign_url(@user.id, userproject.id), class:"btn btn-success" %></td>
+
+
+
+
 
 
     </tr>
@@ -26,4 +34,6 @@
 
   <% end %>
   </table>
+
+<td><%= link_to "Show Assigned Projects ", user_projects_show_path(@user.id), class:"btn btn-warning" %></td>
   </div>
