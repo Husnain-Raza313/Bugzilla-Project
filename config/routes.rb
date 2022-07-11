@@ -11,6 +11,8 @@ Rails.application.routes.draw do
       resources :projects
       get 'users/index'
       get "/users/:id", to: "users#show", as: :users_show
+      get '/userprojects/:id', to: "user_projects#index", as: :user_projects_show
+      get '/userprojects/unassigned/:id', to: "user_projects#unassigned", as: :user_projects_unassigned_show
 
     end
 
