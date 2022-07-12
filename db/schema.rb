@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_11_133258) do
+ActiveRecord::Schema.define(version: 2022_07_12_102922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2022_07_11_133258) do
     t.date "deadline"
     t.string "screenshot"
     t.text "description"
+    t.string "type"
     t.index ["project_id"], name: "index_code_pieces_on_project_id"
     t.index ["title"], name: "index_code_pieces_on_title", unique: true
   end

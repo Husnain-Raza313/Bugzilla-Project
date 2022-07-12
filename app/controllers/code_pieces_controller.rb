@@ -1,2 +1,3 @@
 class CodePiecesController < ApplicationController
+
 end
