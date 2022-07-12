@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 2022_07_12_155424) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_code_pieces_on_project_id"
-    t.index ["title"], name: "index_code_pieces_on_title", unique: true
     t.index ["user_id"], name: "index_code_pieces_on_user_id"
   end
 
@@ -62,4 +61,5 @@ ActiveRecord::Schema.define(version: 2022_07_12_155424) do
   end
 
   add_foreign_key "code_pieces", "projects"
+  add_foreign_key "code_pieces", "users"
 end

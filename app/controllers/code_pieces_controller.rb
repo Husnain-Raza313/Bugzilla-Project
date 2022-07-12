@@ -1,5 +1,6 @@
 class CodePiecesController < ApplicationController
   def index
-    @bugs=Bug.find(user_id: params[:id])
+    @bugs=Bug.where(user_id: params[:id])
+    puts @bugs.ids
   end
 end
