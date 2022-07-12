@@ -2,7 +2,9 @@ class CodePiece < ApplicationRecord
   belongs_to :project
   belongs_to :user
 
-  mount_uploader :screenshot, ScreenshotUploader
+  # validates_presence_of :type
+
+  # mount_uploader :screenshot, ScreenshotUploader
 
 
 end
