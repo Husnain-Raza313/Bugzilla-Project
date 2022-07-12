@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get '/userprojects/unassigned/:id', to: "user_projects#unassigned", as: :user_projects_unassigned_show
       get '/userprojects/:userid/assign/:id', to: "user_projects#assign", as: :projects_assign
       get '/userprojects/:userid/remove/:id', to: "user_projects#remove", as: :projects_remove
+      get '/userprojects/dev/:id', to: "user_projects#dev_view_projects", as: :dev_projects
 
     end
 
