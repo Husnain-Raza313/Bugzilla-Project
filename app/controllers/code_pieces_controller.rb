@@ -1,0 +1,2 @@
+class CodePiecesController < ApplicationController
+end
