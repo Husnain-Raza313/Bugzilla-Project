@@ -19,6 +19,8 @@ Rails.application.routes.draw do
 
 
       get '/bugs/index/:id', to: "code_pieces#index", as: :bugs_index
+      get '/bugs/:userid/unassigned/:id', to: "code_pieces#unassigned", as: :bugs_unassigned_list
+      get '/bugs/:userid/assigned/:id', to: "code_pieces#assigned", as: :bugs_assigned_list
 
     end
 

@@ -1,4 +1,4 @@
-<h1 class='m-3'>Bugs List</h1>
+<h1 class="m-3">Assigned Bugs </h1>
 <div class="m-3">
 <table class="table table-hover table-striped table-bordered">
   <thead >
@@ -15,7 +15,7 @@
     </tr>
   </thead>
   <% @bugs.each do |bug| %>
-    <tbody>
+  <tbody>
     <tr>
       <th scope="row"><%= bug.id%></th>
       <td><%= bug.title %></td>
@@ -23,6 +23,8 @@
       <td><%= bug.piece_status %></td>
       <td><%= bug.created_at %></td>
       <td><%= bug.updated_at %></td>
+      <%# <td><%= link_to "Show ", project, class:"btn btn-warning" %></td> %>
+
 
 
 
@@ -31,6 +33,7 @@
 
   <% end %>
   </table>
+     <%= link_to "Back To Projects", dev_projects_path(current_user.id), class:"btn btn-success" %>
 
 </div>
 

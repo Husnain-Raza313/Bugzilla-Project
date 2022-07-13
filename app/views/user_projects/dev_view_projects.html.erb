@@ -1,5 +1,3 @@
-Hello
-
 <h1 class='m-3'>Assigned Projects </h1>
 
 <div class="m-3">
@@ -22,7 +20,8 @@ Hello
       <td><%= devproject.name %></td>
       <td><%= devproject.created_at %></td>
       <td><%= devproject.updated_at %></td>
-      <td><%= link_to "Show Bugs List", project_path(devproject), class:"btn btn-primary" %></td>
+      <td><%= link_to "Unassigned Bugs", bugs_unassigned_list_path(current_user.id,devproject.project_id), class:"btn btn-warning" %></td>
+      <td><%= link_to "Assigned Bugs", bugs_assigned_list_path(current_user.id,devproject.project_id), class:"btn btn-success" %></td>
 
 
 
