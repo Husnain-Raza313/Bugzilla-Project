@@ -1,0 +1,33 @@
+<%= form_with(model: @bug) do |form| %>
+  <% if @bug.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@bug.errors.count, "error") %> prohibited this friend from being saved:</h2>
+
+      <ul>
+        <% @bug.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group mb-2">
+    <% form.label :description, style: "display: block"  %>
+    <%= form.text_field :description, class:"form-control", placeholder:"Project Name" %>
+  </div>
+
+  <div class="field">
+  <%= form.label :piece_status %><br />
+  <% if @bug.type == "Feature"%>
+   <%= form.select :piece_status, Feature.piece_statuses.keys.to_a %>
+   <% else %>
+    <%= form.select :piece_status, Bug.piece_statuses.keys.to_a %>
+   <% end %>
+  </div>
+
+
+  <div>
+  <br>
+    <%= form.submit class:"btn btn-secondary"%>
+  </div>
+<% end %>

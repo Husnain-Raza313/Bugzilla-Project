@@ -21,7 +21,12 @@ Rails.application.routes.draw do
       get '/bugs/index/:id', to: "code_pieces#index", as: :bugs_index
       get '/bugs/:userid/unassigned/:id', to: "code_pieces#unassigned", as: :bugs_unassigned_list
       get '/bugs/:userid/assigned/:id', to: "code_pieces#assigned", as: :bugs_assigned_list
-
+      get '/bugs/:userid/assign/:id', to: "code_pieces#assign", as: :bugs_assign
+      get '/bugs/:userid/remove/:id', to: "code_pieces#remove", as: :bugs_remove
+      get "/bugs/:id", to: "code_pieces#show", as: :bugs_show
+      resources :code_pieces
+      resources :bugs
+      resources :features
     end
 
     unauthenticated do

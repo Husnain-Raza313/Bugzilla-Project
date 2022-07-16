@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 
-  has_many :code_pieces
+  has_many :code_pieces, dependent: :nullify
 
   has_many :user_projects
   has_many :projects , through: :user_projects

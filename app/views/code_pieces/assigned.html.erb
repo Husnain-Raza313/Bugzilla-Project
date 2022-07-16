@@ -3,7 +3,7 @@
 <table class="table table-hover table-striped table-bordered">
   <thead >
     <tr class="table-dark">
-      <th scope="col">BUG ID</th>
+
       <th scope="col">Title</th>
       <th scope="col">Project ID</th>
       <th scope="col">Status</th>
@@ -17,13 +17,14 @@
   <% @bugs.each do |bug| %>
   <tbody>
     <tr>
-      <th scope="row"><%= bug.id%></th>
+
       <td><%= bug.title %></td>
       <td><%= bug.project_id %></td>
       <td><%= bug.piece_status %></td>
       <td><%= bug.created_at %></td>
       <td><%= bug.updated_at %></td>
-      <%# <td><%= link_to "Show ", project, class:"btn btn-warning" %></td> %>
+      <td><%= link_to "Show ", bugs_show_path(bug.id), class:"btn btn-warning" %></td>
+      <td><%= link_to "Remove", bugs_remove_path(current_user.id,bug.id), class:"btn btn-warning" %></td>
 
 
 

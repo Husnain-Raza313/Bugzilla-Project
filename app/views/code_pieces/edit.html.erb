@@ -1,0 +1,10 @@
+<h1>Editing a Bug</h1>
+<br>
+<%= render "form", code_piece: @bug %>
+
+<br>
+
+<div>
+  <%= link_to "Show ", bugs_show_path(@bug.id), class:"btn btn-secondary" %>
+
+</div>
