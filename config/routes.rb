@@ -19,11 +19,15 @@ Rails.application.routes.draw do
 
 
       get '/bugs/index/:id', to: "code_pieces#index", as: :bugs_index
-      get '/bugs/:userid/unassigned/:id', to: "code_pieces#unassigned", as: :bugs_unassigned_list
-      get '/bugs/:userid/assigned/:id', to: "code_pieces#assigned", as: :bugs_assigned_list
-      get '/bugs/:userid/assign/:id', to: "code_pieces#assign", as: :bugs_assign
-      get '/bugs/:userid/remove/:id', to: "code_pieces#remove", as: :bugs_remove
+      get '/bugs/:userid/unassigned/:id', to: "code_piece_users#unassigned", as: :bugs_unassigned_list
+      get '/bugs/:userid/assigned/:id', to: "code_piece_users#assigned", as: :bugs_assigned_list
+      get '/bugs/:userid/assign/:id', to: "code_piece_users#assign", as: :bugs_assign
+      get '/bugs/:userid/remove/:id', to: "code_piece_users#remove", as: :bugs_remove
       get "/bugs/:id", to: "code_pieces#show", as: :bugs_show
+
+      get "/projects/:project_id/bugs/new", to: "bugs#new", as: :bugs_new
+      get "/projects/:project_id/features/new", to: "features#new", as: :features_new
+
       resources :code_pieces
       resources :bugs
       resources :features

@@ -23,6 +23,10 @@
       <td><%= link_to "Unassigned Bugs", bugs_unassigned_list_path(current_user.id,devproject.project_id), class:"btn btn-warning" %></td>
       <td><%= link_to "Assigned Bugs", bugs_assigned_list_path(current_user.id,devproject.project_id), class:"btn btn-success" %></td>
 
+      <%= link_to "Create A Bug", bugs_new_path(devproject.project_id), class:"btn btn-success" %>
+      <%= link_to "Create A Feature", features_new_path(devproject.project_id), class:"btn btn-success" %>
+
+
 
 
 
