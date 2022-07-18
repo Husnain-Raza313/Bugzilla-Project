@@ -1,7 +1,7 @@
 class FeaturesController < ApplicationController
 
 
-    before_action :set_feature, only: %i[ edit update  new]
+    before_action :set_feature, only: %i[ edit update]
 
     def create
       @feature = Feature.new(feature_params)
@@ -35,6 +35,8 @@ class FeaturesController < ApplicationController
 
     def new
       @bug = Feature.new(project_id: params[:project_id])
+
+      render 'code_pieces/new'
     end
 
     def set_feature

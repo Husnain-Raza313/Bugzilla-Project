@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       get '/userprojects/:userid/remove/:id', to: "user_projects#remove", as: :projects_remove
       get '/userprojects/dev/:id', to: "user_projects#dev_view_projects", as: :dev_projects
 
+      resources :code_pieces
 
       get '/bugs/index/:id', to: "code_pieces#index", as: :bugs_index
       get '/bugs/:userid/unassigned/:id', to: "code_piece_users#unassigned", as: :bugs_unassigned_list
@@ -28,7 +29,6 @@ Rails.application.routes.draw do
       get "/projects/:project_id/bugs/new", to: "bugs#new", as: :bugs_new
       get "/projects/:project_id/features/new", to: "features#new", as: :features_new
 
-      resources :code_pieces
       resources :bugs
       resources :features
     end

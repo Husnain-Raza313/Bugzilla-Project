@@ -1,6 +1,6 @@
 class BugsController < ApplicationController
 
-  before_action :set_bug, only: %i[ edit update  new]
+  before_action :set_bug, only: %i[ edit update]
 
 
   def create
@@ -31,7 +31,11 @@ class BugsController < ApplicationController
 
   def new
     @bug = Bug.new(project_id: params[:project_id])
+
+    render 'code_pieces/new'
   end
+
+
 
 
   def set_bug

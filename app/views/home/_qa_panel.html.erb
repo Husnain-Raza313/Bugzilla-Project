@@ -4,9 +4,12 @@
   <hr class="my-4">
   <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
   <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">View Project</a>
-     <a class="btn btn-warning btn-lg" href="#" role="button">Report Bugs</a>
-     <a class="btn btn-success btn-lg" href="#" role="button">Add QA or Developers</a>
+    <p class="lead">
+    <%= link_to "View Bugs", code_pieces_path, class:"btn btn-success" %>
+
+    <%= link_to "View Projects", dev_projects_path(current_user.id), class:"btn btn-success" %>
+
+  </p>
   </p>
   <hr>
 </div>

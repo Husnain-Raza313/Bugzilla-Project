@@ -10,6 +10,17 @@
       </ul>
     </div>
   <% end %>
+ <% if (current_user.developer? ) %>
+    <div class="field">
+  <%= form.label :piece_status %><br />
+  <% if @bug.type == "Feature"%>
+   <%= form.select :piece_status, Feature.piece_statuses.keys.to_a %>
+   <% else %>
+    <%= form.select :piece_status, Bug.piece_statuses.keys.to_a %>
+   <% end %>
+  </div>
+  <% else %>
+
 
   <div class="form-group mb-2">
     <% form.label :title, style: "display: block"  %>
@@ -45,6 +56,8 @@
    <% end %>
   </div>
 
+
+  <% end %>
 
   <div>
   <br>

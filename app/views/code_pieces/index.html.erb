@@ -24,6 +24,8 @@
       <td><%= bug.created_at %></td>
       <td><%= bug.updated_at %></td>
       <td><%= link_to "Show ", bugs_show_path(bug.id), class:"btn btn-warning" %></td>
+      <td><%= button_to "Destroy this Bug", code_piece_path(bug), class:"btn btn-danger btn-md", method: :delete %> </td>
+
 
 
 
