@@ -1,0 +1,42 @@
+<h1 class='m-3'>Assigned Projects </h1>
+
+<div class="m-3">
+<table class="table table-hover table-striped table-bordered">
+  <thead >
+    <tr class="table-dark">
+      <th scope="col">Project ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Created At</th>
+      <th scope="col">Updated At</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <% @projects.each do |devproject| %>
+
+    <tbody>
+    <tr>
+      <th scope="row"><%= devproject.project_id%></th>
+      <td><%= devproject.name %></td>
+      <td><%= devproject.created_at %></td>
+      <td><%= devproject.updated_at %></td>
+
+      <td><%= link_to "Create A Bug", new_project_bug_url(devproject.project_id), class:"btn btn-warning" %></td>
+     <td><%= link_to "Create A Feature", new_project_feature_url(devproject.project_id), class:"btn btn-primary" %></td>
+
+
+
+
+
+
+
+
+    </tr>
+  </tbody>
+
+  <% end %>
+  </table>
+
+
+  </div>
+
