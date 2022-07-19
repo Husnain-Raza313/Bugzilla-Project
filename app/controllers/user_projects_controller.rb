@@ -19,9 +19,11 @@ class UserProjectsController < ApplicationController
 
   def assign
     project=Project.find(params[:id])
+    puts "Project Name is #{project.name}"
     user=User.find(params[:userid])
     puts "Hello #{project.id}"
-    user.projects << project
+    @userproject = UserProject.create(user_id: params[:userid], project_id: project.id,name: project.name)
+    # user.projects << project
     redirect_to action: 'unassigned', id: user.id
   end
 
@@ -32,6 +34,15 @@ class UserProjectsController < ApplicationController
     UserProject.destroy(project.ids)
     redirect_to action: 'index', id: user.id
 
+  end
+
+  def view_projects
+      @projects=UserProject.where(:user_id => params[:id])
+      if (current_user.qa?)
+        render 'qa_view_projects'
+      else
+        render 'dev_view_projects'
+      end
   end
 
 end

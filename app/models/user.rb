@@ -1,5 +1,8 @@
 class User < ApplicationRecord
 
+  # has_many :code_pieces, dependent: :nullify
+  has_many :code_piece_users
+
   has_many :user_projects
   has_many :projects , through: :user_projects
   # Include default devise modules. Others available are:
