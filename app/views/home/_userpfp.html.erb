@@ -1,0 +1,18 @@
+<div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+ <div class="card card-pfp p-4">
+ <div class=" image image-pfp d-flex flex-column justify-content-center align-items-center">
+ <button class="btn btn-secondary"> <img src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" height="100" width="100" /></button>
+ <span class="name name-pfp mt-3"><%= current_user.name %></span> <span class="idd-pfp"><%= current_user.email %></span>
+ <div class="d-flex flex-row justify-content-center align-items-center gap-2">
+  <span class="idd1-pfp">User ID: <%= current_user.id%></span> <span><i class="fa fa-copy"></i></span>
+  </div>
+  <div class="d-flex flex-row justify-content-center align-items-center gap-2">
+  <span class="idd1-pfp"><%= current_user.user_type.capitalize%></span> <span><i class="fa fa-copy"></i></span>
+  </div>
+  <div class=" px-2 rounded mt-4 date "> <span class="join join-pfp"><%= current_user.created_at%></span> </div>
+     <div class=" d-flex mt-2"> <button class="btn1 btn1-pfp btn-warning"><%= link_to "Update Info", edit_user_registration_path, class:"btn1 btn1-pfp btn-warning" %></button> </div>
+     <div class=" d-flex mt-2"> <button class="btn1 btn1-pfp btn-success"><%= link_to "Logout" , destroy_user_session_path, class: "btn1 btn1-pfp btn-success" %></button> </div>
+
+       </div>
+       </div>
+</div>

@@ -1,0 +1,88 @@
+// Place all the styles related to the Home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+// * {
+// 	margin: 0;
+// 	padding: 0;
+// }
+// body {
+// 	background-color: #000;
+// }
+.card-pfp {
+	width: 350px;
+	background-color: #efefef;
+	border: none;
+	cursor: pointer;
+	transition: all 0.5s;
+	&:hover {
+		.image-pfp {
+			img {
+				transform: scale(1.5);
+			}
+		}
+	}
+}
+.image-pfp {
+	img {
+		transition: all 0.5s;
+	}
+}
+.btn-pfp {
+	height: 140px;
+	width: 140px;
+	border-radius: 50%;
+}
+.name-pfp {
+	font-size: 22px;
+	font-weight: bold;
+}
+.idd-pfp {
+	font-size: 14px;
+	font-weight: 600;
+}
+.idd1-pfp {
+	font-size: 12px;
+}
+.number-pfp {
+	font-size: 22px;
+	font-weight: bold;
+}
+.follow-pfp {
+	font-size: 12px;
+	font-weight: 500;
+	color: #444444;
+}
+.btn1-pfp {
+	height: 40px;
+	width: 150px;
+	border: none;
+	background-color: #000;
+	color: #aeaeae;
+	font-size: 15px;
+}
+.text-pfp {
+	span {
+		font-size: 13px;
+		color: #545454;
+		font-weight: 500;
+	}
+}
+.icons-pfp {
+	i {
+		font-size: 19px;
+	}
+}
+hr {
+	.new1-pfp {
+		border: 1px solid;
+	}
+}
+.join-pfp {
+	font-size: 14px;
+	color: #a0a0a0;
+	font-weight: bold;
+}
+.date-pfp {
+	background-color: #ccc;
+}
