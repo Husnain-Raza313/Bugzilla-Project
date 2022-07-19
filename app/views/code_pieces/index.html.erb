@@ -23,9 +23,11 @@
       <td><%= bug.piece_status %></td>
       <td><%= bug.created_at %></td>
       <td><%= bug.updated_at %></td>
-      <td><%= link_to "Show ", bugs_show_path(bug.id), class:"btn btn-warning" %></td>
+      <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
+      <% if (current_user.qa?) %>
+      <td><%= link_to "Edit ", edit_code_piece_url(bug.id), class:"btn btn-primary" %></td>
       <td><%= button_to "Destroy this Bug", code_piece_path(bug), class:"btn btn-danger btn-md", method: :delete %> </td>
-
+      <% end %>
 
 
 

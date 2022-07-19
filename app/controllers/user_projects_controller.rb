@@ -36,7 +36,7 @@ class UserProjectsController < ApplicationController
 
   end
 
-  def dev_view_projects
+  def view_projects
       @projects=UserProject.where(:user_id => params[:id])
       if (current_user.qa?)
         render 'qa_view_projects'

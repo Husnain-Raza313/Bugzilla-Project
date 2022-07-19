@@ -1,6 +1,6 @@
 class BugsController < ApplicationController
 
-  before_action :set_bug, only: %i[ edit update]
+  before_action :set_bug, only: %i[update]
 
 
   def create
@@ -9,7 +9,7 @@ class BugsController < ApplicationController
     respond_to do |format|
       if @bug.save
 
-        format.html { redirect_to bugs_show_url(@bug), notice: "Project was successfully created." }
+        format.html { redirect_to code_piece_url(@bug), notice: "Project was successfully created." }
         format.json { render :show, status: :created, location: @bug }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -20,7 +20,7 @@ class BugsController < ApplicationController
   def update
     respond_to do |format|
       if @bug.update(bug_params)
-        format.html { redirect_to bugs_show_url(@bug.id), notice: "Project was successfully updated." }
+        format.html { redirect_to code_piece_url(@bug.id), notice: "Project was successfully updated." }
         format.json { render :show, status: :ok, location: @bug }
       else
         format.html { render :edit, status: :unprocessable_entity }

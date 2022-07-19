@@ -17,13 +17,13 @@
   <% @bugs.each do |bug| %>
   <tbody>
     <tr>
-      <%# <th scope="row"><%= bug.id%></th> %>
+
       <td><%= bug.title %></td>
       <td><%= bug.project_id %></td>
       <td><%= bug.piece_status %></td>
       <td><%= bug.created_at %></td>
       <td><%= bug.updated_at %></td>
-      <td><%= link_to "Show ", bugs_show_path(bug.id), class:"btn btn-warning" %></td>
+      <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
       <td><%= link_to "Assign", bugs_assign_path(current_user.id,bug.id), class:"btn btn-warning" %></td>
 
 
@@ -33,7 +33,7 @@
 
   <% end %>
   </table>
-     <%= link_to "Back To Projects", dev_projects_path(current_user.id), class:"btn btn-success" %>
+     <%= link_to "Back To Projects", view_projects_path(current_user.id), class:"btn btn-success" %>
 
 </div>
 

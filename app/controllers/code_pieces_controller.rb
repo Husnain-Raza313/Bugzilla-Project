@@ -1,6 +1,6 @@
 class CodePiecesController < ApplicationController
 
-  before_action :set_bug, only: %i[ edit update  destroy]
+  before_action :set_bug, only: %i[ edit update  destroy show]
   def index
     # @bugs=CodePiece.where.not(user_id: params[:id])
     # CodePiece.where(user_id!=).or(Book.where(category: "Ruby"))
@@ -12,7 +12,7 @@ class CodePiecesController < ApplicationController
     puts @bugs.ids
   end
   def show
-    @bug = CodePiece.find(params[:id])
+
   end
 
   def edit

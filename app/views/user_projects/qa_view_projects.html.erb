@@ -21,8 +21,8 @@
       <td><%= devproject.created_at %></td>
       <td><%= devproject.updated_at %></td>
 
-      <td><%= link_to "Create A Bug", bugs_new_url(devproject.project_id), class:"btn btn-warning" %></td>
-     <td><%= link_to "Create A Feature", features_new_url(devproject.project_id), class:"btn btn-primary" %></td>
+      <td><%= link_to "Create A Bug", new_project_bug_url(devproject.project_id), class:"btn btn-warning" %></td>
+     <td><%= link_to "Create A Feature", new_project_feature_url(devproject.project_id), class:"btn btn-primary" %></td>
 
 
 
