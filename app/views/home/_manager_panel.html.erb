@@ -4,9 +4,9 @@
   <hr class="my-4">
   <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
   <p class="lead">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Create Project</a>
-     <a class="btn btn-warning btn-lg" href="#" role="button">Show Project List</a>
-     <a class="btn btn-success btn-lg" href="#" role="button">Add QA or Developers</a>
+    <%= link_to "Show Projects", projects_path, class:"btn btn-primary btn-lg" %>
+     <%= link_to "Create A Project", new_project_path, class:"btn btn-warning btn-lg" %>
+     <%= link_to "Add QA or Developers", users_path, class:"btn btn-success btn-lg" %>
   </p>
   <hr>
 </div>
