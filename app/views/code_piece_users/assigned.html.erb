@@ -1,0 +1,42 @@
+<h1 class="m-3">Assigned Bugs </h1>
+<div class="m-3">
+<table class="table table-hover table-striped table-bordered">
+  <thead >
+    <tr class="table-dark">
+
+      <th scope="col">Title</th>
+      <th scope="col">Project ID</th>
+      <th scope="col">Status</th>
+      <th scope="col">Created At</th>
+      <th scope="col">Updated At</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <% @bugs.each do |bug| %>
+  <tbody>
+    <tr>
+
+      <td><%= bug.title %></td>
+      <td><%= bug.project_id %></td>
+      <td><%= bug.piece_status %></td>
+      <td><%= bug.created_at %></td>
+      <td><%= bug.updated_at %></td>
+      <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
+     <td><%= link_to "Edit Status", edit_code_piece_path(bug), class:"btn btn-secondary" %></td>
+      <td><%= link_to "Remove", bugs_remove_path(current_user.id,bug.id), class:"btn btn-warning" %></td>
+
+
+
+
+    </tr>
+  </tbody>
+
+  <% end %>
+  </table>
+     <%= link_to "Back To Projects", view_projects_path(current_user.id), class:"btn btn-success" %>
+
+</div>
+
+
