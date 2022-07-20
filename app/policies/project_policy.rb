@@ -9,7 +9,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def index?
-    user.manager?
+    user.manager? || user.qa?
   end
 
   def edit?

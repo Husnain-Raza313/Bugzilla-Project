@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CodePiecesController < ApplicationController
-  before_action :set_bug, only: %i[destroy show]
+  before_action :set_bug, only: %i[show destroy]
   before_action :check_bug, only: %i[edit]
   def index
     # @bugs=CodePiece.where.not(user_id: params[:id])
@@ -24,6 +24,7 @@ class CodePiecesController < ApplicationController
 
   def destroy
     authorize CodePiece
+    @bug = CodePiece.find(params[:id])
     @bug.destroy
     respond_to do |format|
       format.html { redirect_to code_pieces_path, notice: 'Bug was successfully destroyed.' }
@@ -32,15 +33,22 @@ class CodePiecesController < ApplicationController
   end
 
   def set_bug
+      project_ids= CodePiece.where(id: params[:id]).pluck(:project_id)
+      user=UserProject.where(project_id: project_ids).pluck(:user_id)
+      raise 'error' unless current_user.id.in?(user)
+
     @bug = CodePiece.find(params[:id])
   end
 
   def check_bug
-    if current_user.developer?
+    if(current_user.developer?)
       user = CodePieceUser.where(code_piece_id: params[:id]).pluck(:user_id)
       raise 'error' unless current_user.id.in?(user)
+
+      @bug = CodePiece.find(params[:id])
+    elsif (current_user.qa?)
+      set_bug
     end
 
-    @bug = CodePiece.find(params[:id])
   end
 end
