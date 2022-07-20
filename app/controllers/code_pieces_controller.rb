@@ -38,7 +38,7 @@ class CodePiecesController < ApplicationController
   def check_bug
     if current_user.developer?
       user = CodePieceUser.where(code_piece_id: params[:id]).pluck(:user_id)
-      raise 'error' if user != current_user.id
+      raise 'error' unless current_user.id.in?(user)
     end
 
     @bug = CodePiece.find(params[:id])
