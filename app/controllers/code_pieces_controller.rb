@@ -33,22 +33,21 @@ class CodePiecesController < ApplicationController
   end
 
   def set_bug
-      project_ids= CodePiece.where(id: params[:id]).pluck(:project_id)
-      user=UserProject.where(project_id: project_ids).pluck(:user_id)
-      raise 'error' unless current_user.id.in?(user)
+    project_ids = CodePiece.where(id: params[:id]).pluck(:project_id)
+    user = UserProject.where(project_id: project_ids).pluck(:user_id)
+    raise 'error' unless current_user.id.in?(user)
 
     @bug = CodePiece.find(params[:id])
   end
 
   def check_bug
-    if(current_user.developer?)
+    if current_user.developer?
       user = CodePieceUser.where(code_piece_id: params[:id]).pluck(:user_id)
       raise 'error' unless current_user.id.in?(user)
 
       @bug = CodePiece.find(params[:id])
-    elsif (current_user.qa?)
+    elsif current_user.qa?
       set_bug
     end
-
   end
 end
