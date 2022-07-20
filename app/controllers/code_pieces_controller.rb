@@ -1,6 +1,7 @@
-class CodePiecesController < ApplicationController
+# frozen_string_literal: true
 
-  before_action :set_bug, only: %i[update  destroy show]
+class CodePiecesController < ApplicationController
+  before_action :set_bug, only: %i[destroy show]
   before_action :check_bug, only: %i[edit]
   def index
     # @bugs=CodePiece.where.not(user_id: params[:id])
@@ -9,10 +10,10 @@ class CodePiecesController < ApplicationController
 
     # @bugs=CodePiece.where.not(user_id: params[:id])
     authorize CodePiece
-    project_id= UserProject.where(user_id: current_user.id).pluck(:project_id)
-    @bugs=CodePiece.where(project_id: project_id)
-    puts @bugs.ids
+    project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
+    @bugs = CodePiece.where(project_id: project_id)
   end
+
   def show
     authorize CodePiece
   end
@@ -25,7 +26,7 @@ class CodePiecesController < ApplicationController
     authorize CodePiece
     @bug.destroy
     respond_to do |format|
-      format.html { redirect_to code_pieces_path, notice: "Bug was successfully destroyed." }
+      format.html { redirect_to code_pieces_path, notice: 'Bug was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -35,14 +36,11 @@ class CodePiecesController < ApplicationController
   end
 
   def check_bug
-    if(current_user.developer?)
-    user=CodePieceUser.where(code_piece_id: params[:id]).pluck(:user_id)
-      if user != current_user.id
-        raise "error"
-      end
+    if current_user.developer?
+      user = CodePieceUser.where(code_piece_id: params[:id]).pluck(:user_id)
+      raise 'error' if user != current_user.id
     end
 
-      @bug = CodePiece.find(params[:id])
+    @bug = CodePiece.find(params[:id])
   end
-
 end

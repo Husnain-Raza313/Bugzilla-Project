@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProjectPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
@@ -9,23 +11,28 @@ class ProjectPolicy < ApplicationPolicy
   def index?
     user.manager?
   end
+
   def edit?
-      update?
+    update?
   end
+
   def update?
     user.manager?
   end
+
   def new?
     create?
   end
+
   def create?
     user.manager?
   end
+
   def show?
     user.manager?
   end
+
   def destroy?
     user.manager?
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CodePieceUserPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
@@ -9,6 +11,7 @@ class CodePieceUserPolicy < ApplicationPolicy
   def assigned?
     user.developer?
   end
+
   def unassigned?
     user.developer?
   end
@@ -16,9 +19,11 @@ class CodePieceUserPolicy < ApplicationPolicy
   def assign?
     user.developer?
   end
+
   def remove?
     user.qa?
   end
+
   def show?
     user.qa? || user.developer?
   end

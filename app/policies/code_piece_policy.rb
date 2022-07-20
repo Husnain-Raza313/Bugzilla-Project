@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CodePiecePolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
@@ -5,9 +7,11 @@ class CodePiecePolicy < ApplicationPolicy
     #   scope.all
     # end
   end
+
   def index?
     user.qa? || user.developer?
   end
+
   def edit?
     update?
   end
@@ -27,8 +31,8 @@ class CodePiecePolicy < ApplicationPolicy
   def destroy?
     user.qa?
   end
+
   def show?
     user.qa? || user.developer?
   end
-
 end
