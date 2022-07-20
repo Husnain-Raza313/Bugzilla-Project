@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_16_213700) do
+ActiveRecord::Schema.define(version: 2022_07_20_171813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2022_07_16_213700) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["code_piece_id", "user_id"], name: "index_code_piece_users_on_code_piece_id_and_user_id", unique: true
     t.index ["code_piece_id"], name: "index_code_piece_users_on_code_piece_id"
     t.index ["user_id"], name: "index_code_piece_users_on_user_id"
   end
@@ -35,12 +36,14 @@ ActiveRecord::Schema.define(version: 2022_07_16_213700) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_code_pieces_on_project_id"
+    t.index ["title", "project_id"], name: "index_code_pieces_on_title_and_project_id", unique: true
   end
 
   create_table "projects", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name"
+    t.index ["name"], name: "index_projects_on_name", unique: true
   end
 
   create_table "user_projects", force: :cascade do |t|

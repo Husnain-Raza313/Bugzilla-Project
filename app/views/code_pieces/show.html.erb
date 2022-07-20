@@ -9,7 +9,13 @@
    <h4>Deadline:
   <%= @bug.deadline.nil? ? "Not Available" : @bug.deadline   %>
    </h4>
-  <h4>Screenshot: <%= @bug.screenshot.nil? ? "Not Available" : @bug.screenshot  %></h4>
+  <h4>Screenshot:
+    <% if (@bug.screenshot.url.nil?) %>
+      <span> Not Available </span>
+     <% else %>
+     <br/>
+   <%= image_tag(@bug.screenshot.url, size: "500x250", alt: "Screenshot Image")  %></h4>
+   <% end %>
   <h4>Project ID: <%= @bug.project_id%> </h4>
   <br>
 

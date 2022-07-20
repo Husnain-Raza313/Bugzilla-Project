@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 class CreateCodePieceUsers < ActiveRecord::Migration[5.2]
   def change
     create_table :code_piece_users do |t|
-
-      t.belongs_to :code_piece, index: true , foreign_key: true
+      t.belongs_to :code_piece, index: true, foreign_key: true
       t.belongs_to :user, index: true, foreign_key: true
 
       # t.string :title, null: false, default: ""
