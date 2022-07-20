@@ -6,7 +6,7 @@ class CodePieceUsersController < ApplicationController
     # admin_id=User.where(name: "Admin").pluck(:id)
 
     # @bugs=CodePiece.where.not(user_id: params[:userid]).or(CodePiece.where(user_id: admin_id, project_id: params[:id]))
-
+    authorize CodePieceUser
     ids=CodePieceUser.where(user_id: params[:userid]).pluck(:code_piece_id)
     @bugs=CodePiece.where.not(id: ids).where(project_id: params[:id])
   end
@@ -18,12 +18,13 @@ class CodePieceUsersController < ApplicationController
 
     # @bugs=CodePieceUsers.where(user_id: params[:id])
     # @bugs=CodePiece.where.not(id: bugs.ids)
-
+    authorize CodePieceUser
     ids=CodePieceUser.where(user_id: params[:userid]).pluck(:code_piece_id)
     @bugs=CodePiece.where(:id => ids , :project_id => params[:id])
 
   end
   def assign
+    authorize CodePieceUser
     bug1=CodePiece.find(params[:id])
     # # dup_bug=CodePiece.find(params[:id]).dup
     # # # bug=CodePiece.find(params[:id]).dup
@@ -41,6 +42,7 @@ class CodePieceUsersController < ApplicationController
     redirect_to action: 'unassigned', userid: params[:userid], id: bug1.project_id
   end
   def remove
+    authorize CodePieceUser
     project_id=CodePiece.where(id: params[:id]).pluck(:project_id)
     # # CodePiece.destroy(params[:id])
     # @bug=CodePiece.where(id: params[:id])
@@ -55,6 +57,7 @@ class CodePieceUsersController < ApplicationController
     redirect_to action: 'assigned', userid: params[:userid], id: project_id
   end
   def show
+    authorize CodePieceUser
     @bug = CodePiece.find(params[:id])
   end
 end

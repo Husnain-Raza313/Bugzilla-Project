@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: bugzilla123
+  api_key: '891263887636657'
+  api_secret: 2iIYK8lSeNQYiL-kMWR_6oHJzCk
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: bugzilla123
+  api_key: '891263887636657'
+  api_secret: 2iIYK8lSeNQYiL-kMWR_6oHJzCk
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: bugzilla123
+  api_key: '891263887636657'
+  api_secret: 2iIYK8lSeNQYiL-kMWR_6oHJzCk
+  enhance_image_tag: true
+  static_file_support: false

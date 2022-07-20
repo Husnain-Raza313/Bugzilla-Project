@@ -5,7 +5,7 @@ class BugsController < ApplicationController
 
   def create
     @bug = Bug.new(bug_params)
-
+      authorize @bug, policy_class: CodePiecePolicy
     respond_to do |format|
       if @bug.save
 
@@ -18,6 +18,7 @@ class BugsController < ApplicationController
     end
   end
   def update
+    authorize @bug, policy_class: CodePiecePolicy
     respond_to do |format|
       if @bug.update(bug_params)
         format.html { redirect_to code_piece_url(@bug.id), notice: "Project was successfully updated." }
@@ -30,13 +31,15 @@ class BugsController < ApplicationController
   end
 
   def new
-    @bug = Bug.new(project_id: params[:project_id])
 
+    @bug = Bug.new(project_id: params[:project_id])
+    authorize @bug, policy_class: CodePiecePolicy
     render 'code_pieces/new'
   end
 
 
 
+  private
 
   def set_bug
     @bug = Bug.find(params[:id])
@@ -44,7 +47,11 @@ class BugsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def bug_params
-    params.require(:bug).permit(:piece_status, :description, :title, :project_id, :deadline, :screenshot, :type)
+    if(current_user.developer?)
+      params.require(:bug).permit(:piece_status)
+    else
+      params.require(:bug).permit(:piece_status, :description, :title, :project_id, :deadline, :screenshot, :type)
+    end
   end
 
 end

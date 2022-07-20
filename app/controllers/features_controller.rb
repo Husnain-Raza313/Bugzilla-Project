@@ -5,7 +5,7 @@ class FeaturesController < ApplicationController
 
     def create
       @feature = Feature.new(feature_params)
-
+      authorize @feature, policy_class: CodePiecePolicy
       respond_to do |format|
         if @feature.save
 
@@ -18,6 +18,7 @@ class FeaturesController < ApplicationController
       end
     end
     def update
+      authorize @feature, policy_class: CodePiecePolicy
       respond_to do |format|
         puts " Here is the    #{feature_params.inspect}"
         if @feature.update(feature_params)
@@ -32,10 +33,14 @@ class FeaturesController < ApplicationController
 
 
     def new
+
       @bug = Feature.new(project_id: params[:project_id])
+
+      authorize @bug, policy_class: CodePiecePolicy
 
       render 'code_pieces/new'
     end
+    private
 
     def set_feature
       @feature = Feature.find(params[:id])
@@ -43,7 +48,11 @@ class FeaturesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def feature_params
-      params.require(:feature).permit(:piece_status, :description, :title, :project_id, :deadline, :screenshot, :type)
+      if(current_user.developer?)
+        params.require(:feature).permit(:piece_status)
+      else
+        params.require(:feature.permit(:piece_status, :description, :title, :project_id, :deadline, :screenshot, :type)
+      end
     end
 
 

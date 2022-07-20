@@ -2,25 +2,31 @@ class ProjectsController < ApplicationController
 
   before_action :set_project, only: %i[ show edit update destroy ]
 
+
   def index
     @projects= Project.all
+    authorize @projects
   end
-    # GET /friends/1 or /friends/1.json
+
     def show
+      authorize @project
     end
 
-    # GET /friends/new
+
     def new
       @project = Project.new
+      authorize @project
     end
 
-    # GET /friends/1/edit
+
     def edit
+      authorize @project
     end
 
-    # POST /friends or /friends.json
+
     def create
       @project = Project.new(project_params)
+      authorize @project
 
       respond_to do |format|
         if @project.save
@@ -34,8 +40,9 @@ class ProjectsController < ApplicationController
       end
     end
 
-    # PATCH/PUT /friends/1 or /friends/1.json
+
     def update
+        authorize @project
       respond_to do |format|
         if @project.update(project_params)
           format.html { redirect_to project_url(@project), notice: "Project was successfully updated." }
@@ -47,8 +54,9 @@ class ProjectsController < ApplicationController
       end
     end
 
-    # DELETE /friends/1 or /friends/1.json
+
     def destroy
+      authorize @project
       @project.destroy
 
       respond_to do |format|
@@ -66,4 +74,6 @@ class ProjectsController < ApplicationController
     def project_params
       params.require(:project).permit(:name, :id)
     end
+
+
 end
