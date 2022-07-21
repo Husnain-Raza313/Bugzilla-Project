@@ -35,5 +35,8 @@
   <% end %>
   </table>
 
-<td><%= link_to "Show Assigned Projects ", user_projects_show_path(@user.id), class:"btn btn-warning" %></td>
+<%= link_to "Show Assigned Projects ", user_projects_show_path(@user.id), class:"btn btn-warning" %>
+<br/>
+<br/>
+<%= link_to "Back To Users", users_path, class:"btn btn-primary" %>
   </div>

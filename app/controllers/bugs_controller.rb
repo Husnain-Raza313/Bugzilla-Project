@@ -6,28 +6,24 @@ class BugsController < ApplicationController
   def create
     @bug = Bug.new(bug_params)
     authorize @bug, policy_class: CodePiecePolicy
-    respond_to do |format|
-      if @bug.save
 
-        format.html { redirect_to code_piece_url(@bug), notice: 'Project was successfully created.' }
-        format.json { render :show, status: :created, location: @bug }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @bug.errors, status: :unprocessable_entity }
-      end
+    if @bug.save
+      flash[:success] = 'Bug was successfully Created'
+      redirect_to code_piece_url(@bug)
+    else
+      flash[:error] = "#{@bug.errors} Hello"
+      render :new
     end
   end
 
   def update
     authorize @bug, policy_class: CodePiecePolicy
-    respond_to do |format|
-      if @bug.update(bug_params)
-        format.html { redirect_to code_piece_url(@bug.id), notice: 'Project was successfully updated.' }
-        format.json { render :show, status: :ok, location: @bug }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @bug.errors, status: :unprocessable_entity }
-      end
+    if @bug.update(bug_params)
+      flash[:success] = 'Bug was successfully updated.'
+      redirect_to code_piece_url(@bug.id)
+    else
+      flash[:error] = "#{@bug.errors} Hello"
+      render :edit
     end
   end
 

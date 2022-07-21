@@ -27,15 +27,22 @@ class CodePiecesController < ApplicationController
     @bug = CodePiece.find(params[:id])
     @bug.destroy
     respond_to do |format|
-      format.html { redirect_to code_pieces_path, notice: 'Bug was successfully destroyed.' }
+      format.html { redirect_to code_pieces_path, flash: { success: 'Bug was successfully updated.' } }
       format.json { head :no_content }
     end
+
   end
+
+  private
 
   def set_bug
     project_ids = CodePiece.where(id: params[:id]).pluck(:project_id)
     user = UserProject.where(project_id: project_ids).pluck(:user_id)
-    raise 'error' unless current_user.id.in?(user)
+    unless current_user.id.in?(user)
+      flash[:error] = "You Are Not Authorized To Perform This Action"
+        redirect_to authenticated_root_path
+        return
+    end
 
     @bug = CodePiece.find(params[:id])
   end
@@ -43,7 +50,11 @@ class CodePiecesController < ApplicationController
   def check_bug
     if current_user.developer?
       user = CodePieceUser.where(code_piece_id: params[:id]).pluck(:user_id)
-      raise 'error' unless current_user.id.in?(user)
+      unless current_user.id.in?(user)
+        flash[:error] = "You Are Not Authorized To Perform This Action"
+        redirect_to authenticated_root_path
+        return
+      end
 
       @bug = CodePiece.find(params[:id])
     elsif current_user.qa?

@@ -10,9 +10,14 @@
   </head>
 
   <body>
+
   <%= render 'devise/sessions/bar' %>
-  <p class="notice"><%= notice %></p>
-       <p class="alert"><%= alert %></p>
+
+      <% flash.each do |key, message| %>
+  <div class="alert <%= flash_class(key) %> alert-dismissible fade show text-center" role="alert">
+    <%= message %>
+  </div>
+  <% end %>
 
 
     <%= yield %>
