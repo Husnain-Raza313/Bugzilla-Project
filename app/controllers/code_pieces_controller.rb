@@ -4,11 +4,6 @@ class CodePiecesController < ApplicationController
   before_action :set_bug, only: %i[show destroy]
   before_action :check_bug, only: %i[edit]
   def index
-    # @bugs=CodePiece.where.not(user_id: params[:id])
-    # CodePiece.where(user_id!=).or(Book.where(category: "Ruby"))
-    # admin_id=User.where(name: "Admin").pluck(:id)
-
-    # @bugs=CodePiece.where.not(user_id: params[:id])
     authorize CodePiece
     project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
     @bugs = CodePiece.where(project_id: project_id)
@@ -25,11 +20,14 @@ class CodePiecesController < ApplicationController
   def destroy
     authorize CodePiece
     @bug = CodePiece.find(params[:id])
-    @bug.destroy
-    respond_to do |format|
-      format.html { redirect_to code_pieces_path, flash: { success: 'Bug was successfully updated.' } }
-      format.json { head :no_content }
+
+    if @bug.destroy
+      flash[:success] = 'Bug was successfully destroyed.'
+
+    else
+      flash[:error] = @project.errors.to_s
     end
+    redirect_to code_pieces_path
   end
 
   private

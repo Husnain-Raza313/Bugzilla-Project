@@ -11,7 +11,7 @@ class BugsController < ApplicationController
       flash[:success] = 'Bug was successfully Created'
       redirect_to code_piece_url(@bug)
     else
-      flash[:error] = "#{@bug.errors} Hello"
+      flash[:error] = @bug.errors
       render :new
     end
   end
@@ -22,7 +22,7 @@ class BugsController < ApplicationController
       flash[:success] = 'Bug was successfully updated.'
       redirect_to code_piece_url(@bug.id)
     else
-      flash[:error] = "#{@bug.errors} Hello"
+      flash[:error] = @bug.errors
       render :edit
     end
   end

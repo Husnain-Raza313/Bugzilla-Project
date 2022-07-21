@@ -6,28 +6,25 @@ class FeaturesController < ApplicationController
   def create
     @feature = Feature.new(feature_params)
     authorize @feature, policy_class: CodePiecePolicy
-    respond_to do |format|
-      if @feature.save
 
-        format.html { redirect_to code_piece_url(@feature), notice: 'Project was successfully created.' }
-        format.json { render :show, status: :created, location: @feature }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @feature.errors, status: :unprocessable_entity }
-      end
+    if @feature.save
+      flash[:success] = 'Feature was successfully created.'
+      redirect_to code_piece_url(@feature)
+    else
+      flash[:error] = @feature.errors.to_s
+      render :new
     end
   end
 
   def update
     authorize @feature, policy_class: CodePiecePolicy
-    respond_to do |format|
-      if @feature.update(feature_params)
-        format.html { redirect_to code_piece_url(@feature.id), notice: 'Project was successfully updated.' }
-        format.json { render :show, status: :ok, location: @feature }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @feature.errors, status: :unprocessable_entity }
-      end
+
+    if @feature.update(feature_params)
+      flash[:success] = 'Feature was successfully updated.'
+      redirect_to code_piece_url(@feature.id)
+    else
+      flash[:error] = @feature.errors.to_s
+      render :edit
     end
   end
 
