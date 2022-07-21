@@ -19,7 +19,7 @@
       <td><%= project.created_at %></td>
       <td><%= project.updated_at %></td>
       <td><%= link_to "Show ", project, class:"btn btn-primary" %></td>
-      <td><%= link_to "Remove Project ", projects_remove_url(@user.id, project.id), class:"btn btn-danger" %></td>
+      <td><%= link_to "Remove Project ", user_user_project_url(@user.id, project.id), class:"btn btn-danger", method: :delete %></td>
 
 
     </tr>
@@ -27,5 +27,8 @@
 
   <% end %>
   </table>
-  <td><%= link_to "Show Unassigned Projects", user_projects_unassigned_show_path(@user.id), class:"btn btn-warning" %></td>
+  <%= link_to "Show Unassigned Projects", user_project_path(@user.id), class:"btn btn-warning" %>
+  <br/>
+  <br/>
+  <%= link_to "Back To Users", users_path, class:"btn btn-primary" %>
   </div>

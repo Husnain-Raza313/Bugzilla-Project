@@ -22,7 +22,7 @@
       <td><%= userproject.updated_at %></td>
       <td><%= link_to "Show ", userproject, class:"btn btn-primary" %></td>
 
-      <td><%= link_to "Assign ", projects_assign_url(@user.id, userproject.id), class:"btn btn-success" %></td>
+      <td><%= link_to "Assign ", user_projects_url(user_id: @user.id, project_id: userproject.id, name: userproject.name), class:"btn btn-success", method: :post %></td>
 
 
 
@@ -35,5 +35,8 @@
   <% end %>
   </table>
 
-<td><%= link_to "Show Assigned Projects ", user_projects_show_path(@user.id), class:"btn btn-warning" %></td>
+<%= link_to "Show Assigned Projects ", user_user_projects_path(@user.id), class:"btn btn-warning" %>
+<br/>
+<br/>
+<%= link_to "Back To Users", users_path, class:"btn btn-primary" %>
   </div>

@@ -12,15 +12,15 @@ class UserProjectPolicy < ApplicationPolicy
     user.manager?
   end
 
-  def unassigned?
+  def show?
     user.manager?
   end
 
-  def assign?
+  def create?
     user.manager?
   end
 
-  def remove?
+  def destroy?
     user.manager?
   end
 

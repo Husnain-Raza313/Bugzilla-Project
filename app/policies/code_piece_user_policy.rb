@@ -8,23 +8,19 @@ class CodePieceUserPolicy < ApplicationPolicy
     # end
   end
 
-  def assigned?
+  def index?
     user.developer?
-  end
-
-  def unassigned?
-    user.developer?
-  end
-
-  def assign?
-    user.developer?
-  end
-
-  def remove?
-    user.qa?
   end
 
   def show?
+    user.developer?
+  end
+
+  def create?
+    user.developer?
+  end
+
+  def destroy?
     user.qa? || user.developer?
   end
 end
