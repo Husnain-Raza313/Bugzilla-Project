@@ -24,7 +24,7 @@
       <td><%= bug.created_at %></td>
       <td><%= bug.updated_at %></td>
       <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
-      <td><%= link_to "Assign", bugs_assign_path(current_user.id,bug.id), class:"btn btn-warning" %></td>
+      <td><%= link_to "Assign", code_piece_users_path(user_id: current_user.id, code_piece_id: bug.id), class:"btn btn-warning", method: :post%></td>
 
 
 

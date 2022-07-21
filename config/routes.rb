@@ -14,25 +14,30 @@ Rails.application.routes.draw do
       resources :projects do
         resources :bugs, only: [:new]
         resources :features, only: [:new]
+        resources :code_piece_users, only: [:index] #index is for unassigned bugs
       end
 
-      resources :users
+      resources :users do
+        resources :user_projects, only: [:index, :destroy]
+      end
 
       resources :code_pieces
       resources :bugs, only: %i[update create]
       resources :features, only: %i[update create]
 
-      get '/userprojects/:id', to: 'user_projects#index', as: :user_projects_show
-      get '/userprojects/unassigned/:id', to: 'user_projects#unassigned', as: :user_projects_unassigned_show
-      get '/userprojects/:userid/assign/:id', to: 'user_projects#assign', as: :projects_assign
-      get '/userprojects/:userid/remove/:id', to: 'user_projects#remove', as: :projects_remove
+      resources :user_projects, only: [:create, :show] #using show action to show unassigned Projects
+
+      resources :code_piece_users, except: [:index] #show is for assigned bugs
+
+      # get '/userprojects/:id', to: 'user_projects#index', as: :user_projects_show
+      # get '/userprojects/unassigned/:id', to: 'user_projects#unassigned', as: :user_projects_unassigned_show
       get '/userprojects/viewprojects/:id', to: 'user_projects#view_projects', as: :view_projects
 
-      get '/bugs/index/:id', to: 'code_pieces#index', as: :bugs_index
-      get '/bugs/:userid/unassigned/:id', to: 'code_piece_users#unassigned', as: :bugs_unassigned_list
-      get '/bugs/:userid/assigned/:id', to: 'code_piece_users#assigned', as: :bugs_assigned_list
-      get '/bugs/:userid/assign/:id', to: 'code_piece_users#assign', as: :bugs_assign
-      get '/bugs/:userid/remove/:id', to: 'code_piece_users#remove', as: :bugs_remove
+      # get '/bugs/index/:id', to: 'code_pieces#index', as: :bugs_index
+      # get '/bugs/:userid/unassigned/:id', to: 'code_piece_users#unassigned', as: :bugs_unassigned_list
+      # get '/bugs/:userid/assigned/:id', to: 'code_piece_users#assigned', as: :bugs_assigned_list
+      # get '/bugs/:userid/assign/:id', to: 'code_piece_users#assign', as: :bugs_assign
+      # get '/bugs/:userid/remove/:id', to: 'code_piece_users#remove', as: :bugs_remove
       # get "/bugs/:id", to: "code_pieces#show", as: :bugs_show
 
       # get "/projects/:project_id/bugs/new", to: "bugs#new", as: :bugs_new

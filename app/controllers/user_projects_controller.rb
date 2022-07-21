@@ -4,40 +4,36 @@ class UserProjectsController < ApplicationController
   # around_action :check_authorization , only: %i[ index unassigned]
 
   def index
-    @projects = User.find(params[:id]).projects
-    @user = User.find(params[:id])
+    @projects = User.find(params[:user_id]).projects
+    @user = User.find(params[:user_id])
 
     authorize @user
   end
 
-  def unassigned
+  def show
+    # shows unassigned Projects
     project = UserProject.where('user_id = ?', params[:id]).pluck('project_id')
     @user = User.find(params[:id])
 
-    # @userprojects=Project.left_outer_joins(:user_projects).where('project_id= ?', project)
-    # puts @userprojects.ids
     @userprojects = Project.where.not(id: project)
     authorize @user, policy_class: UserProjectPolicy
     # @projects=Project.eager_load(:users).where('forms.kind = "health"')
+    render 'unassigned'
   end
 
-  def assign
+  def create
     authorize UserProject
-    project = Project.find(params[:id])
-    user = User.find(params[:userid])
-    @userproject = UserProject.create(user_id: params[:userid], project_id: project.id, name: project.name)
-    # user.projects << project
-    redirect_to action: 'unassigned', id: user.id
+
+    @userproject = UserProject.create(user_project_params)
+    redirect_to action: 'show', id: params[:user_id]
   end
 
-  def remove
+  def destroy
     authorize UserProject
 
-    user = User.find(params[:userid])
-    # project=UserProject.where('user_id = ?', params[:userid]).and(UserProject.where('project_id = ?', params[:id]))
-    project = UserProject.where(user_id: params[:userid], project_id: params[:id])
-    UserProject.destroy(project.ids)
-    redirect_to action: 'index', id: user.id
+    project = UserProject.find_by(user_id: params[:user_id], project_id: params[:id])
+    UserProject.destroy(project.id)
+    redirect_to action: 'index', id: params[:user_id]
   end
 
   def view_projects
@@ -51,8 +47,7 @@ class UserProjectsController < ApplicationController
     end
   end
 
-  # def check_authorization
-  #   authorize @user
-  #   yield
-  # end
+  def user_project_params
+    params.permit(:user_id, :project_id, :name)
+  end
 end

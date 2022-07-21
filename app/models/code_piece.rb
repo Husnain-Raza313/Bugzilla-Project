@@ -7,6 +7,7 @@ class CodePiece < ApplicationRecord
   has_many :users, through: :code_piece_users
 
   validates :type, presence: true
+  validates :title, presence: true
 
   mount_uploader :screenshot, ScreenshotUploader
 

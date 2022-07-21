@@ -30,7 +30,6 @@ class CodePiecesController < ApplicationController
       format.html { redirect_to code_pieces_path, flash: { success: 'Bug was successfully updated.' } }
       format.json { head :no_content }
     end
-
   end
 
   private
@@ -39,26 +38,28 @@ class CodePiecesController < ApplicationController
     project_ids = CodePiece.where(id: params[:id]).pluck(:project_id)
     user = UserProject.where(project_id: project_ids).pluck(:user_id)
     unless current_user.id.in?(user)
-      flash[:error] = "You Are Not Authorized To Perform This Action"
-        redirect_to authenticated_root_path
-        return
+      flash[:error] = 'You Are Not Authorized To Perform This Action'
+      redirect_to authenticated_root_path
+      return
     end
 
     @bug = CodePiece.find(params[:id])
   end
 
   def check_bug
-    if current_user.developer?
+    if current_user.qa?
+      set_bug
+    else
       user = CodePieceUser.where(code_piece_id: params[:id]).pluck(:user_id)
-      unless current_user.id.in?(user)
-        flash[:error] = "You Are Not Authorized To Perform This Action"
-        redirect_to authenticated_root_path
-        return
-      end
+      check_user unless current_user.id.in?(user)
 
       @bug = CodePiece.find(params[:id])
-    elsif current_user.qa?
-      set_bug
     end
+  end
+
+  def check_user
+    flash[:error] = 'You Are Not Authorized To Perform This Action'
+    redirect_to authenticated_root_path
+    nil
   end
 end

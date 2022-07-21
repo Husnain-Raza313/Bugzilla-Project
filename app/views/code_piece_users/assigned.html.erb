@@ -25,7 +25,7 @@
       <td><%= bug.updated_at %></td>
       <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
      <td><%= link_to "Edit Status", edit_code_piece_path(bug), class:"btn btn-secondary" %></td>
-      <td><%= link_to "Remove", bugs_remove_path(current_user.id,bug.id), class:"btn btn-warning" %></td>
+      <td><%= link_to "Remove", code_piece_user_path(bug.id), class:"btn btn-warning", method: :delete %></td>
 
 
 

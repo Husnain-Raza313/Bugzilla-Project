@@ -29,7 +29,7 @@ class ProjectsController < ApplicationController
       flash[:success] = 'Project was successfully created.'
       redirect_to project_url(@project)
     else
-      flash[:error] = "#{@project.errors}"
+      flash[:error] = @project.errors.to_s
       render :new
     end
   end
@@ -37,14 +37,13 @@ class ProjectsController < ApplicationController
   def update
     authorize @project
 
-      if @project.update(project_params)
-        flash[:success] = 'Project was successfully updated.'
-        redirect_to project_url(@project)
-      else
-        flash[:error] = "#{@project.errors}"
-        render :edit
-      end
-
+    if @project.update(project_params)
+      flash[:success] = 'Project was successfully updated.'
+      redirect_to project_url(@project)
+    else
+      flash[:error] = @project.errors.to_s
+      render :edit
+    end
   end
 
   def destroy
@@ -53,7 +52,7 @@ class ProjectsController < ApplicationController
     if @project.destroy
       flash[:success] = 'Project was successfully destroyed.'
     else
-      flash[:error] = "#{@project.errors}"
+      flash[:error] = @project.errors.to_s
     end
     redirect_to projects_url(@project)
   end
