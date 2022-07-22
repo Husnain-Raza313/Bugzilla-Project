@@ -36,9 +36,7 @@ class CodePieceUsersController < ApplicationController
   def create
     authorize CodePieceUser
     bug1 = CodePiece.find(params[:code_piece_id])
-    # # dup_bug=CodePiece.find(params[:id]).dup
-    # # # bug=CodePiece.find(params[:id]).dup
-    # # # bug.save
+
     CodePieceUser.create(code_piece_user_params)
     # bug1.update(user_id: params[:userid])
     # CodePiece.create(dup_bug)
