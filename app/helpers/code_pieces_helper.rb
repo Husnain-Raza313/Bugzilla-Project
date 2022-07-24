@@ -2,16 +2,18 @@
 
 module CodePiecesHelper
   def screenshot_view(bug)
-    if (bug.screenshot.url.nil?)
-      " (Screenshot Not Available) "
+    if bug.screenshot.url.nil?
+      ' (Screenshot Not Available) '
     else
-    image_tag(bug.screenshot.url, size: "500x250", alt: "Screenshot Image")
+      image_tag(bug.screenshot.url, size: '500x250', alt: 'Screenshot Image')
     end
   end
+
   def deadline_field(bug)
-    bug.deadline.nil? ? "(Not Available)" : bug.deadline
+    bug.deadline.nil? ? '(Not Available)' : bug.deadline
   end
+
   def description_field(bug)
-    bug.description == "" ? "(Not Available)" : bug.description
+    bug.description == '' ? '(Not Available)' : bug.description
   end
 end

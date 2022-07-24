@@ -4,15 +4,27 @@
 <table class="table table-hover table-striped table-bordered">
   <thead >
     <tr class="table-dark">
-      <th scope="col">Project ID</th>
-      <th scope="col">Name</th>
-      <th scope="col">Created At</th>
-      <th scope="col">Updated At</th>
-      <th scope="col"></th>
-      <th scope="col"></th>
+      <%= render "headings" %>
     </tr>
   </thead>
-    <%= render "table", project: @projects %>
+    <% @projects.each do |project| %>
+
+    <tbody>
+    <tr>
+      <%= render "columns", project: project %>
+
+    <% if current_user.developer? %>
+      <td><%= link_to "Unassigned Bugs", project_code_piece_users_path(project.project_id), class:"btn btn-warning" %></td>
+      <td><%= link_to "Assigned Bugs", code_piece_user_path(project.project_id), class:"btn btn-success" %></td>
+    <% elsif current_user.qa? %>
+      <td><%= link_to "Create A Bug", new_project_bug_url(project.project_id), class:"btn btn-warning" %></td>
+     <td><%= link_to "Create A Feature", new_project_feature_url(project.project_id), class:"btn btn-primary" %></td>
+    <% end %>
+    </tr>
+  </tbody>
+
+  <% end %>
+
   </table>
 
   <%= link_to "Back To Home", authenticated_root_path, class:"btn btn-primary" %>

@@ -2,10 +2,8 @@
 
     <tbody>
     <tr>
-      <th scope="row"><%= current_user.manager? ? project.id : project.project_id %></th>
-      <td><%= project.name %></td>
-      <td><%= project.created_at %></td>
-      <td><%= project.updated_at %></td>
+      <%= render "user_projects/columns", project: project %>
+
     <% if current_user.developer? %>
       <td><%= link_to "Unassigned Bugs", project_code_piece_users_path(project.project_id), class:"btn btn-warning" %></td>
       <td><%= link_to "Assigned Bugs", code_piece_user_path(project.project_id), class:"btn btn-success" %></td>
