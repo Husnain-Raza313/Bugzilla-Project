@@ -1,0 +1,20 @@
+<h1 class='m-3'>Assigned Projects </h1>
+
+<div class="m-3">
+<table class="table table-hover table-striped table-bordered">
+  <thead >
+    <tr class="table-dark">
+      <th scope="col">Project ID</th>
+      <th scope="col">Name</th>
+      <th scope="col">Created At</th>
+      <th scope="col">Updated At</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+    <%= render "table", project: @projects %>
+  </table>
+
+  <%= link_to "Back To Home", authenticated_root_path, class:"btn btn-primary" %>
+  </div>
+

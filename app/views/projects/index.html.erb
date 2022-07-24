@@ -11,25 +11,7 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  <% @projects.each do |project| %>
-    <%# <%= render friend %>
-    <tbody>
-    <tr>
-      <th scope="row"><%= project.id%></th>
-      <td><%= project.name %></td>
-      <td><%= project.created_at %></td>
-      <td><%= project.updated_at %></td>
-      <% if current_user.manager? %>
-      <td><%= link_to "Show ", project, class:"btn btn-warning" %></td>
-
-      <td><%= link_to "Edit ", edit_project_url(project.id), class:"btn btn-primary" %></td>
-      <td><%= button_to "Destroy ", project, method: :delete, class:"btn btn-danger" %></td>
-    <% end %>
-
-    </tr>
-  </tbody>
-
-  <% end %>
+    <%= render "user_projects/table", project: @projects %>
   </table>
   <% if current_user.manager? %>
   <%= link_to "New Project", new_project_path, class:'btn btn-secondary'%>
