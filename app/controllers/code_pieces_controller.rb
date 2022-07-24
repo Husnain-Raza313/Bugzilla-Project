@@ -25,7 +25,7 @@ class CodePiecesController < ApplicationController
       flash[:success] = 'Bug was successfully destroyed.'
 
     else
-      flash[:error] = @project.errors.to_s
+      flash[:error] = @bug.errors.full_messages.to_sentence
     end
     redirect_to code_pieces_path
   end

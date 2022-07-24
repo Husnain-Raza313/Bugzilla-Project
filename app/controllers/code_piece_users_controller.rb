@@ -2,14 +2,9 @@
 
 class CodePieceUsersController < ApplicationController
   before_action :check_bug, only: %i[destroy]
-  # before_action :create_check_bug, only: %i[create]
+  before_action :set_destroy_bug, only: %i[destroy]
 
   def index
-    # bug_titles=CodePiece.where(user_id: params[:userid],project_id: params[:id]).pluck(:title)
-    # @bugs=CodePiece.where(:project_id => params[:id]).where.not(:title => bug_titles)
-
-    # admin_id=User.where(name: "Admin").pluck(:id)
-
     authorize CodePieceUser
     ids = CodePieceUser.where(user_id: current_user.id).pluck(:code_piece_id)
     @bugs = CodePiece.where.not(id: ids).where(project_id: params[:project_id])
@@ -17,15 +12,6 @@ class CodePieceUsersController < ApplicationController
   end
 
   def show
-    # bug_titles=CodePiece.where(user_id: params[:userid],project_id: params[:id]).pluck(:title)
-    # @bugs=CodePiece.where(:project_id => params[:id],:title => bug_titles,user_id: params[:userid])
-
-    # @bugs=CodePiece.where(user_id: params[:userid],project_id: params[:id])
-
-    # @bugs=CodePieceUsers.where(user_id: params[:id])
-    # @bugs=CodePiece.where.not(id: bugs.ids)
-
-    # prints unassigned bugs
     authorize CodePieceUser
     ids = CodePieceUser.where(user_id: current_user.id).pluck(:code_piece_id)
     @bugs = CodePiece.where(id: ids, project_id: params[:id])
@@ -36,18 +22,14 @@ class CodePieceUsersController < ApplicationController
   def create
     authorize CodePieceUser
     bug1 = CodePiece.find(params[:code_piece_id])
-    # # dup_bug=CodePiece.find(params[:id]).dup
-    # # # bug=CodePiece.find(params[:id]).dup
-    # # # bug.save
-    CodePieceUser.create(code_piece_user_params)
-    # bug1.update(user_id: params[:userid])
-    # CodePiece.create(dup_bug)
-    # dup_bug.save
+    # CodePieceUser.create(code_piece_user_params)
 
-    # puts"DUP BUG has USER IDDDD  #{dup_bug.user_id}"
+    if CodePieceUser.create(code_piece_user_params)
+      flash[:success] = 'Bug was successfully Assigned.'
 
-    #  @bug.update(user_id: @bug.user_id)
-    # user.projects << project
+    else
+      flash[:error] = bug1.errors.full_messages.to_sentence
+    end
 
     redirect_to action: 'index', project_id: bug1.project_id
   end
@@ -55,23 +37,17 @@ class CodePieceUsersController < ApplicationController
   def destroy
     authorize CodePieceUser
     project_id = CodePiece.where(id: params[:id]).pluck(:project_id)
-    # # CodePiece.destroy(params[:id])
-    # @bug=CodePiece.where(id: params[:id])
-    # admin_id=User.where(name: "Admin").pluck(:id)
-    # @bug.update(user_id: 3)
-    #  @bug.update(user_id: @bug.user_id)
-    # user.projects << project
 
-    bug = CodePieceUser.where(code_piece_id: params[:id]).pluck(:id)
-    CodePieceUser.destroy(bug)
+    if CodePieceUser.destroy(@bug)
+      flash[:success] = 'Bug was successfully unassigned.'
+
+    else
+      flash[:error] = @bug.errors.full_messages.to_sentence
+    end
 
     redirect_to action: 'show', id: project_id
   end
 
-  # def show
-  #   authorize CodePieceUser
-  #   @bug = CodePiece.find(params[:id])
-  # end
   private
 
   def check_bug
@@ -86,6 +62,9 @@ class CodePieceUsersController < ApplicationController
   #     check_user unless current_user.id.in?(user)
 
   # end
+  def set_destroy_bug
+    @bug = CodePieceUser.where(code_piece_id: params[:id]).pluck(:id)
+  end
 
   def check_user
     flash[:error] = 'You Are Not Authorized To Perform This Action'

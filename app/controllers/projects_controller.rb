@@ -29,8 +29,8 @@ class ProjectsController < ApplicationController
       flash[:success] = 'Project was successfully created.'
       redirect_to project_url(@project)
     else
-      flash[:error] = @project.errors.to_s
-      render :new
+      flash[:error] = @project.errors.full_messages.to_sentence
+      redirect_to new_project_path
     end
   end
 
@@ -41,8 +41,8 @@ class ProjectsController < ApplicationController
       flash[:success] = 'Project was successfully updated.'
       redirect_to project_url(@project)
     else
-      flash[:error] = @project.errors.to_s
-      render :edit
+      flash[:error] = @project.errors.full_messages.to_sentence
+      redirect_to edit_project_path
     end
   end
 
@@ -52,7 +52,7 @@ class ProjectsController < ApplicationController
     if @project.destroy
       flash[:success] = 'Project was successfully destroyed.'
     else
-      flash[:error] = @project.errors.to_s
+      flash[:error] = @project.errors.full_messages.to_sentence
     end
     redirect_to projects_url(@project)
   end

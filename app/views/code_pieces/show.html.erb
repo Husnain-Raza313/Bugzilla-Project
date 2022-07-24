@@ -16,6 +16,7 @@
      <br/>
    <%= image_tag(@bug.screenshot.url, size: "500x250", alt: "Screenshot Image")  %></h4>
    <% end %>
+   <h4>Type: <%= @bug.type%> </h4>
   <h4>Project ID: <%= @bug.project_id%> </h4>
   <br>
 
