@@ -17,9 +17,9 @@ Rails.application.configure do
 config.action_mailer.smtp_settings = {
   address:              'smtp.gmail.com',
   port:                 587,
-  domain:               'bugzilla-test-project-husnain.herokuapp.com',
-    user_name:            Rails.application.credentials.dig(:google_smtp, :email),
-    password:             Rails.application.credentials.dig(:google_smtp, :password),
+  domain:               'gmail.com',
+    user_name:            "husnain.manzoor@devsinc.com",
+    password:             "mzafprislkzcnamz",
   authentication:       'plain',
   enable_starttls_auto: true,
   open_timeout:         5,
