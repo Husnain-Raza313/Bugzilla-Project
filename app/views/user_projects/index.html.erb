@@ -3,21 +3,14 @@
 <table class="table table-hover table-striped table-bordered">
   <thead >
     <tr class="table-dark">
-      <th scope="col">ID</th>
-      <th scope="col">Name</th>
-      <th scope="col">Created At</th>
-      <th scope="col">Updated At</th>
-      <th scope="col"></th>
-      <th scope="col"></th>
+      <%= render "headings"%>
     </tr>
   </thead>
   <% @projects.each do |project| %>
     <tbody>
     <tr>
-      <th scope="row"><%= project.id%></th>
-      <td><%= project.name %></td>
-      <td><%= project.created_at %></td>
-      <td><%= project.updated_at %></td>
+     <%= render "columns", project: project %>
+
       <td><%= link_to "Show ", project, class:"btn btn-primary" %></td>
       <td><%= link_to "Remove Project ", user_user_project_url(@user.id, project.id), class:"btn btn-danger", method: :delete %></td>
 

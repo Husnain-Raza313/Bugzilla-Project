@@ -1,0 +1,5 @@
+
+  <th scope="row"><%= current_user.developer? ? project.project_id : project.id %></th>
+      <td><%= project.name %></td>
+      <td><%= project.created_at %></td>
+      <td><%= project.updated_at %></td>

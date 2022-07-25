@@ -1,11 +1,11 @@
 <%= form_with(model: @bug) do |form| %>
   <% if @bug.errors.any? %>
     <div style="color: red">
-      <h2><%= pluralize(@bug.errors.count, "error") %> prohibited this friend from being saved:</h2>
+      <h2><%= pluralize(@bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
 
       <ul>
-        <% @bug.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+        <% @bug.errors.full_messages.each do |error| %>
+          <li><%= error %></li>
         <% end %>
       </ul>
     </div>

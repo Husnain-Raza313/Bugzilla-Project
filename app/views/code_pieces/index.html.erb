@@ -4,13 +4,7 @@
   <thead >
     <tr class="table-dark">
 
-      <th scope="col">Title</th>
-      <th scope="col">Project ID</th>
-      <th scope="col">Status</th>
-      <th scope="col">Created At</th>
-      <th scope="col">Updated At</th>
-      <th scope="col"></th>
-      <th scope="col"></th>
+      <%= render "headings"%>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -18,11 +12,7 @@
     <tbody>
     <tr>
 
-      <td><%= bug.title %></td>
-      <td><%= bug.project_id %></td>
-      <td><%= bug.piece_status %></td>
-      <td><%= bug.created_at %></td>
-      <td><%= bug.updated_at %></td>
+      <%= render "columns", bug: bug %>
       <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
       <% if (current_user.qa?) %>
       <td><%= link_to "Edit ", edit_code_piece_url(bug.id), class:"btn btn-primary" %></td>

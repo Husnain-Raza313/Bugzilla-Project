@@ -11,8 +11,8 @@ class FeaturesController < ApplicationController
       flash[:success] = 'Feature was successfully created.'
       redirect_to code_piece_url(@feature)
     else
-      flash[:error] = @feature.errors.to_s
-      render :new
+      flash[:error] = @feature.errors.full_messages.to_sentence
+      redirect_to action: 'new', project_id: @feature.project_id
     end
   end
 
@@ -23,15 +23,16 @@ class FeaturesController < ApplicationController
       flash[:success] = 'Feature was successfully updated.'
       redirect_to code_piece_url(@feature.id)
     else
-      flash[:error] = @feature.errors.to_s
-      render :edit
+      flash[:error] = @feature.errors.full_messages.to_sentence
+      redirect_to action: 'edit', controller: 'code_pieces', id: params[:id]
     end
   end
 
   def new
+    # @bug because _form partial is using @bug variable
     @bug = Feature.new(project_id: params[:project_id])
 
-    authorize @bug, policy_class: CodePiecePolicy
+    authorize @feature, policy_class: CodePiecePolicy
 
     render 'code_pieces/new'
   end

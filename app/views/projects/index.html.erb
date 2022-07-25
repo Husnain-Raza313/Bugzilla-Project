@@ -2,23 +2,14 @@
 <table class="table table-hover table-striped table-bordered">
   <thead >
     <tr class="table-dark">
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Created At</th>
-      <th scope="col">Updated At</th>
-      <th scope="col"></th>
-      <th scope="col"></th>
+      <%= render "user_projects/headings" %>
       <th scope="col"></th>
     </tr>
   </thead>
   <% @projects.each do |project| %>
-    <%# <%= render friend %>
     <tbody>
     <tr>
-      <th scope="row"><%= project.id%></th>
-      <td><%= project.name %></td>
-      <td><%= project.created_at %></td>
-      <td><%= project.updated_at %></td>
+       <%= render "user_projects/columns" , project: project %>
       <% if current_user.manager? %>
       <td><%= link_to "Show ", project, class:"btn btn-warning" %></td>
 

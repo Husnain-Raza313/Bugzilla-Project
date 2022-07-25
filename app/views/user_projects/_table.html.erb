@@ -1,0 +1,23 @@
+ <% @projects.each do |project| %>
+
+    <tbody>
+    <tr>
+      <%= render "user_projects/columns", project: project %>
+
+    <% if current_user.developer? %>
+      <td><%= link_to "Unassigned Bugs", project_code_piece_users_path(project.project_id), class:"btn btn-warning" %></td>
+      <td><%= link_to "Assigned Bugs", code_piece_user_path(project.project_id), class:"btn btn-success" %></td>
+    <% elsif current_user.qa? %>
+      <td><%= link_to "Create A Bug", new_project_bug_url(project.project_id), class:"btn btn-warning" %></td>
+     <td><%= link_to "Create A Feature", new_project_feature_url(project.project_id), class:"btn btn-primary" %></td>
+
+     <% elsif current_user.manager? %>
+      <td><%= link_to "Show ", project, class:"btn btn-warning" %></td>
+
+      <td><%= link_to "Edit ", edit_project_url(project.id), class:"btn btn-primary" %></td>
+      <td><%= button_to "Destroy ", project, method: :delete, class:"btn btn-danger" %></td>
+    <% end %>
+    </tr>
+  </tbody>
+
+  <% end %>
