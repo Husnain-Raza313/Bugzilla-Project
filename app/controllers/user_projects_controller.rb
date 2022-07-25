@@ -31,8 +31,8 @@ class UserProjectsController < ApplicationController
   def destroy
     authorize UserProject
 
-    project = UserProject.find(user_id: params[:user_id], project_id: params[:id])
-    UserProject.destroy(project.id)
+    project = UserProject.where(user_id: params[:user_id], project_id: params[:id])
+    UserProject.destroy(project.ids)
     redirect_to action: 'index', id: params[:user_id]
   end
 
