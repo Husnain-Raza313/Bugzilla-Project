@@ -1,29 +1,23 @@
 <h1 class="m-3">Unassigned Bugs </h1>
 <div class="m-3">
-<table class="table table-hover table-striped table-bordered">
-  <thead >
-    <tr class="table-dark">
-      <%# <th scope="col">BUG ID</th> %>
-      <%= render "code_pieces/headings"%>
-    </tr>
-  </thead>
-  <% @bugs.each do |bug| %>
-  <tbody>
-    <tr>
-
-      <%= render "code_pieces/columns", bug: bug %>
-      <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
-      <td><%= link_to "Assign", code_piece_users_path(user_id: current_user.id, code_piece_id: bug.id), class:"btn btn-warning", method: :post%></td>
-
-
-
-    </tr>
-  </tbody>
-
-  <% end %>
+  <table class="table table-hover table-striped table-bordered">
+      <thead >
+        <tr class="table-dark">
+          <%# <th scope="col">BUG ID</th> %>
+          <%= render "code_pieces/headings"%>
+        </tr>
+      </thead>
+    <% @bugs.each do |bug| %>
+      <tbody>
+        <tr>
+          <%= render "code_pieces/columns", bug: bug %>
+          <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
+          <td><%= link_to "Assign", code_piece_users_path(user_id: current_user.id, code_piece_id: bug.id), class:"btn btn-warning", method: :post%></td>
+        </tr>
+      </tbody>
+    <% end %>
   </table>
      <%= link_to "Back To Projects", view_projects_path(current_user.id), class:"btn btn-success" %>
-
 </div>
 
 

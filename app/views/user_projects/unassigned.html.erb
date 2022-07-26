@@ -1,34 +1,24 @@
 <h1 class='m-3'>Unassigned Projects </h1>
 
 <div class="m-3">
-<table class="table table-hover table-striped table-bordered">
-  <thead >
-    <tr class="table-dark">
-      <%= render "headings"%>
-    </tr>
-  </thead>
-  <% @userprojects.each do |userproject| %>
-
-    <tbody>
-    <tr>
-      <%= render "columns", project: userproject %>
-      <td><%= link_to "Show ", userproject, class:"btn btn-primary" %></td>
-
-      <td><%= link_to "Assign ", user_projects_url(user_id: @user.id, project_id: userproject.id, name: userproject.name), class:"btn btn-success", method: :post %></td>
-
-
-
-
-
-
-    </tr>
-  </tbody>
-
-  <% end %>
+  <table class="table table-hover table-striped table-bordered">
+    <thead >
+      <tr class="table-dark">
+        <%= render "headings"%>
+      </tr>
+    </thead>
+    <% @userprojects.each do |userproject| %>
+      <tbody>
+        <tr>
+          <%= render "columns", project: userproject %>
+          <td><%= link_to "Show ", userproject, class:"btn btn-primary" %></td>
+          <td><%= link_to "Assign ", user_projects_url(user_id: @user.id, project_id: userproject.id, name: userproject.name), class:"btn btn-success", method: :post %></td>
+        </tr>
+      </tbody>
+    <% end %>
   </table>
-
-<%= link_to "Show Assigned Projects ", user_user_projects_path(@user.id), class:"btn btn-warning" %>
-<br/>
-<br/>
-<%= link_to "Back To Users", users_path, class:"btn btn-primary" %>
-  </div>
+  <%= link_to "Show Assigned Projects ", user_user_projects_path(@user.id), class:"btn btn-warning" %>
+  <br/>
+  <br/>
+  <%= link_to "Back To Users", users_path, class:"btn btn-primary" %>
+</div>

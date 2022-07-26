@@ -8,14 +8,11 @@
     <%= render "manager_panel" %>
     </div>
     <% end %>
-
     <% if current_user.developer? %>
     <div class="col-lg-9">
     <%= render "dev_panel" %>
     </div>
     <% end %>
-
-
     <% if current_user.qa? %>
     <div class="col-lg-9">
     <%= render "qa_panel" %>
