@@ -2,11 +2,7 @@
   <% if (current_user.developer? ) %>
     <div class="field">
       <%= form.label :piece_status %><br />
-      <% if @bug.type == "Feature"%>
-      <%= form.select :piece_status, Feature.piece_statuses.keys.to_a %>
-      <% else %>
-      <%= form.select :piece_status, Bug.piece_statuses.keys.to_a %>
-      <% end %>
+      <%= form.select :piece_status, CodePiece.piece_statuses.keys.to_a %>
     </div>
   <% else %>
     <div class="form-group mb-2">
@@ -31,13 +27,13 @@
       <% form.label :project_id, style: "display: block"%>
       <%= form.text_field :project_id, class:"form-control", value: @bug.project_id, type: :hidden %>
     </div>
+     <div class="form-group mb-2">
+        <%= form.radio_button :piece_type, 'Bug', checked: true %> Bug<br />
+        <%= form.radio_button :piece_type, 'Feature' %> Feature<br />
+    </div>
     <div class="field">
-    <%= form.label :piece_status %><br />
-    <% if @bug.type == "Feature"%>
-    <%= form.select :piece_status, Feature.piece_statuses.keys.to_a %>
-    <% else %>
-      <%= form.select :piece_status, Bug.piece_statuses.keys.to_a %>
-    <% end %>
+      <%= form.label :piece_status %><br />
+      <%= form.select :piece_status, CodePiece.piece_statuses.keys.to_a %>
     </div>
   <% end %>
   <div>

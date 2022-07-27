@@ -14,8 +14,7 @@
           <td><%= link_to "Unassigned Bugs", project_code_piece_users_path(project.project_id), class:"btn btn-warning" %></td>
           <td><%= link_to "Assigned Bugs", code_piece_user_path(project.project_id), class:"btn btn-success" %></td>
         <% elsif current_user.qa? %>
-          <td><%= link_to "Create A Bug", new_project_bug_url(project.project_id), class:"btn btn-warning" %></td>
-        <td><%= link_to "Create A Feature", new_project_feature_url(project.project_id), class:"btn btn-primary" %></td>
+          <td><%= link_to "Create A Bug", new_project_code_piece_url(project.project_id), class:"btn btn-warning" %></td>
         <% end %>
         </tr>
       </tbody>

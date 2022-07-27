@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_21_074843) do
+ActiveRecord::Schema.define(version: 2022_07_27_161938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 2022_07_21_074843) do
     t.date "deadline"
     t.text "description"
     t.string "screenshot"
-    t.string "type"
+    t.string "piece_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["project_id"], name: "index_code_pieces_on_project_id"
