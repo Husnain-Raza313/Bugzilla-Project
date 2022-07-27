@@ -6,25 +6,25 @@ class FeaturesController < ApplicationController
   def create
     @feature = Feature.new(feature_params)
     authorize @feature, policy_class: CodePiecePolicy
-
-    if @feature.save
-      flash[:success] = 'Feature was successfully created.'
-      redirect_to code_piece_url(@feature)
-    else
-      flash[:error] = @feature.errors.full_messages.to_sentence
-      redirect_to action: 'new', project_id: @feature.project_id
+    respond_to do |format|
+      if @feature.save
+        format.html { redirect_to code_piece_url(@feature), flash: { success: 'Feature was successfully created.' } }
+      else
+        @bug=@feature
+        format.html { render 'code_pieces/new', status: :unprocessable_entity }
+      end
     end
   end
 
   def update
     authorize @feature, policy_class: CodePiecePolicy
-
-    if @feature.update(feature_params)
-      flash[:success] = 'Feature was successfully updated.'
-      redirect_to code_piece_url(@feature.id)
-    else
-      flash[:error] = @feature.errors.full_messages.to_sentence
-      redirect_to action: 'edit', controller: 'code_pieces', id: params[:id]
+    respond_to do |format|
+      if @feature.update(feature_params)
+        format.html { redirect_to code_piece_url(@feature.id), flash: { success: 'Feature was successfully updated.' } }
+      else
+        @bug=@feature
+        format.html { render 'code_pieces/edit', status: :unprocessable_entity }
+      end
     end
   end
 
@@ -48,7 +48,7 @@ class FeaturesController < ApplicationController
     if current_user.developer?
       params.require(:feature).permit(:piece_status)
     else
-      params.require(:feature).permit(:piece_status, :description, :title, :project_id, :deadline, :screenshot, :type)
+      params.require(:feature).permit(:id, :piece_status, :description, :title, :project_id, :deadline, :screenshot, :type)
     end
   end
 end

@@ -1,14 +1,5 @@
-<%= form_with(model: @project) do |form| %>
-  <% if @project.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
-      <ul>
-        <% @project.errors.full_messages.each do |error| %>
-          <li><%= error %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_with(model: @project, local: true ) do |form| %>
+  <%= render 'layouts/error', obj: @project %>
   <div class="form-group mb-2">
     <% form.label :name, style: "display: block"  %>
     <%= form.text_field :name, class:"form-control", placeholder:"Project Name" %>

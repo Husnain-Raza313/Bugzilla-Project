@@ -1,8 +1,9 @@
 <h1>Edit Form</h1>
 <br>
-<%= render "form", code_piece: @bug %>
+<%= render "code_pieces/form", code_piece: @bug %>
 <br>
 <div>
-  <%= link_to "Show ", code_piece_path(@bug.id), class:"btn btn-secondary" %>
+  <%= link_to "Show ", code_piece_path(@bug.id), class:"btn btn-warning" %>
+  <%= link_to "Back To Bugs List", code_pieces_path, class:"btn btn-dark" %><br/><br/>
   <%= link_to "Back To Home", authenticated_root_path, class:'btn btn-primary'%>
 </div>

@@ -15,6 +15,7 @@ class CodePiecesController < ApplicationController
 
   def edit
     authorize CodePiece
+    puts "hello no 2 #{@bug}"
   end
 
   def destroy
@@ -40,8 +41,14 @@ class CodePiecesController < ApplicationController
       redirect_to authenticated_root_path
       return
     end
+    if params[:id].nil?
+    @bug=CodePiece.find(@bug.id)
 
+    else
     @bug = CodePiece.find(params[:id])
+    puts "Hello no  4 #{@bug}"
+    end
+
   end
 
   def check_bug

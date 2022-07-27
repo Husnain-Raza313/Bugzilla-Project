@@ -24,25 +24,28 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     authorize @project
+    respond_to do |format|
+      if @project.save
 
-    if @project.save
-      flash[:success] = 'Project was successfully created.'
-      redirect_to project_url(@project)
-    else
-      flash[:error] = @project.errors.full_messages.to_sentence
-      redirect_to new_project_path
+        format.html { redirect_to project_url(@project), flash: { success: 'Project was successfully created.' } }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+
+      end
     end
   end
 
   def update
     authorize @project
 
-    if @project.update(project_params)
-      flash[:success] = 'Project was successfully updated.'
-      redirect_to project_url(@project)
-    else
-      flash[:error] = @project.errors.full_messages.to_sentence
-      redirect_to edit_project_path
+    respond_to do |format|
+      if @project.update(project_params)
+
+        format.html { redirect_to project_url(@project), flash: { success: 'Project was successfully updated.' } }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+
+      end
     end
   end
 
