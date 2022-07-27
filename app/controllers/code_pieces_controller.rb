@@ -31,10 +31,6 @@ class CodePiecesController < ApplicationController
     redirect_to code_pieces_path
   end
 
-
-
-
-
   def create
     @bug = CodePiece.new(bug_params)
     authorize @bug, policy_class: CodePiecePolicy
@@ -80,10 +76,6 @@ class CodePiecesController < ApplicationController
     render 'code_pieces/new'
   end
 
-
-
-
-
   private
 
   def set_bug
@@ -100,16 +92,17 @@ class CodePiecesController < ApplicationController
     # else
     @bug = CodePiece.find(params[:id])
     # end
-
   end
-    # Only allow a list of trusted parameters through.
-    def bug_params
-      if current_user.developer?
-        params.require(:code_piece).permit(:piece_status)
-      else
-        params.require(:code_piece).permit(:piece_status, :description, :title, :project_id, :deadline, :screenshot, :piece_type)
-      end
+
+  # Only allow a list of trusted parameters through.
+  def bug_params
+    if current_user.developer?
+      params.require(:code_piece).permit(:piece_status)
+    else
+      params.require(:code_piece).permit(:piece_status, :description, :title, :project_id, :deadline, :screenshot,
+                                         :piece_type)
     end
+  end
 
   def check_bug
     if current_user.qa?

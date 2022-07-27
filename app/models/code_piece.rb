@@ -7,7 +7,7 @@ class CodePiece < ApplicationRecord
   has_many :users, through: :code_piece_users
 
   # validates :type, presence: true
-  validates :title, presence: true
+  validates :title, presence: true, length: { maximum: 40 , minimum: 5}
 
   mount_uploader :screenshot, ScreenshotUploader
 

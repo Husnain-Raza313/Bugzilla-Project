@@ -6,5 +6,5 @@ class Project < ApplicationRecord
 
   has_many :code_pieces, dependent: :destroy
 
-  validates :name, uniqueness: true, presence: true
+  validates :name, uniqueness: true, presence: true, length: { maximum: 40 , minimum: 5}
 end
