@@ -9,6 +9,10 @@ module CodePiecesHelper
     end
   end
 
+  def screenshot_field(bug)
+        image_tag(bug.screenshot.url, size: '500x250', alt: 'Screenshot Image') unless bug.screenshot.url.nil?
+  end
+
   def deadline_field(bug)
     bug.deadline.nil? ? '(Not Available)' : bug.deadline
   end

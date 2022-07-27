@@ -59,7 +59,7 @@ class BugsController < ApplicationController
     if current_user.developer?
       params.require(:bug).permit(:piece_status)
     else
-      params.require(:bug).permit(:id, :piece_status, :description, :title, :project_id, :deadline, :screenshot, :type)
+      params.require(:bug).permit(:piece_status, :description, :title, :project_id, :deadline, :screenshot, :type)
     end
   end
 end

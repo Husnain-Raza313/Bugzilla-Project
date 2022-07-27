@@ -6,6 +6,7 @@ class CodePiecesController < ApplicationController
   def index
     authorize CodePiece
     project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
+    puts "hello my #{project_id[0]}"
     @bugs = CodePiece.where(project_id: project_id)
   end
 
@@ -15,7 +16,6 @@ class CodePiecesController < ApplicationController
 
   def edit
     authorize CodePiece
-    puts "hello no 2 #{@bug}"
   end
 
   def destroy
@@ -34,20 +34,19 @@ class CodePiecesController < ApplicationController
   private
 
   def set_bug
-    project_ids = CodePiece.where(id: params[:id]).pluck(:project_id)
-    user = UserProject.where(project_id: project_ids).pluck(:user_id)
-    unless current_user.id.in?(user)
-      flash[:error] = 'You Are Not Authorized To Perform This Action'
-      redirect_to authenticated_root_path
-      return
-    end
-    if params[:id].nil?
-    @bug=CodePiece.find(@bug.id)
+    # project_ids = CodePiece.where(id: params[:id]).pluck(:project_id)
+    # user = UserProject.where(project_id: project_ids).pluck(:user_id)
+    # unless current_user.id.in?(user)
+    #   flash[:error] = 'You Are Not Authorized To Perform This Action'
+    #   redirect_to authenticated_root_path
+    #   return
+    # end
+    # if params[:id].nil?
+    # @bug=CodePiece.find(@bug.id)
 
-    else
+    # else
     @bug = CodePiece.find(params[:id])
-    puts "Hello no  4 #{@bug}"
-    end
+    # end
 
   end
 

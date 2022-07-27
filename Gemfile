@@ -11,7 +11,9 @@ gem 'pg'
 gem 'rubocop-rspec'
 
 # adding jquery
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 4.3'
+
+gem 'client_side_validations'
 
 # Carrierwave for images
 gem 'carrierwave', '~> 2.0'
