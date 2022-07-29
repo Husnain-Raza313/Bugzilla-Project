@@ -14,5 +14,6 @@ class CodePiece < ApplicationRecord
   # validates_uniqueness_of :title, scope: %i[user_id project_id]
   validates :title, uniqueness: { scope: %i[project_id] }
 
-  enum piece_status: { new: 0, started: 1, completed: 2 }, _prefix: :piece_status
+  enum piece_status: { new: 0, started: 1, resolved: 2 }, _prefix: :piece_status
+
 end

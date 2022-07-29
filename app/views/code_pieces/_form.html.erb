@@ -28,15 +28,26 @@
       <%= form.text_field :project_id, class:"form-control", value: @bug.project_id, type: :hidden %>
     </div>
      <div class="form-group mb-2">
-        <%= form.radio_button :piece_type, 'Bug', checked: true %> Bug<br />
-        <%= form.radio_button :piece_type, 'Feature' %> Feature<br />
+     <% if @bug.piece_type.nil? %>
+        <%= form.radio_button :piece_type, 'Bug', checked: true, onClick: 'changeStatusforBug()' %> Bug<br />
+      <% else %>
+          <%= form.radio_button :piece_type, 'Bug', onClick: 'changeStatusforBug()', id: 'bug_id' %> Bug<br />
+      <% end %>
+        <%= form.radio_button :piece_type, 'Feature', onClick: 'changeStatusforFeature()', id: 'feature_id' %> Feature<br />
     </div>
-    <div class="field">
+
+        <div class="field", id= "bug_status">
       <%= form.label :piece_status %><br />
-      <%= form.select :piece_status, CodePiece.piece_statuses.keys.to_a %>
+      <%= form.select(:piece_status, [['new'],['started'],['resolved']]) %>
     </div>
+    <div class="field status_class" , id= "feature_status" >
+      <%= form.label :piece_status %><br />
+      <%= form.select(:piece_status, [['new'],['started'],['completed', 'resolved']]) %>
+    </div>
+
   <% end %>
   <div>
+  <%= javascript_tag "checkStatus()" %>
   <br>
     <%= form.submit class:"btn btn-success"%>
   </div>

@@ -1,7 +1,7 @@
 <div class="jumbotron-index m-5 mt-0">
   <div class="jumbotron ">
     <h4>Title: <%= @bug.title %> </h4>
-    <h4>Status: <%= @bug.piece_status%> </h4>
+    <h4>Status: <%= piece_status(@bug)%> </h4>
     <h4>Description:
       <%= description_field(@bug)  %>
     </h4>
