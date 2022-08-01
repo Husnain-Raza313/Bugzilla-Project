@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
 
   def index
-    @projects = Project.all
+    @projects = Project.where(user_id: current_user.id)
     authorize @projects
   end
 
@@ -69,6 +69,6 @@ class ProjectsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def project_params
-    params.require(:project).permit(:name, :id)
+    params.require(:project).permit(:name, :id).merge(user_id: current_user.id)
   end
 end
