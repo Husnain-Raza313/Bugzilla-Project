@@ -62,9 +62,9 @@ class CodePiecesController < ApplicationController
 
   def assigned
     if current_user.qa?
-      @bugs=CodePiece.where(user_id: current_user.id)
+      @bugs = CodePiece.where(user_id: current_user.id)
     elsif current_user.developer?
-      @bugs=User.find(current_user.id).code_pieces
+      @bugs = User.find(current_user.id).code_pieces
     end
   end
 
@@ -101,10 +101,14 @@ class CodePiecesController < ApplicationController
   def check_user
     project_id = @bug.nil? ? params[:project_id] : @bug.project_id
     if project_id.nil?
+      check_show
+    elsif UserProject.where(project_id: project_id, user_id: current_user.id).take.nil?
+      user_not_authorized
+    end
+  end
+
+  def check_show
     @bug = CodePiece.find(params[:id])
     user_not_authorized if UserProject.where(project_id: @bug.project_id, user_id: current_user.id).take.nil?
-    else
-    user_not_authorized if UserProject.where(project_id: project_id, user_id: current_user.id).take.nil?
-    end
   end
 end
