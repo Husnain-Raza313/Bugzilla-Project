@@ -17,7 +17,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def update?
-    user.manager?
+    user.manager? && record.user_id == user.id
   end
 
   def new?
@@ -29,10 +29,10 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-    user.manager?
+    user.manager? && record.user_id == user.id
   end
 
   def destroy?
-    user.manager?
+    user.manager? && record.user_id == user.id
   end
 end

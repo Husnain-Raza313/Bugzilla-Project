@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       resources :code_piece_users, except: [:index] #show is for assigned bugs
 
 
-      get '/userprojects/viewprojects/:id', to: 'user_projects#view_projects', as: :view_projects
+      get '/userprojects/viewprojects', to: 'user_projects#view_projects', as: :view_projects
 
 
     end

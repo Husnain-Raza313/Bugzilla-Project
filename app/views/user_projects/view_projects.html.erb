@@ -16,7 +16,11 @@
           <% @projects.each do |project| %>
             <tbody>
               <tr>
-                <%= render "columns", project: project %>
+                <th scope="row"><%= project.project_id %></th>
+                <td><%= project.name %></td>
+                <td><%= project.manager_id %></td>
+                <td><%= project.created_at %></td>
+                <td><%= project.updated_at %></td>
               <% if current_user.developer? %>
                 <td><%= link_to "Assign Bugs", project_code_piece_users_path(project.project_id), class:"btn btn-success" %></td>
                 <td><%= link_to "Remove Bugs", code_piece_user_path(project.project_id), class:"btn btn-danger" %></td>

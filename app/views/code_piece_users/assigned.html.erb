@@ -1,4 +1,4 @@
-<h1 class="m-3">Assigned Bugs </h1>
+<h1 class="m-3"><%= current_user.name %>'s Assigned Bugs </h1>
 <div class="m-3">
   <table class="table table-hover table-striped table-bordered">
     <thead >
@@ -13,7 +13,7 @@
           <%= render "code_pieces/columns", bug: bug %>
           <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
           <td><%= link_to "Edit Status", edit_code_piece_path(bug), class:"btn btn-secondary" %></td>
-          <td><%= link_to "Remove", code_piece_user_path(bug.id), class:"btn btn-warning", method: :delete %></td>
+          <td><%= link_to "Remove", code_piece_user_path(bug.id), class:"btn btn-danger", method: :delete %></td>
         </tr>
       </tbody>
     <% end %>

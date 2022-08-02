@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class CodePiecesController < ApplicationController
-  before_action :set_bug, only: %i[show destroy update]
-  before_action :check_bug, only: %i[edit]
-
+  before_action :check_authorization, only: %i[show destroy edit update]
+  before_action :check_user, only: %i[new]
   def index
     authorize CodePiece
     project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
@@ -33,6 +32,7 @@ class CodePiecesController < ApplicationController
 
   def create
     @bug = CodePiece.new(bug_params)
+    check_user
     authorize @bug, policy_class: CodePiecePolicy
     respond_to do |format|
       if @bug.save
@@ -41,14 +41,6 @@ class CodePiecesController < ApplicationController
         format.html { render 'code_pieces/new', status: :unprocessable_entity }
       end
     end
-
-    # if @bug.save
-    #   flash[:success] = 'Bug was successfully Created'
-    #   redirect_to code_piece_url(@bug)
-    # else
-    #   flash[:error] = @bug.errors.full_messages.to_sentence
-    #   redirect_to action: 'new', project_id: @bug.project_id
-    # end
   end
 
   def update
@@ -60,14 +52,6 @@ class CodePiecesController < ApplicationController
         format.html { render 'code_pieces/edit', status: :unprocessable_entity }
       end
     end
-
-    # if @bug.update(bug_params)
-    #   flash[:success] = 'Bug was successfully updated.'
-    #   redirect_to code_piece_url(@bug.id)
-    # else
-    #   flash[:error] = @bug.errors.full_messages.to_sentence
-    #   redirect_to action: 'edit', controller: 'code_pieces', id: params[:id]
-    # end
   end
 
   def new
@@ -78,46 +62,36 @@ class CodePiecesController < ApplicationController
 
   private
 
-  def set_bug
-    # project_ids = CodePiece.where(id: params[:id]).pluck(:project_id)
-    # user = UserProject.where(project_id: project_ids).pluck(:user_id)
-    # unless current_user.id.in?(user)
-    #   flash[:error] = 'You Are Not Authorized To Perform This Action'
-    #   redirect_to authenticated_root_path
-    #   return
-    # end
-    # if params[:id].nil?
-    # @bug=CodePiece.find(@bug.id)
-
-    # else
-    @bug = CodePiece.find(params[:id])
-    # end
-  end
-
   # Only allow a list of trusted parameters through.
   def bug_params
     if current_user.developer?
       params.require(:code_piece).permit(:piece_status)
     else
-      params.require(:code_piece).permit(:piece_status, :description, :title, :project_id, :deadline, :screenshot,
-                                         :piece_type)
+      params.require(:code_piece).permit(:id, :piece_status, :description, :title, :project_id, :deadline, :screenshot,
+                                         :piece_type).merge(user_id: current_user.id)
     end
   end
 
-  def check_bug
+  def check_authorization
     if current_user.qa?
-      set_bug
-    else
-      user = CodePieceUser.where(code_piece_id: params[:id]).pluck(:user_id)
-      check_user unless current_user.id.in?(user)
-
-      @bug = CodePiece.find(params[:id])
+      check_qa
+    elsif current_user.developer?
+      check_dev
     end
+  end
+
+  def check_qa
+    user_not_authorized if CodePiece.where(id: params[:id], user_id: current_user.id).take.nil?
+    @bug = CodePiece.find(params[:id])
+  end
+
+  def check_dev
+    user_not_authorized if CodePieceUser.where(code_piece_id: params[:id], user_id: current_user.id).take.nil?
+    @bug = CodePiece.find(params[:id])
   end
 
   def check_user
-    flash[:error] = 'You Are Not Authorized To Perform This Action'
-    redirect_to authenticated_root_path
-    nil
+    project_id = params[:project_id].nil? ? @bug.project_id : params[:project_id]
+    user_not_authorized if UserProject.where(project_id: project_id, user_id: current_user.id).take.nil?
   end
 end

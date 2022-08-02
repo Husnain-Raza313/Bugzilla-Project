@@ -1,4 +1,4 @@
-<h1 class='m-3'>Unassigned Projects </h1>
+<h1 class='m-3'><%= @user.name %>'s Unassigned Projects </h1>
 
 <div class="m-3">
   <table class="table table-hover table-striped table-bordered">
@@ -12,7 +12,7 @@
         <tr>
           <%= render "columns", project: userproject %>
           <td><%= link_to "Show ", userproject, class:"btn btn-primary" %></td>
-          <td><%= link_to "Assign ", user_projects_url(user_id: @user.id, project_id: userproject.id, name: userproject.name), class:"btn btn-success", method: :post %></td>
+          <td><%= link_to "Assign ", user_projects_url(user_id: @user.id, project_id: userproject.id, name: userproject.name, manager_id: userproject.user_id), class:"btn btn-success", method: :post %></td>
         </tr>
       </tbody>
     <% end %>

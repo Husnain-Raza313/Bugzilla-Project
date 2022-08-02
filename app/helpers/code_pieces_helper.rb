@@ -20,7 +20,8 @@ module CodePiecesHelper
   def description_field(bug)
     bug.description == '' ? '(Not Available)' : bug.description
   end
+
   def piece_status(bug)
-    (bug.piece_status == 'resolved' && bug.piece_type == 'Feature') ? 'completed' : bug.piece_status
+    bug.piece_status == 'resolved' && bug.piece_type == 'Feature' ? 'completed' : bug.piece_status
   end
 end

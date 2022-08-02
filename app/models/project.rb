@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Project < ApplicationRecord
-
   belongs_to :user
 
   has_many :user_projects, dependent: :destroy
@@ -9,5 +8,5 @@ class Project < ApplicationRecord
 
   has_many :code_pieces, dependent: :destroy
 
-  validates :name, uniqueness: true, presence: true, length: { maximum: 40 , minimum: 5}
+  validates :name, uniqueness: true, presence: true, length: { maximum: 40, minimum: 5 }
 end
