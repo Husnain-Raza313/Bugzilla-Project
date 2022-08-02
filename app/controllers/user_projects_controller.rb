@@ -23,14 +23,20 @@ class UserProjectsController < ApplicationController
   def create
     @userproject = UserProject.new(user_project_params)
     authorize @userproject
-    @userproject.save
+
+    if @userproject.save
+      flash[:success] = 'Project was successfully Assigned.'
+
+    else
+      flash[:error] = @bug.errors.full_messages.to_sentence
+    end
     redirect_to action: 'show', id: params[:user_id]
   end
 
   def destroy
     @project = UserProject.where(user_id: params[:user_id], project_id: params[:id]).take
     authorize @project
-    UserProject.destroy(@project.id)
+    flash[:success] = 'Project was successfully unassigned.' if UserProject.destroy(@project.id)
     redirect_to action: 'index', id: params[:user_id]
   end
 
