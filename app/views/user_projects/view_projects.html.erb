@@ -32,7 +32,8 @@
           <% end %>
         </table>
         <p class="lead">
-          <%= link_to "View Bugs", code_pieces_path, class:"btn btn-success" %>
+          <%= link_to "View Bugs", code_pieces_path, class:"btn btn-dark" %>
+          <%= link_to "My Bugs", assigned_bugs_path, class:"btn btn-success" %>
           <% if current_user.qa? %>
             <%= link_to "All Projects", projects_url, class:"btn btn-primary" %>
           <% end %>

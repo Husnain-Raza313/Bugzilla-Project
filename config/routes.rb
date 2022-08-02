@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
 
       get '/userprojects/viewprojects', to: 'user_projects#view_projects', as: :view_projects
+      get '/userbugs', to: 'code_pieces#assigned', as: :assigned_bugs
 
 
     end

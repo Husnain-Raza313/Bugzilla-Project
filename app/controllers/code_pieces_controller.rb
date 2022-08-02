@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class CodePiecesController < ApplicationController
-  before_action :check_authorization, only: %i[show destroy edit update]
-  before_action :check_user, only: %i[new]
+  before_action :check_authorization, only: %i[destroy edit update]
+  before_action :check_user, only: %i[new show]
   def index
     authorize CodePiece
     project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
@@ -60,6 +60,14 @@ class CodePiecesController < ApplicationController
     render 'code_pieces/new'
   end
 
+  def assigned
+    if current_user.qa?
+      @bugs=CodePiece.where(user_id: current_user.id)
+    elsif current_user.developer?
+      @bugs=User.find(current_user.id).code_pieces
+    end
+  end
+
   private
 
   # Only allow a list of trusted parameters through.
@@ -91,7 +99,12 @@ class CodePiecesController < ApplicationController
   end
 
   def check_user
-    project_id = params[:project_id].nil? ? @bug.project_id : params[:project_id]
+    project_id = @bug.nil? ? params[:project_id] : @bug.project_id
+    if project_id.nil?
+    @bug = CodePiece.find(params[:id])
+    user_not_authorized if UserProject.where(project_id: @bug.project_id, user_id: current_user.id).take.nil?
+    else
     user_not_authorized if UserProject.where(project_id: project_id, user_id: current_user.id).take.nil?
+    end
   end
 end
