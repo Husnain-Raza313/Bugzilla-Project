@@ -2,7 +2,7 @@
   <% if (current_user.developer? ) %>
     <div class="field">
       <%= form.label :piece_status %><br />
-      <%= form.select :piece_status, CodePiece.piece_statuses.keys.to_a %>
+      <%= form.select :piece_status, Bug.piece_statuses.keys.to_a %>
     </div>
   <% else %>
     <div class="form-group mb-2">

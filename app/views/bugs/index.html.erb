@@ -11,7 +11,7 @@
       <tbody>
         <tr>
           <%= render "columns", bug: bug %>
-          <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
+          <td><%= link_to "Show ", bug_path(bug.id), class:"btn btn-warning" %></td>
         </tr>
       </tbody>
     <% end %>

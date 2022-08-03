@@ -11,12 +11,12 @@
       <tbody>
         <tr>
           <%= render "columns", bug: bug %>
-            <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
+            <td><%= link_to "Show ", bug_path(bug.id), class:"btn btn-warning" %></td>
             <% if (current_user.qa?) %>
-              <td><%= link_to "Edit ", edit_code_piece_url(bug.id), class:"btn btn-primary" %></td>
-              <td><%= button_to "Destroy this Bug", code_piece_path(bug), class:"btn btn-danger btn-md", method: :delete %> </td>
+              <td><%= link_to "Edit ", edit_bug_url(bug.id), class:"btn btn-primary" %></td>
+              <td><%= button_to "Destroy this Bug", bug_path(bug), class:"btn btn-danger btn-md", method: :delete %> </td>
             <% else %>
-              <td><%= link_to "Edit Status", edit_code_piece_path(bug), class:"btn btn-secondary" %></td>
+              <td><%= link_to "Edit Status", edit_bug_path(bug), class:"btn btn-secondary" %></td>
             <% end %>
         </tr>
       </tbody>

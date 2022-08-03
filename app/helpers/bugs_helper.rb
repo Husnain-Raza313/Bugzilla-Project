@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module CodePiecesHelper
+module BugsHelper
   def screenshot_view(bug)
     if bug.screenshot.url.nil?
       ' (Screenshot Not Available) '

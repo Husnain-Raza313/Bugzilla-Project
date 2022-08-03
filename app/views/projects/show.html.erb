@@ -3,6 +3,13 @@
     <h3><%= @project.name %> </h3>
    <h3>Manager ID: <%= @project.user_id %> </h3>
     <br>
+    <h4>Assigned Users: </h4>
+    <% @userprojects.each do |userproject| %>
+        <i>UserID: <%= userproject.id %> , Username: <%= userproject.name %></i>
+        <br>
+    <% end %>
+    <br>
+    <br>
     <p class="lead">
       <%= link_to "Edit", edit_project_path(@project), class:"btn btn-secondary" %>
       <%= link_to "Show Project List", projects_path, class:"btn btn-dark" %>

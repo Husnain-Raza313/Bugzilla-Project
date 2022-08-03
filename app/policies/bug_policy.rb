@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CodePieceUserPolicy < ApplicationPolicy
+class BugPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     # def resolve
@@ -9,18 +9,34 @@ class CodePieceUserPolicy < ApplicationPolicy
   end
 
   def index?
-    user.developer?
+    user.qa? || user.developer?
   end
 
-  def show?
-    user.developer?
+  def edit?
+    update?
+  end
+
+  def update?
+    user.qa? || user.developer?
+  end
+
+  def new?
+    create?
   end
 
   def create?
-    user.developer?
+    user.qa?
   end
 
   def destroy?
+    user.qa?
+  end
+
+  def show?
+    user.qa? || user.developer?
+  end
+
+  def assigned?
     user.qa? || user.developer?
   end
 end

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  # has_many :code_pieces, dependent: :nullify
-  has_many :code_piece_users, dependent: :destroy
-  has_many :code_pieces, through: :code_piece_users
+  # has_many :bugs, dependent: :nullify
+  has_many :bug_users, dependent: :destroy
+  has_many :bugs, through: :bug_users
 
   has_many :user_projects, dependent: :destroy
   has_many :projects, through: :user_projects

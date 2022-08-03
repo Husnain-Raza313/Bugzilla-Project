@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class CodePieceUsersControllerTest < ActionDispatch::IntegrationTest
+class BugTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

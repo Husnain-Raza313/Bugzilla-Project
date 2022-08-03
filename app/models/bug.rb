@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class CodePiece < ApplicationRecord
+class Bug < ApplicationRecord
   belongs_to :project, optional: true # it allows foreign_key to be null
   belongs_to :user, optional: true
   # belongs_to :user, optional: true
-  has_many :code_piece_users, dependent: :destroy
-  has_many :users, through: :code_piece_users
+  has_many :bug_users, dependent: :destroy
+  has_many :users, through: :bug_users
 
   # validates :type, presence: true
   validates :title, presence: true, length: { maximum: 40, minimum: 5 }

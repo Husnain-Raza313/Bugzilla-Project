@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @userprojects = User.find(params[:id]).projects
     authorize @user
   end
 

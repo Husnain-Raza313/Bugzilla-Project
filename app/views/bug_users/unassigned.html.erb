@@ -4,15 +4,15 @@
       <thead >
         <tr class="table-dark">
           <%# <th scope="col">BUG ID</th> %>
-          <%= render "code_pieces/headings"%>
+          <%= render "bugs/headings"%>
         </tr>
       </thead>
     <% @bugs.each do |bug| %>
       <tbody>
         <tr>
-          <%= render "code_pieces/columns", bug: bug %>
-          <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
-          <td><%= link_to "Assign", code_piece_users_path(user_id: current_user.id, code_piece_id: bug.id), class:"btn btn-warning", method: :post%></td>
+          <%= render "bugs/columns", bug: bug %>
+          <td><%= link_to "Show ", bug_path(bug.id), class:"btn btn-warning" %></td>
+          <td><%= link_to "Assign", bug_users_path(user_id: current_user.id, bug_id: bug.id), class:"btn btn-warning", method: :post%></td>
         </tr>
       </tbody>
     <% end %>
