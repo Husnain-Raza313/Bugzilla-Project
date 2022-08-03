@@ -35,4 +35,8 @@ class CodePiecePolicy < ApplicationPolicy
   def show?
     user.qa? || user.developer?
   end
+
+  def assigned?
+    user.qa? || user.developer?
+  end
 end

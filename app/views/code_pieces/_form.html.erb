@@ -1,66 +1,54 @@
-<%= form_with(model: @bug) do |form| %>
-  <% if @bug.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(@bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
-
-      <ul>
-        <% @bug.errors.full_messages.each do |error| %>
-          <li><%= error %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
- <% if (current_user.developer? ) %>
+<%= form_with(model: @bug, local: true, :validate => true ) do |form| %>
+  <% if (current_user.developer? ) %>
     <div class="field">
-  <%= form.label :piece_status %><br />
-  <% if @bug.type == "Feature"%>
-   <%= form.select :piece_status, Feature.piece_statuses.keys.to_a %>
-   <% else %>
-    <%= form.select :piece_status, Bug.piece_statuses.keys.to_a %>
-   <% end %>
-  </div>
+      <%= form.label :piece_status %><br />
+      <%= form.select :piece_status, CodePiece.piece_statuses.keys.to_a %>
+    </div>
   <% else %>
+    <div class="form-group mb-2">
+      <%= form.label :title, style: "display: block"  %>
+      <%= form.text_field :title, class:"form-control w-50"%>
+    </div>
+    <div class="form-group mb-2">
+      <%= form.label :description, style: "display: block"%>
+      <%= form.text_field :description, class:"form-control w-50" %>
+    </div>
+    <div class="form-group mb-2">
+      <%= form.label :screenshot, style: "display: block" %>
+      <%= screenshot_field(@bug) %><br/>
+      <%= form.file_field :screenshot, style: "display: block" %><br/>
 
+    </div>
+    <div class="form-group mb-2">
+      <%= form.label :deadline, style: "display: block" %>
+      <%= form.date_field :deadline, class:"form-control" %>
+    </div>
+    <div class="form-group mb-2">
+      <% form.label :project_id, style: "display: block"%>
+      <%= form.text_field :project_id, class:"form-control", value: @bug.project_id, type: :hidden %>
+    </div>
+     <div class="form-group mb-2">
+     <% if @bug.piece_type.nil? %>
+        <%= form.radio_button :piece_type, 'Bug', checked: true, onClick: 'changeStatusforBug()' %> Bug<br />
+      <% else %>
+          <%= form.radio_button :piece_type, 'Bug', onClick: 'changeStatusforBug()', id: 'bug_id' %> Bug<br />
+      <% end %>
+        <%= form.radio_button :piece_type, 'Feature', onClick: 'changeStatusforFeature()', id: 'feature_id' %> Feature<br />
+    </div>
 
-  <div class="form-group mb-2">
-    <%= form.label :title, style: "display: block"  %>
-    <%= form.text_field :title, class:"form-control w-50"%>
-  </div>
-
-  <div class="form-group mb-2">
-    <%= form.label :description, style: "display: block"%>
-    <%= form.text_field :description, class:"form-control w-50" %>
-  </div>
-
-  <div class="form-group mb-2">
-    <%= form.label :screenshot, style: "display: block" %>
-    <%= form.file_field :screenshot, class:"" %>
-  </div>
-
-  <div class="form-group mb-2">
-    <%= form.label :deadline, style: "display: block" %>
-    <%= form.date_field :deadline, class:"form-control" %>
-  </div>
-
-  <div class="form-group mb-2">
-    <% form.label :project_id, style: "display: block"%>
-    <%= form.text_field :project_id, class:"form-control", value: @bug.project_id, type: :hidden %>
-  </div>
-
-  <div class="field">
-  <%= form.label :piece_status %><br />
-  <% if @bug.type == "Feature"%>
-   <%= form.select :piece_status, Feature.piece_statuses.keys.to_a %>
-   <% else %>
-    <%= form.select :piece_status, Bug.piece_statuses.keys.to_a %>
-   <% end %>
-  </div>
-
+        <div class="field", id= "bug_status">
+      <%= form.label :piece_status %><br />
+      <%= form.select(:piece_status, [['new'],['started'],['resolved']]) %>
+    </div>
+    <div class="field status_class" , id= "feature_status" >
+      <%= form.label :piece_status %><br />
+      <%= form.select(:piece_status, [['new'],['started'],['completed', 'resolved']]) %>
+    </div>
 
   <% end %>
-
   <div>
+  <%= javascript_tag "checkStatus()" %>
   <br>
-    <%= form.submit class:"btn btn-secondary"%>
+    <%= form.submit class:"btn btn-success"%>
   </div>
 <% end %>

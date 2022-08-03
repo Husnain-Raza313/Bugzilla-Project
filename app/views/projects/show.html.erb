@@ -1,25 +1,16 @@
-
-
-
-
 <div class="jumbotron-index m-5 mt-0">
-<div class="jumbotron ">
-  <h1 class="display-4"><%= @project.name %> </h1>
-  <br>
-
-  <p class="lead">
-     <%= link_to "Edit", edit_project_path(@project), class:"btn btn-secondary" %>
-  <%= link_to "Show Project List", projects_path, class:"btn btn-dark" %>
-
-  </p>
+  <div class="jumbotron ">
+    <h3><%= @project.name %> </h3>
+   <h3>Manager ID: <%= @project.user_id %> </h3>
+    <br>
+    <p class="lead">
+      <%= link_to "Edit", edit_project_path(@project), class:"btn btn-secondary" %>
+      <%= link_to "Show Project List", projects_path, class:"btn btn-dark" %>
+    </p>
+  </div>
 </div>
-
-<div>
-
-
-  <%= button_to "Destroy this project", @project, class:"btn btn-danger btn-md", method: :delete %>
-
-  <br>
-  <br>
-  <%= link_to "Back To Home", authenticated_root_path, class:"btn btn-primary btn-lg" %>
+<%= button_to "Destroy this project", @project, class:"btn btn-danger btn-md", method: :delete %>
+<br>
+<br>
+<%= link_to "Back To Home", authenticated_root_path, class:"btn btn-primary btn-lg" %>
 

@@ -19,4 +19,15 @@
     font-size: 5rem;
   }
  }
+ .field_with_errors{
 
+  display: inline;
+ }
+ .message{
+  color: red;
+  font-size: 14px;
+ }
+
+.status_class{
+  display: none;
+}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_21_074843) do
+ActiveRecord::Schema.define(version: 2022_08_02_110357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,18 +32,22 @@ ActiveRecord::Schema.define(version: 2022_07_21_074843) do
     t.date "deadline"
     t.text "description"
     t.string "screenshot"
-    t.string "type"
+    t.string "piece_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["project_id"], name: "index_code_pieces_on_project_id"
     t.index ["title", "project_id"], name: "index_code_pieces_on_title_and_project_id", unique: true
+    t.index ["user_id"], name: "index_code_pieces_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", null: false
+    t.bigint "user_id"
     t.index ["name"], name: "index_projects_on_name", unique: true
+    t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "user_projects", force: :cascade do |t|
@@ -52,6 +56,7 @@ ActiveRecord::Schema.define(version: 2022_07_21_074843) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "manager_id"
     t.index ["project_id"], name: "index_user_projects_on_project_id"
     t.index ["user_id"], name: "index_user_projects_on_user_id"
   end

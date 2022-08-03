@@ -1,27 +1,28 @@
-<h1 class='m-3'>Assigned Projects</h1>
+<h1 class='m-3'><%= @user.name %>'s Assigned Projects</h1>
 <div class="m-3">
-<table class="table table-hover table-striped table-bordered">
-  <thead >
-    <tr class="table-dark">
-      <%= render "headings"%>
-    </tr>
-  </thead>
-  <% @projects.each do |project| %>
-    <tbody>
-    <tr>
-     <%= render "columns", project: project %>
-
-      <td><%= link_to "Show ", project, class:"btn btn-primary" %></td>
-      <td><%= link_to "Remove Project ", user_user_project_url(@user.id, project.id), class:"btn btn-danger", method: :delete %></td>
-
-
-    </tr>
-  </tbody>
-
-  <% end %>
+  <table class="table table-hover table-striped table-bordered">
+    <thead >
+      <tr class="table-dark">
+        <%= render "headings"%>
+      </tr>
+    </thead>
+    <% @projects.each do |project| %>
+      <tbody>
+        <tr>
+        <%= render "columns", project: project %>
+          <% if project.user_id == current_user.id%>
+            <td><%= link_to "Show ", project, class:"btn btn-primary" %></td>
+            <td><%= link_to "Remove Project ", user_user_project_url(@user.id, project.id), class:"btn btn-danger", method: :delete %></td>
+          <% else %>
+            <td><button class="btn btn-primary disabled"> Show</button></td>
+            <td><button class="btn btn-danger disabled"> Remove Project</button></td>
+          <% end %>
+        </tr>
+      </tbody>
+    <% end %>
   </table>
-  <%= link_to "Show Unassigned Projects", user_project_path(@user.id), class:"btn btn-warning" %>
+  <%= link_to "Unassigned Projects", user_project_path(@user.id), class:"btn btn-dark" %>
   <br/>
   <br/>
   <%= link_to "Back To Users", users_path, class:"btn btn-primary" %>
-  </div>
+</div>

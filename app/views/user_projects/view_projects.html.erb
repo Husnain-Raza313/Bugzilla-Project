@@ -1,32 +1,46 @@
-<h1 class='m-3'>Assigned Projects </h1>
+<h1><%= panel_heading(current_user) %> </h1>
+<div class="container" >
+  <div class="row">
+    <div class='col-lg-3'>
+      <%= render "home/userpfp" %>
+    </div>
+    <div class='col-lg-9'>
+      <h1 class='m-3'>Assigned Projects </h1>
+      <div class="m-3">
+        <table class="table table-hover table-striped table-bordered">
+          <thead >
+            <tr class="table-dark">
+              <%= render "headings" %>
+            </tr>
+          </thead>
+          <% @projects.each do |project| %>
+            <tbody>
+              <tr>
+                <th scope="row"><%= project.project_id %></th>
+                <td><%= project.name %></td>
+                <td><%= project.manager_id %></td>
+                <td><%= project.created_at %></td>
+                <td><%= project.updated_at %></td>
+              <% if current_user.developer? %>
+                <td><%= link_to "Assign Bugs", project_code_piece_users_path(project.project_id), class:"btn btn-success" %></td>
+                <td><%= link_to "Remove Bugs", code_piece_user_path(project.project_id), class:"btn btn-danger" %></td>
+              <% elsif current_user.qa? %>
+                <td><%= link_to "Create A Bug", new_project_code_piece_url(project.project_id), class:"btn btn-warning" %></td>
+              <% end %>
+              </tr>
+            </tbody>
+          <% end %>
+        </table>
+        <p class="lead">
+          <%= link_to "View Bugs", code_pieces_path, class:"btn btn-dark" %>
+          <%= link_to "My Bugs", assigned_bugs_path, class:"btn btn-success" %>
+          <% if current_user.qa? %>
+            <%= link_to "All Projects", projects_url, class:"btn btn-primary" %>
+          <% end %>
+        </p>
 
-<div class="m-3">
-<table class="table table-hover table-striped table-bordered">
-  <thead >
-    <tr class="table-dark">
-      <%= render "headings" %>
-    </tr>
-  </thead>
-    <% @projects.each do |project| %>
-
-    <tbody>
-    <tr>
-      <%= render "columns", project: project %>
-
-    <% if current_user.developer? %>
-      <td><%= link_to "Unassigned Bugs", project_code_piece_users_path(project.project_id), class:"btn btn-warning" %></td>
-      <td><%= link_to "Assigned Bugs", code_piece_user_path(project.project_id), class:"btn btn-success" %></td>
-    <% elsif current_user.qa? %>
-      <td><%= link_to "Create A Bug", new_project_bug_url(project.project_id), class:"btn btn-warning" %></td>
-     <td><%= link_to "Create A Feature", new_project_feature_url(project.project_id), class:"btn btn-primary" %></td>
-    <% end %>
-    </tr>
-  </tbody>
-
-  <% end %>
-
-  </table>
-
-  <%= link_to "Back To Home", authenticated_root_path, class:"btn btn-primary" %>
+      </div>
+    </div>
   </div>
+</div>
 

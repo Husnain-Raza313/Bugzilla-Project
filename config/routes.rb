@@ -10,8 +10,7 @@ Rails.application.routes.draw do
 
 
       resources :projects do
-        resources :bugs, only: [:new]
-        resources :features, only: [:new]
+        resources :code_pieces, only: [:new]
         resources :code_piece_users, only: [:index] #index is for unassigned bugs
       end
 
@@ -19,16 +18,14 @@ Rails.application.routes.draw do
         resources :user_projects, only: [:index, :destroy]
       end
 
-      resources :code_pieces
-      resources :bugs, only: %i[update create]
-      resources :features, only: %i[update create]
-
+      resources :code_pieces, except: [:new]
       resources :user_projects, only: [:create, :show] #using show action to show unassigned Projects
 
       resources :code_piece_users, except: [:index] #show is for assigned bugs
 
 
-      get '/userprojects/viewprojects/:id', to: 'user_projects#view_projects', as: :view_projects
+      get '/userprojects/viewprojects', to: 'user_projects#view_projects', as: :view_projects
+      get '/userbugs', to: 'code_pieces#assigned', as: :assigned_bugs
 
 
     end

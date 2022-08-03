@@ -2,7 +2,9 @@
 
 class CodePieceUsersController < ApplicationController
   before_action :check_bug, only: %i[destroy]
+  before_action :create_check_bug, only: %i[create]
   before_action :set_destroy_bug, only: %i[destroy]
+  before_action :check_project, only: %i[index show]
 
   def index
     authorize CodePieceUser
@@ -21,17 +23,16 @@ class CodePieceUsersController < ApplicationController
 
   def create
     authorize CodePieceUser
-    bug1 = CodePiece.find(params[:code_piece_id])
-    # CodePieceUser.create(code_piece_user_params)
+    @bug = CodePiece.find(params[:code_piece_id])
 
     if CodePieceUser.create(code_piece_user_params)
       flash[:success] = 'Bug was successfully Assigned.'
 
     else
-      flash[:error] = bug1.errors.full_messages.to_sentence
+      flash[:error] = @bug.errors.full_messages.to_sentence
     end
 
-    redirect_to action: 'index', project_id: bug1.project_id
+    redirect_to action: 'index', project_id: @bug.project_id
   end
 
   def destroy
@@ -51,17 +52,14 @@ class CodePieceUsersController < ApplicationController
   private
 
   def check_bug
-    user = CodePieceUser.where(code_piece_id: params[:id]).pluck(:user_id)
-
-    check_user unless current_user.id.in?(user)
+    user_not_authorized if CodePieceUser.where(code_piece_id: params[:id], user_id: current_user.id).take.nil?
   end
 
-  # def create_check_bug
-  #   user = CodePieceUser.where(code_piece_id: params[:code_piece_id]).pluck(:user_id)
+  def create_check_bug
+    project_id = CodePiece.where(id: params[:code_piece_id]).pluck(:project_id)
+    user_not_authorized if UserProject.where(project_id: project_id, user_id: current_user.id).take.nil?
+  end
 
-  #     check_user unless current_user.id.in?(user)
-
-  # end
   def set_destroy_bug
     @bug = CodePieceUser.where(code_piece_id: params[:id]).pluck(:id)
   end
@@ -74,5 +72,11 @@ class CodePieceUsersController < ApplicationController
 
   def code_piece_user_params
     params.permit(:user_id, :code_piece_id)
+  end
+
+  def check_project
+    project_id = params[:project_id].nil? ? params[:id] : params[:project_id]
+
+    user_not_authorized if UserProject.where(project_id: project_id, user_id: current_user.id).take.nil?
   end
 end

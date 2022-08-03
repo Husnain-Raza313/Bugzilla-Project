@@ -17,11 +17,11 @@ class UserProjectPolicy < ApplicationPolicy
   end
 
   def create?
-    user.manager?
+    user.manager? && record.manager_id == user.id
   end
 
   def destroy?
-    user.manager?
+    user.manager? && record.manager_id == user.id
   end
 
   def view_projects?
