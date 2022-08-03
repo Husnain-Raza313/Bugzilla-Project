@@ -1,17 +1,22 @@
 <div class="jumbotron-index m-5 mt-0">
   <div class="jumbotron ">
-    <h4 class="display-4"><%= @user.id %> </h4>
-    <h4 class="display-4"><%= @user.name %> </h4>
-    <h4 class="display-4"><%= @user.email%> </h4>
-    <h4 class="display-4"><%= @user.user_type.capitalize %> </h4>
+    <h4>UserID: <%= @user.id %> </h4>
+    <h4>Username: <%= @user.name %> </h4>
+    <h4>Email: <%= @user.email%> </h4>
+    <h4>Type: <%= @user.user_type.capitalize %> </h4>
+    <br>
+    <h4>Assigned Projects: </h4>
+    <% @userprojects.each do |userproject| %>
+        <i>ProjectID: <%= userproject.id %> , Project Name: <%= userproject.name %></i>
+        <br>
+    <% end %>
+    <br>
     <br>
     <p class="lead">
-      <%# <%= link_to "Edit", edit_project_path(@project), class:"btn btn-secondary" %>
     <%= link_to "Show Users List", users_path, class:"btn btn-dark" %>
     </p>
   </div>
 <div>
-  <%# <%= button_to "Destroy this Project", @project, class:"btn btn-danger btn-md", method: :delete %>
   <br>
   <br>
   <%= link_to "Back To Home", authenticated_root_path, class:"btn btn-primary btn-lg" %>
