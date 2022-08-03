@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_03_070528) do
+ActiveRecord::Schema.define(version: 2022_08_03_074556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bug_users", force: :cascade do |t|
+    t.bigint "bug_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bug_id", "user_id"], name: "index_bug_users_on_bug_id_and_user_id", unique: true
+    t.index ["bug_id"], name: "index_bug_users_on_bug_id"
+    t.index ["user_id"], name: "index_bug_users_on_user_id"
+  end
 
   create_table "bugs", force: :cascade do |t|
     t.bigint "project_id"
@@ -29,16 +39,6 @@ ActiveRecord::Schema.define(version: 2022_08_03_070528) do
     t.index ["project_id"], name: "index_bugs_on_project_id"
     t.index ["title", "project_id"], name: "index_bugs_on_title_and_project_id", unique: true
     t.index ["user_id"], name: "index_bugs_on_user_id"
-  end
-
-  create_table "code_piece_users", force: :cascade do |t|
-    t.bigint "code_piece_id"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["code_piece_id", "user_id"], name: "index_code_piece_users_on_code_piece_id_and_user_id", unique: true
-    t.index ["code_piece_id"], name: "index_code_piece_users_on_code_piece_id"
-    t.index ["user_id"], name: "index_code_piece_users_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2022_08_03_070528) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bug_users", "bugs"
+  add_foreign_key "bug_users", "users"
   add_foreign_key "bugs", "projects"
-  add_foreign_key "code_piece_users", "bugs", column: "code_piece_id"
-  add_foreign_key "code_piece_users", "users"
 end
