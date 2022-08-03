@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Bug < ApplicationRecord
   belongs_to :project, optional: true # it allows foreign_key to be null
   belongs_to :user, optional: true

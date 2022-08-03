@@ -12,7 +12,6 @@
         <tr>
           <%= render "bugs/columns", bug: bug %>
           <td><%= link_to "Show ", bug_path(bug.id), class:"btn btn-warning" %></td>
-          <td><%= link_to "Edit Status", edit_bug_path(bug), class:"btn btn-secondary" %></td>
           <td><%= link_to "Remove", bug_user_path(bug.id), class:"btn btn-danger", method: :delete %></td>
         </tr>
       </tbody>

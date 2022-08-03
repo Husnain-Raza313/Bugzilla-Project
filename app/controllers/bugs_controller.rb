@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BugsController < ApplicationController
   # frozen_string_literal: true
   before_action :check_authorization, only: %i[destroy edit update]
@@ -26,7 +28,7 @@ class BugsController < ApplicationController
     else
       flash[:error] = @bug.errors.full_messages.to_sentence
     end
-    redirect_to bugs_path
+    redirect_to assigned_bugs_path
   end
 
   def create
@@ -75,7 +77,7 @@ class BugsController < ApplicationController
       params.require(:bug).permit(:piece_status)
     else
       params.require(:bug).permit(:id, :piece_status, :description, :title, :project_id, :deadline, :screenshot,
-                                         :piece_type).merge(user_id: current_user.id)
+                                  :piece_type).merge(user_id: current_user.id)
     end
   end
 
@@ -111,4 +113,3 @@ class BugsController < ApplicationController
     user_not_authorized if UserProject.where(project_id: @bug.project_id, user_id: current_user.id).take.nil?
   end
 end
-

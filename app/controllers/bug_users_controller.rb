@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BugUsersController < ApplicationController
   # frozen_string_literal: true
   before_action :check_bug, only: %i[destroy]
@@ -79,4 +81,3 @@ class BugUsersController < ApplicationController
     user_not_authorized if UserProject.where(project_id: project_id, user_id: current_user.id).take.nil?
   end
 end
-

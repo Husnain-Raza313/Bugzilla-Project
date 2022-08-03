@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @userprojects = User.find(params[:id]).projects
     authorize @user
   end
 
@@ -17,7 +18,6 @@ class UsersController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
-    @userprojects = User.find(params[:id]).projects
   end
 
   # Only allow a list of trusted parameters through.

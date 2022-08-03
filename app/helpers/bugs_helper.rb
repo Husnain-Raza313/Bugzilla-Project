@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BugsHelper
   def screenshot_view(bug)
     if bug.screenshot.url.nil?
