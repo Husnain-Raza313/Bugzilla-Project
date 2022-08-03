@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CodePiecePolicy < ApplicationPolicy
+class BugPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     # def resolve

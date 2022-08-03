@@ -2,7 +2,7 @@
 
 class CodePieceUser < ApplicationRecord
   belongs_to :user
-  belongs_to :code_piece
+  belongs_to :bug
 
   # belongs_to :project
 

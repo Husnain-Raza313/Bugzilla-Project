@@ -3,17 +3,17 @@
   <table class="table table-hover table-striped table-bordered">
     <thead >
       <tr class="table-dark">
-        <%= render "code_pieces/headings"%>
+        <%= render "bugs/headings"%>
         <th scope="col"></th>
       </tr>
     </thead>
     <% @bugs.each do |bug| %>
       <tbody>
         <tr>
-          <%= render "code_pieces/columns", bug: bug %>
-          <td><%= link_to "Show ", code_piece_path(bug.id), class:"btn btn-warning" %></td>
-          <td><%= link_to "Edit Status", edit_code_piece_path(bug), class:"btn btn-secondary" %></td>
-          <td><%= link_to "Remove", code_piece_user_path(bug.id), class:"btn btn-danger", method: :delete %></td>
+          <%= render "bugs/columns", bug: bug %>
+          <td><%= link_to "Show ", bug_path(bug.id), class:"btn btn-warning" %></td>
+          <td><%= link_to "Edit Status", edit_bug_path(bug), class:"btn btn-secondary" %></td>
+          <td><%= link_to "Remove", bug_user_path(bug.id), class:"btn btn-danger", method: :delete %></td>
         </tr>
       </tbody>
     <% end %>
