@@ -9,6 +9,20 @@ class BugsController < ApplicationController
     project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
     @bugs = Bug.where(project_id: project_id)
   end
+  def dev_index
+    #unassigned bugs
+    # ids = BugUser.where(user_id: current_user.id).pluck(:bug_id)
+    # @bugs = Bug.where.not(id: ids).where(project_id: params[:project_id])
+    @bugs=Bug.where.not(dev_id: nil).where(project_id: params[:project_id])
+    render 'unassigned'
+  end
+  def show
+    # authorize BugUser
+    # ids = BugUser.where(user_id: current_user.id).pluck(:bug_id)
+    @bugs = Bug.where(dev_id: current_user.id, project_id: params[:id])
+
+    render 'assigned'
+  end
 
   def show
     authorize Bug
