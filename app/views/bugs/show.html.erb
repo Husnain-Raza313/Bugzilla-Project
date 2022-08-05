@@ -14,7 +14,7 @@
     <br>
     <p class="lead">
     <%= link_to "All Bugs List", bugs_path, class:"btn btn-lg btn-warning mr-5" %>
-    <%= link_to "My Bugs", assigned_bugs_path, class:"btn btn-lg btn-success" %>
+    <%= link_to "My Bugs", assigned_bugs_path(@bug.project_id), class:"btn btn-lg btn-success" %>
   </div>
 </div>
   <br>
