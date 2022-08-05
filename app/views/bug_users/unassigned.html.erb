@@ -12,7 +12,7 @@
         <tr>
           <%= render "bugs/columns", bug: bug %>
           <td><%= link_to "Show ", bug_path(bug.id), class:"btn btn-warning" %></td>
-          <td><%= link_to "Assign", bug_users_path(user_id: current_user.id, bug_id: bug.id), class:"btn btn-warning", method: :post%></td>
+          <td><%= link_to "Assign", new_project_bug_url(bug.id), class:"btn btn-warning"%></td>
         </tr>
       </tbody>
     <% end %>

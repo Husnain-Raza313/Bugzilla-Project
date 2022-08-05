@@ -2,8 +2,6 @@
 
 class Bug < ApplicationRecord
   belongs_to :project, optional: true # it allows foreign_key to be null
-  belongs_to :qa, class_name: 'User'
-  belongs_to :developer, class_name: 'User', optional: true
   has_many :bug_users, dependent: :destroy
   has_many :users, through: :bug_users
 

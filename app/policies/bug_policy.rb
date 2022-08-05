@@ -29,7 +29,7 @@ class BugPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.qa?
+    user.qa? || user.developer?
   end
 
   def show?
@@ -38,5 +38,9 @@ class BugPolicy < ApplicationPolicy
 
   def assigned?
     user.qa? || user.developer?
+  end
+
+  def dev_create?
+    user.developer?
   end
 end

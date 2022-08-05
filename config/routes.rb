@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
 
       resources :projects do
-        resources :bugs, only: [:new]
+        resources :bugs, only: [:new, :index]
         resources :bug_users, only: [:index] #index is for unassigned bugs
       end
 
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
 
       get '/userprojects/viewprojects', to: 'user_projects#view_projects', as: :view_projects
-      get '/userbugs', to: 'bugs#assigned', as: :assigned_bugs
+      get '/userbugs/:id', to: 'bugs#assigned', as: :assigned_bugs
 
 
     end
