@@ -3,8 +3,9 @@
 class BugsController < ApplicationController
   # frozen_string_literal: true
   before_action :check_authorization, only: %i[destroy edit update]
-  before_action :check_user, only: %i[new show]
+  before_action :check_user, only: %i[show]
   before_action :bug_params, only: %i[update]
+  before_action :set_bug, only: %i[destroy]
   def index
     authorize Bug
     dev_index if params[:project_id].present?
@@ -12,62 +13,12 @@ class BugsController < ApplicationController
     @bugs = Bug.where(project_id: project_id)
   end
 
-  def dev_index
-    unless check_project
-      @bugs = Bug.where.not(id: bug_found).where(project_id: params[:project_id])
-      render 'bug_users/unassigned'
-    end
-  end
-
-  def dev_show
-    # authorize BugUser
-    # ids = BugUser.where(user_id: current_user.id).pluck(:bug_id)
-    unless check_project
-      @bugs = Bug.where(id: bug_found, project_id: params[:id])
-      render 'bug_users/assigned'
-    end
-  end
-
-  def dev_create
-    unless check_dev_create
-      @bug = Bug.find(params[:project_id])
-      dev = @bug.developer_ids unless @bug.developer_ids.nil?
-      dev.push(current_user.id)
-      if @bug.update(developer_ids: dev)
-        flash[:success] = 'Bug was successfully Assigned.'
-
-      else
-        flash[:error] = @bug.errors.full_messages.to_sentence
-      end
-
-      redirect_to project_bugs_path(@bug.project_id)
-    end
-  end
-
-  def dev_destroy
-    project_id = Bug.where(id: params[:id]).pluck(:project_id)
-    @bug = Bug.find(params[:id])
-    dev = @bug.developer_ids
-    dev.delete(current_user.id.to_s)
-
-    if @bug.update(developer_ids: dev)
-      flash[:success] = 'Bug was successfully unassigned.'
-
-    else
-      flash[:error] = @bug.errors.full_messages.to_sentence
-    end
-
-    redirect_to assigned_bugs_path(project_id)
-  end
-
   def show
     authorize Bug
-    @bug = Bug.find(params[:id])
   end
 
   def edit
     authorize Bug
-    @bug = Bug.find(params[:id])
   end
 
   def destroy
@@ -75,8 +26,6 @@ class BugsController < ApplicationController
     if current_user.developer?
       dev_destroy
     else
-      @bug = Bug.find(params[:id])
-
       if @bug.destroy
         flash[:success] = 'Bug was successfully destroyed.'
 
@@ -102,7 +51,6 @@ class BugsController < ApplicationController
 
   def update
     authorize Bug
-    @bug = Bug.find(params[:id])
     respond_to do |format|
       if @bug.update(bug_params)
         format.html { redirect_to bug_url(@bug.id), flash: { success: 'Bug was successfully updated.' } }
@@ -116,6 +64,7 @@ class BugsController < ApplicationController
     if current_user.developer?
       dev_create
     else
+      check_user
       authorize Bug
       @bug = Bug.new(project_id: params[:project_id])
       render 'bugs/new'
@@ -131,6 +80,49 @@ class BugsController < ApplicationController
     end
   end
 
+  def dev_index
+    return if check_project
+
+    @bugs = Bug.where.not(id: bug_found).where(project_id: params[:project_id])
+    render 'unassigned'
+  end
+
+  def dev_show
+    # authorize BugUser
+    # ids = BugUser.where(user_id: current_user.id).pluck(:bug_id)
+    return if check_project
+
+    @bugs = Bug.where(id: bug_found, project_id: params[:id])
+    render 'dev_show'
+  end
+
+  def dev_create
+    return if check_dev_create
+
+    @bug = Bug.find(params[:project_id])
+    if add_id
+      flash[:success] = 'Bug was successfully Assigned.'
+
+    else
+      flash[:error] = @bug.errors.full_messages.to_sentence
+    end
+
+    redirect_to project_bugs_path(@bug.project_id)
+  end
+
+  def dev_destroy
+    project_id = Bug.where(id: params[:id]).pluck(:project_id)
+
+    if delete_id
+      flash[:success] = 'Bug was successfully unassigned.'
+
+    else
+      flash[:error] = @bug.errors.full_messages.to_sentence
+    end
+
+    redirect_to assigned_bugs_path(project_id)
+  end
+
   private
 
   # Only allow a list of trusted parameters through.
@@ -144,6 +136,7 @@ class BugsController < ApplicationController
   end
 
   def check_authorization
+    set_bug
     if current_user.qa?
       check_qa
     elsif current_user.developer?
@@ -152,12 +145,10 @@ class BugsController < ApplicationController
   end
 
   def check_qa
-    @bug = Bug.find(params[:id])
     user_not_authorized if Bug.where(id: params[:id], qa_id: current_user.id).take.nil?
   end
 
   def check_dev
-    @bug = Bug.find(params[:id])
     user_not_authorized unless @bug.developer_ids.include?(current_user.id.to_s)
   end
 
@@ -165,14 +156,14 @@ class BugsController < ApplicationController
     project_id = @bug.nil? ? params[:project_id] : @bug.project_id
     if project_id.nil?
       check_show
-    elsif UserProject.where(project_id: project_id, user_id: current_user.id).take.nil?
-      user_not_authorized
+    else
+      user_authorization(project_id)
     end
   end
 
   def check_show
-    @bug = Bug.find(params[:id])
-    user_not_authorized if UserProject.where(project_id: @bug.project_id, user_id: current_user.id).take.nil?
+    set_bug
+    user_authorization(@bug.project_id)
   end
 
   def bug_found
@@ -182,17 +173,34 @@ class BugsController < ApplicationController
     @bugs.sort.each do |bug|
       ids.push(bug.id) if bug.developer_ids.include?(current_user.id.to_s)
     end
-
     ids
   end
 
   def check_dev_create
     id = Bug.where(id: params[:project_id]).pluck(:project_id)
-    user_not_authorized if UserProject.where(project_id: id, user_id: current_user.id).take.nil?
+    user_authorization(id)
   end
 
   def check_project
     project_id = params[:project_id].nil? ? params[:id] : params[:project_id]
-    user_not_authorized if UserProject.where(project_id: project_id, user_id: current_user.id).take.nil?
+    user_authorization(project_id)
+  end
+
+  def user_authorization(id)
+    user_not_authorized if UserProject.where(project_id: id, user_id: current_user.id).take.nil?
+  end
+
+  def set_bug
+    @bug = Bug.find(params[:id])
+  end
+
+  def delete_id
+    @bug.developer_ids.delete(current_user.id.to_s)
+    @bug.update(developer_ids: @bug.developer_ids)
+  end
+
+  def add_id
+    @bug.developer_ids.push(current_user.id)
+    @bug.update(developer_ids: @bug.developer_ids)
   end
 end
