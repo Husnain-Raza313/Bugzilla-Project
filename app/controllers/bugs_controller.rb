@@ -88,8 +88,6 @@ class BugsController < ApplicationController
   end
 
   def dev_show
-    # authorize BugUser
-    # ids = BugUser.where(user_id: current_user.id).pluck(:bug_id)
     return if check_project
 
     @bugs = Bug.where(id: bug_found, project_id: params[:id])
@@ -138,38 +136,25 @@ class BugsController < ApplicationController
   def check_authorization
     set_bug
     if current_user.qa?
-      check_qa
+      user_not_authorized unless @bug.qa_id == current_user.id
     elsif current_user.developer?
-      check_dev
+      user_not_authorized unless @bug.developer_ids.include?(current_user.id.to_s)
     end
-  end
-
-  def check_qa
-    user_not_authorized if Bug.where(id: params[:id], qa_id: current_user.id).take.nil?
-  end
-
-  def check_dev
-    user_not_authorized unless @bug.developer_ids.include?(current_user.id.to_s)
   end
 
   def check_user
     project_id = @bug.nil? ? params[:project_id] : @bug.project_id
     if project_id.nil?
-      check_show
+      set_bug
+      user_authorization(@bug.project_id)
     else
       user_authorization(project_id)
     end
   end
 
-  def check_show
-    set_bug
-    user_authorization(@bug.project_id)
-  end
-
   def bug_found
     ids = []
     @bugs = Bug.all
-
     @bugs.sort.each do |bug|
       ids.push(bug.id) if bug.developer_ids.include?(current_user.id.to_s)
     end
