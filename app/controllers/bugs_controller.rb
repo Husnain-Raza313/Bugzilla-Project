@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class BugsController < ApplicationController
-  # frozen_string_literal: true
-  # before_action :check_authorization, only: %i[destroy edit update]
   before_action :check_user, only: %i[show]
   before_action :bug_params, only: %i[update]
   before_action :set_bug, only: %i[destroy edit update]
@@ -28,7 +26,6 @@ class BugsController < ApplicationController
     else
       if @bug.destroy
         flash[:success] = 'Bug was successfully destroyed.'
-
       else
         flash[:error] = @bug.errors.full_messages.to_sentence
       end
@@ -123,7 +120,6 @@ class BugsController < ApplicationController
 
   private
 
-  # Only allow a list of trusted parameters through.
   def bug_params
     if current_user.developer?
       params.require(:bug).permit(:piece_status)
@@ -132,6 +128,7 @@ class BugsController < ApplicationController
                                   :piece_type).merge(qa_id: current_user.id)
     end
   end
+
   def check_user
     project_id = @bug.nil? ? params[:project_id] : @bug.project_id
     if project_id.nil?
