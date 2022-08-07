@@ -2,10 +2,10 @@
 
 class BugsController < ApplicationController
   # frozen_string_literal: true
-  before_action :check_authorization, only: %i[destroy edit update]
+  # before_action :check_authorization, only: %i[destroy edit update]
   before_action :check_user, only: %i[show]
   before_action :bug_params, only: %i[update]
-  before_action :set_bug, only: %i[destroy]
+  before_action :set_bug, only: %i[destroy edit update]
   def index
     authorize Bug
     dev_index if params[:project_id].present?
@@ -18,11 +18,11 @@ class BugsController < ApplicationController
   end
 
   def edit
-    authorize Bug
+    authorize @bug
   end
 
   def destroy
-    authorize Bug
+    authorize @bug
     if current_user.developer?
       dev_destroy
     else
@@ -50,7 +50,7 @@ class BugsController < ApplicationController
   end
 
   def update
-    authorize Bug
+    authorize @bug
     respond_to do |format|
       if @bug.update(bug_params)
         format.html { redirect_to bug_url(@bug.id), flash: { success: 'Bug was successfully updated.' } }
@@ -132,16 +132,6 @@ class BugsController < ApplicationController
                                   :piece_type).merge(qa_id: current_user.id)
     end
   end
-
-  def check_authorization
-    set_bug
-    if current_user.qa?
-      user_not_authorized unless @bug.qa_id == current_user.id
-    elsif current_user.developer?
-      user_not_authorized unless @bug.developer_ids.include?(current_user.id.to_s)
-    end
-  end
-
   def check_user
     project_id = @bug.nil? ? params[:project_id] : @bug.project_id
     if project_id.nil?
