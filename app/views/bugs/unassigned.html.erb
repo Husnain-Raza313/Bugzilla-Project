@@ -11,7 +11,7 @@
         <tr>
           <%= render "bugs/columns", bug: bug %>
           <td><%= link_to "Show ", bug_path(bug.id), class:"btn btn-warning" %></td>
-          <td><%= link_to "Assign", new_project_bug_url(bug.id), class:"btn btn-warning"%></td>
+          <td><%= link_to "Assign", new_project_bug_url(bug.id), class:"btn btn-success"%></td>
         </tr>
       </tbody>
     <% end %>
