@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       root 'home#index', as: :authenticated_root
 
       resources :projects do
-        resources :bugs, only: [:new, :index]
+        resources :bugs, only: [:new]
       end
 
       resources :users do
@@ -16,8 +16,12 @@ Rails.application.routes.draw do
       resources :bugs, except: [:new]
       resources :user_projects, only: [:create, :show]
 
+      namespace :developer do
+        resources :bugs, only: [:index, :new, :destroy]
+      end
+
       get '/userprojects/viewprojects', to: 'user_projects#view_projects', as: :view_projects
-      get '/assigned/:id', to: 'bugs#assigned', as: :assigned_bugs
+      get '/project/bugs/:project_id', to: 'developer/bugs#project_bugs', as: :project_bugs
 
     end
 

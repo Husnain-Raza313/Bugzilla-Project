@@ -9,7 +9,7 @@ class BugPolicy < ApplicationPolicy
   end
 
   def index?
-    user.qa? || user.developer?
+    user.qa?
   end
 
   def edit?
@@ -29,18 +29,10 @@ class BugPolicy < ApplicationPolicy
   end
 
   def destroy?
-    (user.qa? && record.qa_id == user.id) || (user.developer? && record.developer_ids.include?(user.id.to_s))
+    (user.qa? && record.qa_id == user.id)
   end
 
   def show?
     user.qa? || user.developer?
-  end
-
-  def assigned?
-    user.qa? || user.developer?
-  end
-
-  def dev_create?
-    user.developer?
   end
 end

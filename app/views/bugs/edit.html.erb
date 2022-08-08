@@ -3,6 +3,6 @@
 <%= render "bugs/form", bug: @bug %>
 <br>
 <div>
-  <%= link_to "My Bugs", assigned_bugs_path("list"), class:"btn btn-success" %><br/><br/>
+  <%= render "layouts/dev_qa_buttons" %>
   <%= link_to "Back To Home", authenticated_root_path, class:'btn btn-primary'%>
 </div>

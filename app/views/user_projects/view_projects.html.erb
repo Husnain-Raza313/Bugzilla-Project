@@ -22,8 +22,8 @@
                 <td><%= project.created_at %></td>
                 <td><%= project.updated_at %></td>
               <% if current_user.developer? %>
-                <td><%= link_to "Assign Bugs", project_bugs_path(project.project_id), class:"btn btn-success" %></td>
-                <td><%= link_to "Remove Bugs", assigned_bugs_path(project.project_id), class:"btn btn-danger" %></td>
+                <td><%= link_to "Assign Bugs", project_bugs_path(project.project_id, :status => "unassigned"), class:"btn btn-success" %></td>
+                <td><%= link_to "Remove Bugs", project_bugs_path(project.project_id, :status => "assigned"), class:"btn btn-danger" %></td>
               <% elsif current_user.qa? %>
                 <td><%= link_to "Create A Bug", new_project_bug_url(project.project_id), class:"btn btn-warning" %></td>
               <% end %>
@@ -32,11 +32,10 @@
           <% end %>
         </table>
         <p class="lead">
-          <%= link_to "All Bugs", bugs_path, class:"btn btn-dark" %>
-          <%= link_to "My Bugs", assigned_bugs_path("list"), class:"btn btn-success" %>
-          <% if current_user.qa? %>
-            <%= link_to "All Projects", projects_url, class:"btn btn-primary" %>
-          <% end %>
+            <%= render "layouts/dev_qa_buttons" %>
+            <% if current_user.qa? %>
+              <%= link_to "All Projects", projects_url, class:"btn btn-primary" %>
+            <% end %>
         </p>
 
       </div>
