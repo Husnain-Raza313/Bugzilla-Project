@@ -17,7 +17,7 @@ class BugPolicy < ApplicationPolicy
   end
 
   def update?
-    user.qa? || user.developer?
+    (user.qa? && record.qa_id == user.id) || (user.developer? && record.developer_ids.include?(user.id.to_s))
   end
 
   def new?
@@ -29,7 +29,7 @@ class BugPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.qa?
+    (user.qa? && record.qa_id == user.id) || (user.developer? && record.developer_ids.include?(user.id.to_s))
   end
 
   def show?
@@ -38,5 +38,9 @@ class BugPolicy < ApplicationPolicy
 
   def assigned?
     user.qa? || user.developer?
+  end
+
+  def dev_create?
+    user.developer?
   end
 end

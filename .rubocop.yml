@@ -22,6 +22,9 @@ Layout/LineLength:
 Metrics/MethodLength:
   Max: 23
 
+Metrics/ClassLength:
+  Max: 160
+
 Metrics/BlockLength:
   Exclude:
     - config/**/*

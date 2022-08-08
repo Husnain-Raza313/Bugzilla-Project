@@ -27,11 +27,9 @@ class ProjectsController < ApplicationController
     authorize @project
     respond_to do |format|
       if @project.save
-
         format.html { redirect_to project_url(@project), flash: { success: 'Project was successfully created.' } }
       else
         format.html { render :new, status: :unprocessable_entity }
-
       end
     end
   end
@@ -52,7 +50,6 @@ class ProjectsController < ApplicationController
 
   def destroy
     authorize @project
-
     if @project.destroy
       flash[:success] = 'Project was successfully destroyed.'
     else
@@ -63,12 +60,10 @@ class ProjectsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_project
     @project = Project.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def project_params
     params.require(:project).permit(:name, :id).merge(user_id: current_user.id)
   end
