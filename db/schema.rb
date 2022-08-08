@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_08_05_151825) do
+ActiveRecord::Schema.define(version: 2022_08_08_055402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,9 +25,10 @@ ActiveRecord::Schema.define(version: 2022_08_05_151825) do
     t.string "piece_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "qa_id"
     t.string "developer_ids", default: [], array: true
+    t.bigint "qa_id"
     t.index ["project_id"], name: "index_bugs_on_project_id"
+    t.index ["qa_id"], name: "index_bugs_on_qa_id"
     t.index ["title", "project_id"], name: "index_bugs_on_title_and_project_id", unique: true
   end
 
@@ -66,4 +67,5 @@ ActiveRecord::Schema.define(version: 2022_08_05_151825) do
   end
 
   add_foreign_key "bugs", "projects"
+  add_foreign_key "bugs", "users", column: "qa_id"
 end
