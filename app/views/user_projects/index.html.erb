@@ -12,7 +12,7 @@
         <%= render "columns", project: project %>
           <% if project.user_id == current_user.id%>
             <td><%= link_to "Show ", project, class:"btn btn-primary" %></td>
-            <td><%= link_to "Remove Project ", user_user_project_url(@user.id, project.id), class:"btn btn-danger", method: :delete %></td>
+            <td><%= link_to "Remove Project ", user_project_url(project.id,user_id: @user.id,), class:"btn btn-danger", method: :delete %></td>
           <% else %>
             <td><button class="btn btn-primary disabled"> Show</button></td>
             <td><button class="btn btn-danger disabled"> Remove Project</button></td>

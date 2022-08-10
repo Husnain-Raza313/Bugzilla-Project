@@ -17,7 +17,7 @@
       </tbody>
     <% end %>
   </table>
-  <%= link_to "Assigned Projects ", user_user_projects_path(@user.id), class:"btn btn-dark" %>
+  <%= link_to "Assigned Projects ", user_projects_path(user_id: @user.id), class:"btn btn-dark" %>
   <br/>
   <br/>
   <%= link_to "Back To Home", users_path, class:"btn btn-primary" %>

@@ -9,12 +9,10 @@ Rails.application.routes.draw do
         resources :bugs, only: [:new]
       end
 
-      resources :users do
-        resources :user_projects, only: [:index, :destroy]
-      end
+      resources :users
 
       resources :bugs, except: [:new]
-      resources :user_projects, only: [:create, :show]
+      resources :user_projects, except: [:new, :update, :edit]
 
       namespace :developer do
         resources :bugs, only: [:index, :new, :destroy]
