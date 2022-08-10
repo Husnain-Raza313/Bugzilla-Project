@@ -3,6 +3,8 @@
 <%= render "bugs/form", bug: @bug %>
 <br>
 <div>
-  <%= render "layouts/dev_qa_buttons" %>
+  <br>
+  <br>
+  <button class="btn btn-dark" onclick="history.back()">Go Back</button>
   <%= link_to "Back To Home", authenticated_root_path, class:'btn btn-primary'%>
 </div>

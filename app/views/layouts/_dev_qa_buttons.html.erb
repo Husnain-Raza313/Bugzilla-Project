@@ -1,5 +1,5 @@
 <% if current_user.qa? %>
-  <%= render 'layouts/qa_buttons'%>
+    <%= link_to "My Bugs", bugs_path(status: "assigned"), class:"btn btn-success" %>
 <% else %>
-  <%= render 'layouts/dev_buttons'%>
+  <%= link_to "My Bugs", developer_bugs_path(status: "assigned"), class:"btn btn-success" %>
 <% end %>

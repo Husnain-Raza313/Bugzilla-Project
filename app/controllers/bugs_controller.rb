@@ -4,6 +4,7 @@ class BugsController < ApplicationController
   before_action :check_user, only: %i[show]
   before_action :bug_params, only: %i[update]
   before_action :set_bug, only: %i[destroy edit update]
+
   def index
     authorize Bug
     case params[:status]

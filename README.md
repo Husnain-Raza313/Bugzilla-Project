@@ -20,15 +20,20 @@ To run this project on your machine locally, following steps need to be taken:
 
   2. ### Run the migrations
   After cloning the repo, refer to the cloned repo through the terminal. then run the following command
-  <code> rake db:migrate </code>
+  <code> rails db:migrate </code>
   This will run all the migrations and generate a DB schema.
 
-  3. ### Initiate the server
+  3. ### Run the seeds.rb
+  To store the initial data into the database to make application usable, run command
+  <code> rails db:seeds </code>
+  This will store all the initial data present inside seeds.rb file in the database
+
+  4. ### Initiate the server
   When the migrations are done, start the server using the following command
   <code> rails s </code>
   and then app can be viewed on localhost:3000/ address
 
-## Gems used:
+## Important Gems used:
 In this project, the gems which were used other than the default ones are mentioned below along with their usage
 * Devise -> This gem was used for handling user authentication and basic functionalities like registration and login
 * Pundit -> This was used for authorization to restrict the users' scope.
