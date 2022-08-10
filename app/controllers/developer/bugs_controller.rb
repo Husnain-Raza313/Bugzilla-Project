@@ -93,8 +93,13 @@ module Developer
     end
 
     def add_id
-      @bug.developer_ids.push(current_user.id)
-      @bug.update(developer_ids: @bug.developer_ids)
+      if @bug.developer_ids.include?(current_user.id.to_s)
+        flash[:error] = 'You Are Already Assigned this BUG'
+        redirect_to authenticated_root_path
+      else
+        @bug.developer_ids.push(current_user.id)
+        @bug.update(developer_ids: @bug.developer_ids)
+      end
     end
   end
 end
