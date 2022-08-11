@@ -3,6 +3,8 @@
 <%= render "bugs/form", bug: @bug %>
 <br>
 <div>
-  <%= link_to "My Bugs", assigned_bugs_path("list"), class:"btn btn-success" %><br/><br/>
+  <br>
+  <br>
+  <button class="btn btn-dark" onclick="history.back()">Go Back</button>
   <%= link_to "Back To Home", authenticated_root_path, class:'btn btn-primary'%>
 </div>

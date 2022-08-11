@@ -31,7 +31,7 @@ class UserProjectsController < ApplicationController
     @project = UserProject.where(user_id: params[:user_id], project_id: params[:id]).take
     authorize @project
     flash[:success] = 'Project was successfully unassigned.' if UserProject.destroy(@project.id)
-    redirect_to action: 'index', id: params[:user_id]
+    redirect_to action: 'index', user_id: params[:user_id]
   end
 
   def view_projects

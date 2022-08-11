@@ -1,0 +1,5 @@
+<% if current_user.qa? %>
+    <%= link_to "My Bugs", bugs_path(status: "assigned"), class:"btn btn-success" %>
+<% else %>
+  <%= link_to "My Bugs", developer_bugs_path(status: "assigned"), class:"btn btn-success" %>
+<% end %>

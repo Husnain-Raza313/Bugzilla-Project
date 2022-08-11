@@ -11,12 +11,14 @@
         <tr>
           <%= render "bugs/columns", bug: bug %>
           <td><%= link_to "Show ", bug_path(bug.id), class:"btn btn-warning" %></td>
-          <td><%= link_to "Assign", new_project_bug_url(bug.id), class:"btn btn-success"%></td>
+          <td><%= link_to "Assign", new_developer_bug_url(id: bug.id), class:"btn btn-success"%></td>
         </tr>
       </tbody>
     <% end %>
   </table>
-     <%= link_to "Back To Home", view_projects_path(current_user.id), class:"btn btn-primary" %>
+     <%= render 'layouts/dev_qa_buttons' %>
+     <br>
+     <%= link_to "Back To Home", view_projects_path, class:"btn btn-primary mt-5" %>
 </div>
 
 
