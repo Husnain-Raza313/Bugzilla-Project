@@ -3,8 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-
-  subject { described_class.new(id: 1, name: 'Manager2', email: 'manager2@email.com', password: 'test@123', user_type: 1) }
+  subject do
+    described_class.new(id: 1, name: 'Manager2', email: 'manager2@email.com', password: 'test@123', user_type: 1)
+  end
 
   # describe 'Creation' do
   #   it 'has one user created' do
@@ -13,19 +14,20 @@ RSpec.describe User, type: :model do
   #   end
   # end
   describe 'Associations' do
-    it { should have_many(:projects) }
+    it { is_expected.to have_many(:projects) }
     it { is_expected.to have_many(:user_projects).dependent(:destroy) }
-    it { should have_many(:bugs_as_qa).with_foreign_key('qa_id') }
+    it { is_expected.to have_many(:bugs).with_foreign_key('qa_id') }
   end
 
   describe 'Validations' do
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:email) }
-    it { should validate_presence_of(:password) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_uniqueness_of(:email).ignoring_case_sensitivity }
+    it { is_expected.to validate_presence_of(:password) }
   end
 
   describe 'Enums' do
-    it { should define_enum_for(:user_type).with_values(%i[manager developer qa]) }
+    it { is_expected.to define_enum_for(:user_type).with_values(%i[manager developer qa]) }
   end
 
   it 'is valid with valid attributes' do
@@ -34,19 +36,21 @@ RSpec.describe User, type: :model do
 
   it 'is not valid without a name' do
     subject.name = nil
-    expect(subject).to_not be_valid
+    expect(subject).not_to be_valid
   end
 
   it 'is not valid without a email' do
     subject.email = nil
-    expect(subject).to_not be_valid
+    expect(subject).not_to be_valid
   end
+
   it 'is not valid without a password' do
     subject.password = nil
-    expect(subject).to_not be_valid
+    expect(subject).not_to be_valid
   end
+
   it 'default user_type is manager' do
-    user= create(:user)
+    user = create(:user)
     expect(user.user_type).to eq('manager')
   end
   # describe 'Validations' do

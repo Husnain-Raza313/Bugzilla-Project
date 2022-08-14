@@ -3,8 +3,7 @@
 class User < ApplicationRecord
   has_many :user_projects, dependent: :destroy
   has_many :projects, through: :user_projects
-  has_one :bugs_as_qa, class_name: 'Bug', foreign_key: 'qa_id',
-  dependent: nil, inverse_of: :user
+  has_many :bugs, foreign_key: 'qa_id', dependent: :destroy
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
