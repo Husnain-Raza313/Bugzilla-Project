@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class UserProjectsController < ApplicationController
-
   def index
     @projects = User.find(params[:user_id]).projects
     @user = User.find(params[:user_id])
