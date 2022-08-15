@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :user_project do
+  factory :bug do
   end
 end

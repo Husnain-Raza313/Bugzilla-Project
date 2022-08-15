@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Bug < ApplicationRecord
-  belongs_to :project, optional: true
+  belongs_to :project
   belongs_to :qa, class_name: 'User'
 
   validates :title, presence: true, length: { maximum: 40, minimum: 5 }
