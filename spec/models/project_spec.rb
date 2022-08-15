@@ -25,5 +25,4 @@ RSpec.describe Project, type: :model do
   #   project1=create(:project)
   #   expect(project1).to_not be_valid
   # end
-
 end

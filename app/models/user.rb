@@ -9,8 +9,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates :email, uniqueness: true, presence: true
-  validates :name, presence: true, length: { maximum: 40 }
-  validates :password, presence: true, length: { maximum: 40, minimum: 8 }
+  validates :name, presence: true, length: { maximum: 40, minimum: 2 }
+
   enum user_type: { manager: 0, developer: 1, qa: 2 }
   after_initialize :set_default_user_type, if: :new_record?
 
