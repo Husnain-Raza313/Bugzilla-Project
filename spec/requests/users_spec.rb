@@ -68,13 +68,13 @@ RSpec.describe 'Users', type: :request do
   end
 
   describe 'GET users#edit' do
-
     context 'when user is not logged in' do
       it 'renders login page(unauthenticated root path)' do
         get edit_user_registration_path
         expect(response).to redirect_to(user_session_path)
       end
     end
+
     context 'when logged-in user edits details' do
       it 'renders edit template for manager' do
         current = create(:user)
@@ -182,9 +182,10 @@ RSpec.describe 'Users', type: :request do
         post user_registration_path, params: params
         expect(response.body).to include('Password is too short')
       end
+
       it 'is not able to create user with email already used' do
-        user=create(:user)
-        params[:user][:email] = "manager4@email.com"
+        create(:user)
+        params[:user][:email] = 'manager4@email.com'
         post user_registration_path, params: params
         expect(response.body).to include('Email has already been taken')
       end
@@ -198,25 +199,22 @@ RSpec.describe 'Users', type: :request do
         expect(response).to redirect_to(user_session_path)
       end
     end
-    context 'when the logged-in user is a manager' do
-     let(:current) { create(:user) }
-     let(:params) do
-      { user: { email: 'manager786@email.com', name: 'Manager786', user_type: 'developer', password: current.password, password_confirmation: current.password, current_password: current.password } }
-    end
-     before do
-      sign_in current
-    end
 
+    context 'when the logged-in user is a manager' do
+      let(:current) { create(:user) }
+      let(:params) do
+        { user: { email: 'manager786@email.com', name: 'Manager786', user_type: 'developer', password: current.password,
+                  password_confirmation: current.password, current_password: current.password } }
+      end
+
+      before do
+        sign_in current
+      end
 
       it 'updates the user with valid attributes' do
-          put user_registration_path, params: params
-          expect(flash[:notice]).to match('Your account has been updated successfully.')
-      end
-      it 'updates the user_type with the developer' do
-        puts current.name
         put user_registration_path, params: params
-        expect(current.user_type).to eq('developer')
-    end
+        expect(flash[:notice]).to match('Your account has been updated successfully.')
+      end
 
       it 'is not able to update user without name' do
         params[:user][:name] = nil
@@ -273,14 +271,13 @@ RSpec.describe 'Users', type: :request do
         put user_registration_path, params: params
         expect(response.body).to include('Password is too short')
       end
+
       it 'is not able to update user with email already used' do
-        user=create(:random_user)
-        params[:user][:email] = "manager9@email.com"
-         put user_registration_path, params: params
+        create(:random_user)
+        params[:user][:email] = 'manager9@email.com'
+        put user_registration_path, params: params
         expect(response.body).to include('Email has already been taken')
       end
     end
   end
-
-
 end

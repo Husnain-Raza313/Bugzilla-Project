@@ -16,8 +16,16 @@ FactoryBot.define do
       email { 'developer4@email.com' }
       user_type { 1 }
     end
+    trait :developer2 do
+      email { 'developer5@email.com' }
+      user_type { 1 }
+    end
     trait :qa do
       email { 'qa4@email.com' }
+      user_type { 2 }
+    end
+    trait :qa2 do
+      email { 'qa5@email.com' }
       user_type { 2 }
     end
   end
