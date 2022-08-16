@@ -6,11 +6,9 @@ RSpec.describe 'Users', type: :request do
   include Devise::Test::IntegrationHelpers
   describe 'GET /index' do
     let(:manager) { create(:user) }
-    # let(:second_manager) { create(:user, :manager) }
+
     let(:dev_user) { create(:random_user, :developer) }
     let(:qa_user) { create(:random_user, :qa) }
-    # let(:m1_projects) { create_list(:project, 5, :incomplete, :deadline_in_future, project_manager: first_manager) }
-    # let(:m2_projects) { create_list(:project, 5, :incomplete, :deadline_in_future, project_manager: second_manager) }
 
     context 'when the user is manager' do
       it 'lists all the users' do

@@ -2,7 +2,7 @@
 
 class Bug < ApplicationRecord
   belongs_to :project
-  belongs_to :qa, class_name: 'User'
+  belongs_to :user, inverse_of: :bugs, foreign_key: :qa_id
 
   validates :title, presence: true, length: { maximum: 40, minimum: 5 }
   mount_uploader :screenshot, ScreenshotUploader

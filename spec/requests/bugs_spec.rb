@@ -5,12 +5,13 @@ require 'rails_helper'
 RSpec.describe 'Bugs', type: :request do
   include Devise::Test::IntegrationHelpers
 
+  subject(:bug) { create(:bug, qa_id: qa_user.id, project_id: userproject13.project_id) }
+
   let(:manager) { create(:user) }
   let(:dev_user) { create(:random_user, :developer) }
   let(:qa_user) { create(:random_user, :qa) }
   let(:project13) { create(:project, user_id: manager.id) }
   let(:userproject13) { create(:user_project, user_id: qa_user.id, project_id: project13.id) }
-  let(:bug1) { create(:bug, qa_id: qa_user.id, project_id: userproject13.project_id) }
   let(:qa_user2) { create(:random_user, :qa2) }
   let(:userproject14) { create(:user_project, user_id: qa_user2.id, project_id: project13.id) }
 
@@ -50,7 +51,7 @@ RSpec.describe 'Bugs', type: :request do
     context 'when the user is manager' do
       it 'does not authorize accessing show' do
         sign_in manager
-        get bug_path(bug1.id)
+        get bug_path(bug.id)
         expect(flash[:error]).to match('You are not authorized to perform this action.')
       end
     end
@@ -67,12 +68,9 @@ RSpec.describe 'Bugs', type: :request do
     end
 
     context 'when the user is qa' do
-      let(:qa_user2) { create(:random_user, :qa2) }
-      let(:userproject14) { create(:user_project, user_id: qa_user2.id, project_id: project13.id) }
-
       it 'authorize accessing show' do
         sign_in qa_user
-        get bug_path(bug1.id)
+        get bug_path(bug.id)
         expect(response).to render_template(:show)
       end
 
@@ -89,7 +87,7 @@ RSpec.describe 'Bugs', type: :request do
     context 'when the user is manager' do
       it 'does not authorize accessing new' do
         sign_in manager
-        get new_project_bug_path(project13.id, bug1.id)
+        get new_project_bug_path(project13.id, bug.id)
         expect(flash[:error]).to match('You are not authorized to perform this action.')
       end
     end
@@ -97,18 +95,15 @@ RSpec.describe 'Bugs', type: :request do
     context 'when the user is developer' do
       it 'does not authorize accessing new' do
         sign_in dev_user
-        get new_project_bug_path(project13.id, bug1.id)
+        get new_project_bug_path(project13.id, bug.id)
         expect(flash[:error]).to match('You are not authorized to perform this action.')
       end
     end
 
     context 'when the user is QA' do
-      let(:qa_user2) { create(:random_user, :qa2) }
-      let(:userproject14) { create(:user_project, user_id: qa_user2.id, project_id: project13.id) }
-
       it 'authorize accessing new' do
         sign_in qa_user
-        get new_project_bug_path(project13.id, bug1.id)
+        get new_project_bug_path(project13.id, bug.id)
         expect(response).to render_template(:new)
       end
 
@@ -141,9 +136,6 @@ RSpec.describe 'Bugs', type: :request do
     end
 
     context 'when the user is QA' do
-      let(:qa_user2) { create(:random_user, :qa2) }
-      let(:userproject14) { create(:user_project, user_id: qa_user2.id, project_id: project13.id) }
-
       it 'authorizes accessing edit' do
         sign_in qa_user
         get edit_bug_path(bug1.id)
@@ -181,6 +173,8 @@ RSpec.describe 'Bugs', type: :request do
     end
 
     context 'when the user is QA' do
+      let(:qa_user2) { create(:random_user, :qa2) }
+
       it 'authorizes accessing update' do
         sign_in qa_user
         put bug_path(bug1.id, params: { bug:
@@ -188,26 +182,28 @@ RSpec.describe 'Bugs', type: :request do
         expect(flash[:success]).to match('Bug was successfully updated.')
       end
 
+      it 'does not allow update bug with same title and project id' do
+        create(:bug, title: 'Bug786', project_id: bug1.project_id, qa_id: qa_user.id)
+        sign_in qa_user
+        put bug_path(bug1.id, params: { bug: { title: 'Bug786' } })
+        expect(response.body).to include('has already been taken')
+      end
+
       it 'doesnot authorize accessing update of another QA bug' do
+        userproject14 = create(:user_project, user_id: qa_user2.id, project_id: project13.id)
         bug2 = create(:bug, title: 'Bug4561', qa_id: qa_user2.id, project_id: userproject14.project_id)
         sign_in qa_user
-        put bug_path(bug2.id, params: { bug:
-          { title: 'Bug786' } })
+        put bug_path(bug2.id, params: { bug: { title: 'Bug786' } })
         expect(flash[:error]).to match('You are not authorized to perform this action.')
       end
     end
   end
 
   describe 'POST Bugs#create' do
-    let(:userproject14) { create(:user_project, user_id: dev_user.id, project_id: project13.id) }
-    let(:userproject15) { create(:user_project, user_id: qa_user2.id, project_id: project13.id) }
     let(:bug1) { create(:bug, qa_id: qa_user.id, project_id: userproject13.project_id, developer_ids: [dev_user.id]) }
     let(:params) do
-      { bug:
-            { id: 242,
-              title: 'Bug123456',
-              piece_status: 'new',
-              piece_type: 'Bug', project_id: userproject13.project_id } }
+      { bug: { id: 242, title: 'Bug123456', piece_status: 'new', piece_type: 'Bug',
+               project_id: userproject13.project_id } }
     end
 
     context 'when the user is manager' do
@@ -227,6 +223,7 @@ RSpec.describe 'Bugs', type: :request do
     end
 
     context 'when the user is qa' do
+      let(:userproject15) { create(:user_project, user_id: qa_user2.id, project_id: project13.id) }
       let(:bug_params) do
         { bug:
         { title: 'Bug1234', piece_status: 'new', piece_type: 'Bug', project_id: userproject15.project_id } }
@@ -256,10 +253,6 @@ RSpec.describe 'Bugs', type: :request do
   describe 'DELETE Bugs#destroy' do
     let(:userproject14) { create(:user_project, user_id: dev_user.id, project_id: project13.id) }
     let(:bug1) { create(:bug, qa_id: qa_user.id, project_id: project13.id, developer_ids: [dev_user.id]) }
-    let(:params) do
-      { bug:
-            { id: 242, title: 'Bug123456', piece_status: 'new', piece_type: 'Bug', project_id: project13.id } }
-    end
 
     context 'when the user is manager' do
       it 'does not authorize accessing destroy' do

@@ -22,6 +22,8 @@ Layout/LineLength:
 Metrics/MethodLength:
   Max: 23
 
+RSpec/MultipleMemoizedHelpers:
+   Max: 15
 
 Metrics/BlockLength:
   Exclude:
@@ -31,6 +33,9 @@ Metrics/BlockLength:
 Lint/AmbiguousBlockAssociation:
   Exclude:
     - spec/**/*
+
+Rails/FilePath:
+  Enabled: false
 
 Style/Documentation:
   Enabled: false

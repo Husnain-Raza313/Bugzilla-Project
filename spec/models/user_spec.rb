@@ -7,12 +7,6 @@ RSpec.describe User, type: :model do
     described_class.new(id: 1, name: 'Manager2', email: 'manager2@email.com', password: 'test@123', user_type: 1)
   end
 
-  # describe 'Creation' do
-  #   it 'has one user created' do
-  #     user=create(:user)
-  #     expect(described_class.all.count).to eq(1)
-  #   end
-  # end
   describe 'Associations' do
     it { is_expected.to have_many(:projects) }
     it { is_expected.to have_many(:user_projects).dependent(:destroy) }

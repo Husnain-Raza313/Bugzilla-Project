@@ -8,7 +8,7 @@ RSpec.describe Bug, type: :model do
   end
 
   describe 'Associations' do
-    it { is_expected.to belong_to(:qa).class_name('User') }
+    it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:project) }
   end
 

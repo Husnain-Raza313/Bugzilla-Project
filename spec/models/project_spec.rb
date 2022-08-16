@@ -21,8 +21,4 @@ RSpec.describe Project, type: :model do
     project1 = create(:project, user_id: user.id)
     expect(project1).to be_valid
   end
-  # it 'is invalid when user_id is absent' do
-  #   project1=create(:project)
-  #   expect(project1).to_not be_valid
-  # end
 end
