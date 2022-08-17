@@ -58,11 +58,11 @@ RSpec.describe 'Bugs', type: :request do
 
     context 'when the user is developer' do
       let(:userproject14) { create(:user_project, user_id: dev_user.id, project_id: project13.id) }
-      let(:bug1) { create(:bug, qa_id: qa_user.id, project_id: userproject14.project_id) }
 
       it 'does not authorize accessing show' do
+        bug.project_id = userproject14.project_id
         sign_in dev_user
-        get bug_path(bug1.id)
+        get bug_path(bug.id)
         expect(response).to render_template(:show)
       end
     end

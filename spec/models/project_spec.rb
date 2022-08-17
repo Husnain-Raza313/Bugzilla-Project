@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
-  subject(:project) { described_class.new(name: 'Project2') }
+  subject(:project) { described_class.new(name: 'Project2', user_id: user.id) }
+
+  let(:user) { create(:user) }
 
   describe 'Associations' do
     it { is_expected.to have_many(:users) }
@@ -16,9 +18,17 @@ RSpec.describe Project, type: :model do
     it { is_expected.to validate_uniqueness_of(:name) }
   end
 
-  it 'is valid when user_id is present' do
-    user = create(:user)
-    project1 = create(:project, user_id: user.id)
-    expect(project1).to be_valid
+  it 'is valid when all attributes are valid' do
+    expect(project).to be_valid
+  end
+
+  it 'is not valid with same title' do
+    create(:project, name: 'Project2', user_id: user.id)
+    expect(project).not_to be_valid
+  end
+
+  it 'is not valid without foreign keys' do
+    project.user_id = nil
+    expect(project).not_to be_valid
   end
 end

@@ -4,12 +4,11 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
   include Devise::Test::IntegrationHelpers
+  let(:manager) { create(:user) }
+  let(:dev_user) { create(:random_user, :developer) }
+  let(:qa_user) { create(:random_user, :qa) }
+
   describe 'GET /index' do
-    let(:manager) { create(:user) }
-
-    let(:dev_user) { create(:random_user, :developer) }
-    let(:qa_user) { create(:random_user, :qa) }
-
     context 'when the user is manager' do
       it 'lists all the users' do
         sign_in manager
@@ -36,9 +35,7 @@ RSpec.describe 'Users', type: :request do
   describe 'GET users#show' do
     context 'when the user is manager' do
       it 'renders show template' do
-        current = create(:user)
-        sign_in current
-        dev_user = create(:random_user, :developer)
+        sign_in manager
         get user_path(dev_user.id)
         expect(response).to have_http_status(:ok)
       end
@@ -46,9 +43,7 @@ RSpec.describe 'Users', type: :request do
 
     context 'when the user is a developer' do
       it 'does not render show template' do
-        current = create(:random_user, :developer)
-        sign_in current
-        qa_user = create(:random_user, :qa)
+        sign_in dev_user
         get user_path(qa_user.id)
         expect(flash[:error]).to match('You are not authorized to perform this action.')
       end
@@ -56,16 +51,14 @@ RSpec.describe 'Users', type: :request do
 
     context 'when the user is a QA' do
       it 'does not render show template' do
-        current = create(:random_user, :qa)
-        sign_in current
-        dev_user = create(:random_user, :developer)
+        sign_in qa_user
         get user_path(dev_user.id)
         expect(flash[:error]).to match('You are not authorized to perform this action.')
       end
     end
   end
 
-  describe 'GET users#edit' do
+  describe 'GET devise#edit' do
     context 'when user is not logged in' do
       it 'renders login page(unauthenticated root path)' do
         get edit_user_registration_path
@@ -75,22 +68,19 @@ RSpec.describe 'Users', type: :request do
 
     context 'when logged-in user edits details' do
       it 'renders edit template for manager' do
-        current = create(:user)
-        sign_in current
+        sign_in manager
         get edit_user_registration_path
         expect(response).to have_http_status(:ok)
       end
 
       it 'renders edit template for developer' do
-        current = create(:random_user, :developer)
-        sign_in current
+        sign_in dev_user
         get edit_user_registration_path
         expect(response).to have_http_status(:ok)
       end
 
       it 'renders edit template for qa' do
-        current = create(:random_user, :qa)
-        sign_in current
+        sign_in qa_user
         get edit_user_registration_path
         expect(response).to have_http_status(:ok)
       end
@@ -107,8 +97,7 @@ RSpec.describe 'Users', type: :request do
 
     context 'when user is logged in' do
       it 'renders login page(authenticated root path)' do
-        current = create(:user)
-        sign_in current
+        sign_in manager
         get '/'
         expect(response).to redirect_to(users_path)
       end

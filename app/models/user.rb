@@ -10,6 +10,7 @@ class User < ApplicationRecord
 
   validates :email, uniqueness: true, presence: true
   validates :name, presence: true, length: { maximum: 40, minimum: 2 }
+  validates :user_type, presence: true
 
   enum user_type: { manager: 0, developer: 1, qa: 2 }
   after_initialize :set_default_user_type, if: :new_record?

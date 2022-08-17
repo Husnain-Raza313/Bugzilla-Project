@@ -12,6 +12,7 @@ RSpec.describe 'Developer::Bugs', type: :request do
   let(:qa_user) { create(:random_user, :qa) }
   let(:project13) { create(:project, user_id: manager.id) }
   let(:userproject13) { create(:user_project, user_id: qa_user.id, project_id: project13.id) }
+  let(:userproject14) { create(:user_project, user_id: dev_user.id, project_id: project13.id) }
 
   describe 'GET developer::Bugs#index' do
     context 'when the user is manager' do
@@ -64,14 +65,12 @@ RSpec.describe 'Developer::Bugs', type: :request do
 
     context 'when the user is developer' do
       it 'accessing project_bugs with status unassigned' do
-        userproject14 = create(:user_project, user_id: dev_user.id, project_id: project13.id)
         sign_in dev_user
         get project_bugs_path(userproject14.project_id, status: 'unassigned')
         expect(response).to render_template(:unassigned)
       end
 
       it 'accessing project_bugs with status assigned' do
-        userproject14 = create(:user_project, user_id: dev_user.id, project_id: project13.id)
         bug = create(:bug, qa_id: qa_user.id, project_id: userproject14.project_id, developer_ids: [dev_user.id])
         sign_in dev_user
         get project_bugs_path(bug.project_id, status: 'assigned')
@@ -113,7 +112,6 @@ RSpec.describe 'Developer::Bugs', type: :request do
 
     context 'when the user is developer' do
       it 'accessing new action with an assigned project bug' do
-        userproject14 = create(:user_project, user_id: dev_user.id, project_id: project13.id)
         bug = create(:bug, qa_id: qa_user.id, project_id: userproject14.project_id)
         sign_in dev_user
         get new_developer_bug_path(id: bug.id)
@@ -149,7 +147,6 @@ RSpec.describe 'Developer::Bugs', type: :request do
 
     context 'when the user is developer' do
       it 'accessing destroy action with an assigned project bug' do
-        userproject14 = create(:user_project, user_id: dev_user.id, project_id: project13.id)
         bug = create(:bug, qa_id: qa_user.id, project_id: userproject14.project_id, developer_ids: [dev_user.id])
         sign_in dev_user
         delete developer_bug_path(id: bug.id)
@@ -165,7 +162,6 @@ RSpec.describe 'Developer::Bugs', type: :request do
       end
 
       it 'accessing destroy action with an assigned project bug for an unassigned bug' do
-        userproject14 = create(:user_project, user_id: dev_user.id, project_id: project13.id)
         bug = create(:bug, qa_id: qa_user.id, project_id: userproject14.project_id, developer_ids: [])
         sign_in dev_user
         delete developer_bug_path(id: bug.id)
