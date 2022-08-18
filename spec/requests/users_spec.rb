@@ -5,8 +5,8 @@ require 'rails_helper'
 RSpec.describe 'Users', type: :request do
   include Devise::Test::IntegrationHelpers
   let(:manager) { create(:user) }
-  let(:dev_user) { create(:random_user, :developer) }
-  let(:qa_user) { create(:random_user, :qa) }
+  let(:dev_user) { create(:user, :developer) }
+  let(:qa_user) { create(:user, :qa) }
 
   describe 'GET /index' do
     context 'when the user is manager' do
@@ -260,7 +260,7 @@ RSpec.describe 'Users', type: :request do
       end
 
       it 'is not able to update user with email already used' do
-        create(:random_user, :same)
+        create(:user, :same)
         params[:user][:email] = 'same@email.com'
         put user_registration_path, params: params
         expect(response.body).to include('Email has already been taken')
