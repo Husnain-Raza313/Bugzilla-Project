@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :user_project do
-
     # project_id { association :project}
 
     # trait :qa_FK do
