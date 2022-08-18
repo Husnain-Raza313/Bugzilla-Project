@@ -23,7 +23,7 @@ RSpec.describe Project, type: :model do
   end
 
   it 'is not valid with same title' do
-    create(:project, name: 'Project2', user_id: user.id)
+    create(:project, :same, user_id: user.id)
     expect(project).not_to be_valid
   end
 

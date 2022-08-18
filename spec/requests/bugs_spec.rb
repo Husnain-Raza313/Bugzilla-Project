@@ -142,7 +142,7 @@ RSpec.describe 'Bugs', type: :request do
         expect(response).to render_template(:edit)
       end
 
-      it 'does not authorize accessing edit' do
+      it 'does not authorize accessing edit of another QA bug' do
         bug2 = create(:bug, title: 'Bug4561', qa_id: qa_user2.id, project_id: userproject14.project_id)
         sign_in qa_user
         get edit_bug_path(bug2.id)
@@ -175,24 +175,25 @@ RSpec.describe 'Bugs', type: :request do
     context 'when the user is QA' do
       let(:qa_user2) { create(:random_user, :qa2) }
 
-      it 'authorizes accessing update' do
+      before do
         sign_in qa_user
+      end
+
+      it 'authorizes accessing update' do
         put bug_path(bug1.id, params: { bug:
           { title: 'Bug786' } })
         expect(flash[:success]).to match('Bug was successfully updated.')
       end
 
       it 'does not allow update bug with same title and project id' do
-        create(:bug, title: 'Bug786', project_id: bug1.project_id, qa_id: qa_user.id)
-        sign_in qa_user
-        put bug_path(bug1.id, params: { bug: { title: 'Bug786' } })
+        create(:bug, :same, project_id: bug1.project_id, qa_id: qa_user.id)
+        put bug_path(bug1.id, params: { bug: { title: 'Bug1234' } })
         expect(response.body).to include('has already been taken')
       end
 
       it 'doesnot authorize accessing update of another QA bug' do
         userproject14 = create(:user_project, user_id: qa_user2.id, project_id: project13.id)
-        bug2 = create(:bug, title: 'Bug4561', qa_id: qa_user2.id, project_id: userproject14.project_id)
-        sign_in qa_user
+        bug2 = create(:bug, qa_id: qa_user2.id, project_id: userproject14.project_id)
         put bug_path(bug2.id, params: { bug: { title: 'Bug786' } })
         expect(flash[:error]).to match('You are not authorized to perform this action.')
       end
@@ -202,7 +203,7 @@ RSpec.describe 'Bugs', type: :request do
   describe 'POST Bugs#create' do
     let(:bug1) { create(:bug, qa_id: qa_user.id, project_id: userproject13.project_id, developer_ids: [dev_user.id]) }
     let(:params) do
-      { bug: { id: 242, title: 'Bug123456', piece_status: 'new', piece_type: 'Bug',
+      { bug: {title: 'Bug123456', piece_status: 'new', piece_type: 'Bug',
                project_id: userproject13.project_id } }
     end
 
@@ -223,12 +224,10 @@ RSpec.describe 'Bugs', type: :request do
     end
 
     context 'when the user is qa' do
-      let(:userproject15) { create(:user_project, user_id: qa_user2.id, project_id: project13.id) }
       let(:bug_params) do
         { bug:
-        { title: 'Bug1234', piece_status: 'new', piece_type: 'Bug', project_id: userproject15.project_id } }
+        { title: 'Bug1234', piece_status: 'new', piece_type: 'Bug', project_id: userproject14.project_id } }
       end
-
       it 'authorize accessing create' do
         sign_in qa_user
         post bugs_path, params: params
@@ -236,7 +235,7 @@ RSpec.describe 'Bugs', type: :request do
       end
 
       it 'does not allow create bug with same title and project id' do
-        create(:bug, project_id: userproject15.project_id, qa_id: qa_user2.id)
+        create(:bug, :same, project_id: userproject14.project_id, qa_id: qa_user2.id)
         sign_in qa_user2
         post bugs_path, params: bug_params
         expect(response.body).to include('has already been taken')
@@ -251,13 +250,10 @@ RSpec.describe 'Bugs', type: :request do
   end
 
   describe 'DELETE Bugs#destroy' do
-    let(:userproject14) { create(:user_project, user_id: dev_user.id, project_id: project13.id) }
-    let(:bug1) { create(:bug, qa_id: qa_user.id, project_id: project13.id, developer_ids: [dev_user.id]) }
-
     context 'when the user is manager' do
       it 'does not authorize accessing destroy' do
         sign_in manager
-        delete bug_path(bug1.id)
+        delete bug_path(bug.id)
         expect(flash[:error]).to match('You are not authorized to perform this action.')
       end
     end
@@ -265,7 +261,7 @@ RSpec.describe 'Bugs', type: :request do
     context 'when the user is developer' do
       it 'does not authorize accessing destroy' do
         sign_in dev_user
-        delete bug_path(bug1.id)
+        delete bug_path(bug.id)
         expect(flash[:error]).to match('You are not authorized to perform this action.')
       end
     end
@@ -273,7 +269,7 @@ RSpec.describe 'Bugs', type: :request do
     context 'when the user is QA' do
       it 'authorizes accessing destroy' do
         sign_in qa_user
-        delete bug_path(bug1.id)
+        delete bug_path(bug.id)
         flash[:success] = 'Bug was successfully destroyed.'
       end
 

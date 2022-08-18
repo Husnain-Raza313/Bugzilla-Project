@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Bug, type: :model do
   subject(:bug) do
-    described_class.new(id: 1, title: 'Bug12314', deadline: '2022-06-29', piece_status: 'new', piece_type: 'Bug',
+    described_class.new(id: 1, title: 'Bug1234', deadline: '2022-06-29', piece_status: 'new', piece_type: 'Bug',
                         project_id: project1.id, qa_id: project1.user_id)
   end
 
@@ -38,7 +38,7 @@ RSpec.describe Bug, type: :model do
   end
 
   it 'is valid if title is same in another project' do
-    create(:bug, title: 'Bug12314', project_id: project2.id, qa_id: project2.user_id)
+    create(:bug, :same, project_id: project2.id, qa_id: project2.user_id)
     expect(bug).to be_valid
   end
 
@@ -59,7 +59,7 @@ RSpec.describe Bug, type: :model do
   end
 
   it 'is not valid if title is not unique in a same project' do
-    create(:bug, title: 'Bug12314', project_id: project1.id, qa_id: project1.user_id)
+    create(:bug, :same, project_id: project1.id, qa_id: project1.user_id)
     expect(bug).not_to be_valid
   end
 

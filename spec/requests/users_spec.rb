@@ -171,8 +171,8 @@ RSpec.describe 'Users', type: :request do
       end
 
       it 'is not able to create user with email already used' do
-        create(:user)
-        params[:user][:email] = 'manager4@email.com'
+        create(:user, :same)
+        params[:user][:email] = 'same@email.com'
         post user_registration_path, params: params
         expect(response.body).to include('Email has already been taken')
       end
@@ -260,8 +260,8 @@ RSpec.describe 'Users', type: :request do
       end
 
       it 'is not able to update user with email already used' do
-        create(:random_user)
-        params[:user][:email] = 'manager9@email.com'
+        create(:random_user, :same)
+        params[:user][:email] = 'same@email.com'
         put user_registration_path, params: params
         expect(response.body).to include('Email has already been taken')
       end
