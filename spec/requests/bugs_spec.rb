@@ -10,9 +10,10 @@ RSpec.describe 'Bugs', type: :request do
   let(:manager) { create(:user) }
   let(:dev_user) { create(:random_user, :developer) }
   let(:qa_user) { create(:random_user, :qa) }
+  let(:qa_user2) { create(:random_user, :qa2) }
+
   let(:project13) { create(:project, user_id: manager.id) }
   let(:userproject13) { create(:user_project, user_id: qa_user.id, project_id: project13.id) }
-  let(:qa_user2) { create(:random_user, :qa2) }
   let(:userproject14) { create(:user_project, user_id: qa_user2.id, project_id: project13.id) }
 
   describe 'GET /index' do
