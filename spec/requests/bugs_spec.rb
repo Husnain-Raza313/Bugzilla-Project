@@ -177,8 +177,6 @@ RSpec.describe 'Bugs', type: :request do
     end
 
     context 'when the user is QA' do
-      let(:qa_user2) { create(:random_user, :qa2) }
-
       before do
         sign_in qa_user
       end
