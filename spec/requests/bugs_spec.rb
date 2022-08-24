@@ -5,8 +5,6 @@ require 'rails_helper'
 RSpec.describe 'Bugs', type: :request do
   include Devise::Test::IntegrationHelpers
 
-  subject(:bug) { create(:bug, qa_id: qa_user.id, project_id: userproject13.project_id) }
-
   let(:manager) { create(:user) }
   let(:dev_user) { create(:random_user, :developer) }
   let(:qa_user) { create(:random_user, :qa) }
@@ -15,6 +13,8 @@ RSpec.describe 'Bugs', type: :request do
   let(:project13) { create(:project, user_id: manager.id) }
   let(:userproject13) { create(:user_project, user_id: qa_user.id, project_id: project13.id) }
   let(:userproject14) { create(:user_project, user_id: qa_user2.id, project_id: project13.id) }
+
+  subject(:bug) { create(:bug, qa_id: qa_user.id, project_id: userproject13.project_id) }
 
   describe 'GET /index' do
     context 'when the user is manager' do
@@ -175,6 +175,13 @@ RSpec.describe 'Bugs', type: :request do
           { piece_status: 'started' } })
         expect(flash[:success]).to match('Bug was successfully updated.')
       end
+
+      it 'does not authorize accessing update of an unassignned bug' do
+        sign_in dev_user
+        put bug_path(bug.id, params: { bug:
+          { piece_status: 'started' } })
+        expect(flash[:error]).to match('You are not authorized to perform this action.')
+      end
     end
 
     context 'when the user is QA' do
@@ -228,7 +235,8 @@ RSpec.describe 'Bugs', type: :request do
     context 'when the user is qa' do
       let(:bug_params) do
         { bug:
-        { title: 'Bug1234', piece_status: 'new', piece_type: 'Bug', project_id: userproject14.project_id } }
+        { title: 'Bug1234', screenshot: 'image/upload/v1661321992/h8nv4xqefgr1e61pqsro.png', piece_status: 'new',
+          piece_type: 'Bug', project_id: userproject14.project_id } }
       end
 
       it 'authorize accessing create' do

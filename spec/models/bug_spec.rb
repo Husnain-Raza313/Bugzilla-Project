@@ -4,8 +4,9 @@ require 'rails_helper'
 
 RSpec.describe Bug, type: :model do
   subject(:bug) do
-    described_class.new(id: 1, title: 'Bug1234', deadline: '2022-06-29', piece_status: 'new', piece_type: 'Bug',
-                        project_id: project1.id, qa_id: project1.user_id)
+    described_class.new(id: 1, title: 'Bug1234', deadline: '2022-06-29',
+                        screenshot: 'image/upload/v1661321992/h8nv4xqefgr1e61pqsro.png',
+                        piece_status: 'new', piece_type: 'Bug', project_id: project1.id, qa_id: project1.user_id)
   end
 
   let(:user1) { create(:user) }

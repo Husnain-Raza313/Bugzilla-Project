@@ -34,11 +34,9 @@ module Developer
       return if check_dev_new
 
       @bug = Bug.find(params[:id])
-      if add_id
-        flash[:success] = 'Bug was successfully Assigned.'
-      else
-        flash[:error] = @bug.errors.full_messages.to_sentence
-      end
+      return unless add_id
+
+      flash[:success] = 'Bug was successfully Assigned.'
       redirect_to project_bugs_path(@bug.project_id, status: 'unassigned')
     end
 
@@ -91,7 +89,7 @@ module Developer
     def add_id
       if @bug.developer_ids.include?(current_user.id.to_s)
         flash[:error] = 'You Are Already Assigned this BUG'
-        redirect_to authenticated_root_path
+        redirect_to authenticated_root_path and return
       else
         @bug.developer_ids.push(current_user.id)
         @bug.update(developer_ids: @bug.developer_ids)

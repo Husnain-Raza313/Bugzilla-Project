@@ -112,11 +112,19 @@ RSpec.describe 'Developer::Bugs', type: :request do
     end
 
     context 'when the user is developer' do
-      it 'accessing new action with an assigned project bug' do
+      it 'assigning a bug of an assigned project' do
         bug = create(:bug, qa_id: qa_user.id, project_id: userproject14.project_id)
         sign_in dev_user
         get new_developer_bug_path(id: bug.id)
         expect(flash[:success]).to match('Bug was successfully Assigned.')
+      end
+
+      it 'assigning a bug which is already assigned' do
+        bug = create(:bug, qa_id: qa_user.id, project_id: userproject14.project_id)
+        sign_in dev_user
+        get new_developer_bug_path(id: bug.id)
+        get new_developer_bug_path(id: bug.id)
+        expect(flash[:error]).to match('You Are Already Assigned this BUG')
       end
 
       it 'accessing new action with an unassigned project bug' do
