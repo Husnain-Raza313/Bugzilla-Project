@@ -4,8 +4,6 @@ module BugsHelper
   def screenshot_view(bug)
     if bug.screenshot.url.nil?
       ' (Screenshot Not Available) '
-    else
-      image_tag(bug.screenshot.url, size: '500x250', alt: 'Screenshot Image')
     end
   end
 
