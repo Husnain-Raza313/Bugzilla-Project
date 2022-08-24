@@ -5,6 +5,8 @@ require 'rails_helper'
 RSpec.describe 'Bugs', type: :request do
   include Devise::Test::IntegrationHelpers
 
+  subject(:bug) { create(:bug, qa_id: qa_user.id, project_id: userproject13.project_id) }
+
   let(:manager) { create(:user) }
   let(:dev_user) { create(:random_user, :developer) }
   let(:qa_user) { create(:random_user, :qa) }
@@ -13,8 +15,6 @@ RSpec.describe 'Bugs', type: :request do
   let(:project13) { create(:project, user_id: manager.id) }
   let(:userproject13) { create(:user_project, user_id: qa_user.id, project_id: project13.id) }
   let(:userproject14) { create(:user_project, user_id: qa_user2.id, project_id: project13.id) }
-
-  subject(:bug) { create(:bug, qa_id: qa_user.id, project_id: userproject13.project_id) }
 
   describe 'GET /index' do
     context 'when the user is manager' do
