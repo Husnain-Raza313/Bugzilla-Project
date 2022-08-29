@@ -12,7 +12,7 @@ function App() {
       <Topbar />
       <Routes>
         <Route  path="/" element={<BugList />} />
-        <Route path="/show" element={<BugShow />} />
+        <Route path="/show/:id" element={<BugShow />} />
       </Routes>
     </BrowserRouter>
 

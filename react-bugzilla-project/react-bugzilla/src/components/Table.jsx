@@ -1,37 +1,21 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const Table = () => {
+const Table = (props) => {
   let navigate=useNavigate();
-  const showBug = () => {
-    navigate('/show');
+  const showBug = (id) => {
+    navigate(`/show/${id}`);
   }
   return (
-    <div>
-    <table class="table table-hover table-striped table-bordered container">
-    <thead >
-      <tr class="table-dark">
-      <th scope="col">Title</th>
-      <th scope="col">Project ID</th>
-      <th scope="col">Status</th>
-      <th scope="col">Created At</th>
-      <th scope="col">Updated At</th>
-      <th scope="col"></th>
-      <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-        <td>Bug123</td>
-        <td>523</td>
-        <td>new</td>
-        <td>2022-08-14 19:49:45 UTC</td>
-        <td>2022-08-14 19:49:45 UTC</td>
-        <td><button className='btn btn-warning' onClick={showBug}>Show</button></td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
+    <tr>
+        <td>{props.bug.id}</td>
+        <td>{props.bug.title}</td>
+        <td>{props.bug.project_id}</td>
+        <td>{props.bug.piece_status}</td>
+        <td>{props.bug.piece_type}</td>
+        <td>{props.bug.qa_id}</td>
+        <td><button className='btn btn-warning' onClick={()=> showBug(props.bug.id)}>Show</button></td>
+    </tr>
   )
 }
 
