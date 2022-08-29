@@ -38,7 +38,8 @@ class BugsController < ApplicationController
   def create
     authorize Bug
     @bug = Bug.new(bug_params)
-    check_user
+    return if check_user
+
     respond_to do |format|
       if @bug.save
         format.html { redirect_to bug_url(@bug), flash: { success: 'Bug was successfully created.' } }
