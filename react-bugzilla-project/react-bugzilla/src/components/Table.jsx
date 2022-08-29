@@ -1,6 +1,11 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Table = () => {
+  let navigate=useNavigate();
+  const showBug = () => {
+    navigate('/show');
+  }
   return (
     <div>
     <table class="table table-hover table-striped table-bordered container">
@@ -22,7 +27,7 @@ const Table = () => {
         <td>new</td>
         <td>2022-08-14 19:49:45 UTC</td>
         <td>2022-08-14 19:49:45 UTC</td>
-        <td><button className='btn btn-warning'>Show</button></td>
+        <td><button className='btn btn-warning' onClick={showBug}>Show</button></td>
         </tr>
       </tbody>
     </table>

@@ -1,6 +1,11 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const BugShow = () => {
+  let navigate= useNavigate();
+  const bugList = ()=>{
+    navigate('/');
+  }
   return (
     <div>
     <div class="jumbotron-index m-5 mt-0">
@@ -16,7 +21,7 @@ const BugShow = () => {
     <h4>Assigned Developer IDs: </h4>
     <br />
     <p class="lead">
-    <button className='btn btn-dark'>Bugs List</button>
+    <button className='btn btn-dark' onClick={bugList}>Bugs List</button>
     </p>
   </div>
 </div>
