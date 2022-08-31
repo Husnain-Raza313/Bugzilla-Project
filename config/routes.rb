@@ -1,12 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :bugs, only: %i[index show], defaults: { format: :json } do
-      end
-      resources :projects, only: %i[index show], defaults: { format: :json } do
-      end
+      resources :bugs, only: %i[index show]
+      resources :projects, only: %i[index show]
     end
   end
 
