@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
   devise_for :users
 
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :bugs, only: %i[index show]
+      resources :projects, only: %i[index show]
+    end
+  end
+
   devise_scope :user do
     authenticated :user do
       root 'home#index', as: :authenticated_root
