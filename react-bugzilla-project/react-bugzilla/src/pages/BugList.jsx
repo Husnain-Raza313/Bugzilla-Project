@@ -1,14 +1,25 @@
 import {React, useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom';
 import Table from '../components/Table';
 import { GetBugsHelper } from '../helpers/get_bugs_helper';
 
 
+
 const BugList = () => {
   const [bugs,setBugs] = useState([]);
-  const getData=async () => {
+  let navigate = useNavigate();
+
+  const getData= async () => {
+    try{
     let res= await GetBugsHelper();
     setBugs(res.data);
-      console.log(res.data);
+    }catch(e){
+      alert(e.message);
+    }
+  }
+
+  const projectList = () => {
+    navigate('/projects');
   }
   useEffect(() => {
     getData();
@@ -33,6 +44,7 @@ const BugList = () => {
    { bugs && bugs.map((bug) => <Table key={bug.id} bug={bug}/>) }
     </tbody>
     </table>
+    <button className='btn btn-primary' onClick={projectList}>Projects List</button>
     </div>
   )
 }

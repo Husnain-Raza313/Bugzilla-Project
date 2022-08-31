@@ -4,16 +4,28 @@ import { ShowBugHelper } from '../helpers/show_bug_helper';
 import './BugShow.css';
 
 const BugShow = () => {
-  var {id} = useParams();
+  let {id} = useParams();
   const [bug,setBug] = useState({screenshot: "no image"});
   let navigate= useNavigate();
+
   const bugList = ()=>{
     navigate('/');
   }
+
   const getData=async () => {
+    try{
     let res= await ShowBugHelper(id);
       setBug(res.data);
-      console.log(res.data);
+      checkBug(res.data);
+    }catch(e){
+      alert(e.message);
+    }
+  }
+  const checkBug = async (data) => {
+    if(data.title === undefined){
+      alert("NO SUCH BUG EXISTS");
+      navigate('/');
+    }
   }
 
   useEffect(() => {
