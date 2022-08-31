@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class ProjectsController < ApplicationController
@@ -6,6 +8,7 @@ module Api
         projects = Project.all
         respond_with projects
       end
+
       def show
         users = Project.find(params[:id]).users
         project = Project.find(params[:id])
