@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectTable from "../components/ProjectTable";
-import { GetProjectsHelper } from "../helpers/get_projects_helper";
+import { getProjects } from "../api/index";
 
 const ProjectList = () => {
   const [projects, setProjects] = useState([]);
@@ -9,11 +9,11 @@ const ProjectList = () => {
 
   const getData = async () => {
     try {
-      let res = await GetProjectsHelper();
+      let res = await getProjects();
       setProjects(res.data);
       console.log(res.data);
     } catch (e) {
-      alert(e.message);
+      navigate(`/errorpage?msg=${e.code}`);
     }
   };
   useEffect(() => {

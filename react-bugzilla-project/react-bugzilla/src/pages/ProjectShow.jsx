@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ShowProjectHelper } from "../helpers/show_project_helper";
+import { showProject } from "../api/index";
 
 const ProjectShow = () => {
   let { id } = useParams();
@@ -14,13 +14,13 @@ const ProjectShow = () => {
 
   const getData = async () => {
     try {
-      let res = await ShowProjectHelper(id);
+      let res = await showProject(id);
       setProject(res.data[0]);
       setUsers(res.data[1]);
       console.log(res.data[1]);
-      checkProject(res.data[0]);
     } catch (e) {
-      alert(e.message);
+      console.log(e);
+      navigate(`/errorpage?msg=${e.code}`);
     }
   };
 

@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../components/Table";
-import { GetBugsHelper } from "../helpers/get_bugs_helper";
+import { getBugs } from "../api/index";
 
 const BugList = () => {
   const [bugs, setBugs] = useState([]);
@@ -9,10 +9,13 @@ const BugList = () => {
 
   const getData = async () => {
     try {
-      let res = await GetBugsHelper();
+      let res = await getBugs();
       setBugs(res.data);
     } catch (e) {
-      alert(e.message);
+
+      console.log(e);
+
+      navigate(`/errorpage?msg=${e.code}`);
     }
   };
 
