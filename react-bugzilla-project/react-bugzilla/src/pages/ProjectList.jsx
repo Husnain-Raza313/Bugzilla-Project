@@ -1,21 +1,18 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectTable from "../components/ProjectTable";
-import { GetProjectsHelper } from "../helpers/get_projects_helper";
+import { fetchData } from "../api/index";
 
 const ProjectList = () => {
   const [projects, setProjects] = useState([]);
   let navigate = useNavigate();
 
   const getData = async () => {
-    try {
-      let res = await GetProjectsHelper();
-      setProjects(res.data);
-      console.log(res.data);
-    } catch (e) {
-      alert(e.message);
-    }
+      let res = await fetchData("projects");
+      setProjects(res);
+      console.log(res);
   };
+
   useEffect(() => {
     getData();
   }, []);

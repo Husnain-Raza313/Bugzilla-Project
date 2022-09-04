@@ -5,7 +5,7 @@ import BugList from "./pages/BugList";
 import BugShow from "./pages/BugShow";
 import ProjectShow from "./pages/ProjectShow";
 import ProjectList from "./pages/ProjectList";
-import Error from "./pages/Error";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
   return (
@@ -17,7 +17,8 @@ function App() {
           <Route path="/show/:id" element={<BugShow />} />
           <Route path="/showproject/:id" element={<ProjectShow />} />
           <Route path="/projects" element={<ProjectList />} />
-          <Route path="*" element={<Error />} />
+          <Route path="/errorpage" element={<ErrorPage />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>
     </div>

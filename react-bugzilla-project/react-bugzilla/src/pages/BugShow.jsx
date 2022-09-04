@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ShowBugHelper } from "../helpers/show_bug_helper";
+import { fetchData } from "../api/index";
 import "./BugShow.css";
 
 const BugShow = () => {
@@ -13,19 +13,10 @@ const BugShow = () => {
   };
 
   const getData = async () => {
-    try {
-      let res = await ShowBugHelper(id);
-      setBug(res.data);
-      checkBug(res.data);
-    } catch (e) {
-      alert(e.message);
-    }
-  };
-  const checkBug = async (data) => {
-    if (data.title === undefined) {
-      alert("NO SUCH BUG EXISTS");
-      navigate("/");
-    }
+
+      let res = await fetchData(`bugs/${id}`);
+      console.log(res);
+      setBug(res);
   };
 
   useEffect(() => {

@@ -1,19 +1,16 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../components/Table";
-import { GetBugsHelper } from "../helpers/get_bugs_helper";
+import { fetchData } from "../api/index";
 
 const BugList = () => {
   const [bugs, setBugs] = useState([]);
   let navigate = useNavigate();
 
   const getData = async () => {
-    try {
-      let res = await GetBugsHelper();
-      setBugs(res.data);
-    } catch (e) {
-      alert(e.message);
-    }
+      let res = await fetchData("bugs");
+      console.log(res);
+      setBugs(res);
   };
 
   const projectList = () => {
