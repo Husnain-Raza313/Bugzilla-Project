@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { showBug } from "../api/index";
+import { fetchData } from "../api/index";
 import "./BugShow.css";
 
 const BugShow = () => {
@@ -13,14 +13,10 @@ const BugShow = () => {
   };
 
   const getData = async () => {
-    try {
-      let res = await showBug(id);
+
+      let res = await fetchData(`bugs/${id}`);
       console.log(res);
-      setBug(res.data);
-    } catch (e) {
-      console.log(e);
-      navigate(`/errorpage?msg=${e.code}`);
-    }
+      setBug(res);
   };
 
   useEffect(() => {
