@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class BugsController < ApplicationController
+    class BugsController <  V1::BaseController
       respond_to :json
       def index
         bugs = Bug.all
@@ -11,16 +11,17 @@ module Api
 
       def show
         bug = Bug.find_by(id: params[:id])
-        if(bug.nil?)
-          record_not_found;
+        if bug.nil?
+          record_not_found
         else
           respond_with bug
         end
       end
 
       private
+
       def record_not_found
-        render status: :not_found, json: {message: "Not found"}
+        render status: :not_found, json: { message: 'Not found' }
       end
     end
   end

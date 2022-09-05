@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  # Include default devise modules.
+  devise :database_authenticatable, :registerable,
+  :recoverable, :rememberable, :trackable, :validatable,
+  :confirmable
+  include DeviseTokenAuth::Concerns::User
+
   has_many :user_projects, dependent: :destroy
   has_many :projects, through: :user_projects
   has_many :bugs, inverse_of: :user, foreign_key: :qa_id, dependent: :destroy
-
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
 
   validates :email, uniqueness: true, presence: true
   validates :name, presence: true, length: { maximum: 40, minimum: 2 }

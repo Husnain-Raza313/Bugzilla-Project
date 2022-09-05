@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::API
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  # protect_from_forgery with: :null_session, if: -> { request.format.json? }
+
+  # wrap_parameters false
+
+
   include Pundit::Authorization
+
+
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActionController::UnknownFormat, with: :page_not_found
@@ -11,6 +18,9 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
+    puts "IM IN FORMATTTT"
+    devise_parameter_sanitizer.permit(:sign_in, keys: [:email, :password])
+
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[name email password user_type])
     devise_parameter_sanitizer.permit(:account_update,
                                       keys: %i[name email password user_type current_password])
