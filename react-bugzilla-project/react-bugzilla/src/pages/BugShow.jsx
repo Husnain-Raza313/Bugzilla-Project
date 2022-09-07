@@ -9,7 +9,7 @@ const BugShow = () => {
   let navigate = useNavigate();
 
   const bugList = () => {
-    navigate("/");
+    navigate("/list");
   };
 
   const getData = async () => {

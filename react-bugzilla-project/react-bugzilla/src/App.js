@@ -6,6 +6,8 @@ import BugShow from "./pages/BugShow";
 import ProjectShow from "./pages/ProjectShow";
 import ProjectList from "./pages/ProjectList";
 import ErrorPage from "./pages/ErrorPage";
+import LoginPage from "./pages/LoginPage";
+import Logout from "./components/Logout";
 
 function App() {
   return (
@@ -13,7 +15,8 @@ function App() {
       <BrowserRouter>
         <Topbar />
         <Routes>
-          <Route path="/" element={<BugList />} />
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/list" element={<BugList />} />
           <Route path="/show/:id" element={<BugShow />} />
           <Route path="/showproject/:id" element={<ProjectShow />} />
           <Route path="/projects" element={<ProjectList />} />

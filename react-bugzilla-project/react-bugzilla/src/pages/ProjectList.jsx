@@ -37,7 +37,7 @@ const ProjectList = () => {
             ))}
         </tbody>
       </table>
-      <button className="btn btn-primary" onClick={() => navigate("/")}>
+      <button className="btn btn-primary" onClick={() => navigate("/list")}>
         Bugs List
       </button>
     </div>
