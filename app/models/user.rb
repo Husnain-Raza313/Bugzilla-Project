@@ -15,6 +15,12 @@ class User < ApplicationRecord
   enum user_type: { manager: 0, developer: 1, qa: 2 }
   after_initialize :set_default_user_type, if: :new_record?
 
+  alias_method :authenticate, :valid_password?
+
+  def self.from_token_payload(payload)
+    self.find payload["sub"]
+  end
+
   def set_default_user_type
     self.user_type ||= :user
   end

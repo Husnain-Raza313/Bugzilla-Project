@@ -3,7 +3,9 @@
 module Api
   module V1
     class BugsController < ApplicationController
+      before_action :authenticate_user
       respond_to :json
+
       def index
         bugs = Bug.all
         respond_with bugs
