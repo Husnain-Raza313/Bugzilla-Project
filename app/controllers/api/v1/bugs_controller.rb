@@ -4,11 +4,10 @@ module Api
   module V1
     class BugsController < ApplicationController
       before_action :authenticate_user
-      respond_to :json
 
       def index
         bugs = Bug.all
-        respond_with bugs
+        render json: bugs
       end
 
       def show
@@ -16,7 +15,7 @@ module Api
         if(bug.nil?)
           record_not_found;
         else
-          respond_with bug
+          render json: bug
         end
       end
 
