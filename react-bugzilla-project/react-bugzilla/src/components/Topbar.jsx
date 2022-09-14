@@ -7,7 +7,7 @@ const Topbar = () => {
 
     <div class="container-fluid bg-warning bar">
       <h1 className="text-dark text-decoration-none text-left ml-5" onClick={() =>{
-        navigate('/');
+       localStorage.getItem("user_token") === null ? navigate('/') : navigate('/list');
       }}>
         Bugzilla
       </h1>

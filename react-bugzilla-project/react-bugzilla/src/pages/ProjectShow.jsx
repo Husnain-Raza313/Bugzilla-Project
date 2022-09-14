@@ -15,9 +15,9 @@ const ProjectShow = () => {
   const getData = async () => {
 
       let res = await fetchData(`projects/${id}`);
-      setProject(res[0]);
-      setUsers(res[1]);
-      console.log(res[1]);
+      setProject(res);
+      setUsers(res.users);
+      console.log(res.users);
 
   };
 
