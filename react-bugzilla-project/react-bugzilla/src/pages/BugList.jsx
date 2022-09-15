@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Table from "../components/Table";
+import Logout from "../components/Logout";
 import { fetchData } from "../api/index";
 
 const BugList = () => {
@@ -42,6 +43,8 @@ const BugList = () => {
       <button className="btn btn-primary" onClick={projectList}>
         Projects List
       </button>
+
+      <Logout />
     </div>
   );
 };
