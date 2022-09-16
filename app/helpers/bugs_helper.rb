@@ -2,7 +2,11 @@
 
 module BugsHelper
   def screenshot_view(bug)
-    ' (Screenshot Not Available) ' if bug.screenshot.url.nil?
+    if bug.screenshot.url.nil?
+      ' (Screenshot Not Available) '
+    else
+      image_tag(bug.screenshot.url, size: '500x250', alt: 'Screenshot Image')
+    end
   end
 
   def screenshot_field(bug)

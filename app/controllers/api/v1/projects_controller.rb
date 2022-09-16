@@ -3,19 +3,20 @@
 module Api
   module V1
     class ProjectsController < ApplicationController
-      respond_to :json
+      before_action :authenticate_user
+
       def index
         projects = Project.all
-        respond_with projects
+        render json: projects
       end
 
       def show
-        users = Project.find(params[:id]).users
+
         project = Project.find_by(id: params[:id])
         if(project.nil?)
           record_not_found;
         else
-          respond_with [project, users]
+          render json: project
         end
 
       end
