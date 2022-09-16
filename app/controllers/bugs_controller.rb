@@ -10,7 +10,12 @@ class BugsController < ApplicationController
     case params[:status]
     when 'all'
       project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
+      if params[:query].present?
+      @bugs = Bug.search(params[:query])
+      puts "HERE AREEEE #{@bugs}"
+      else
       @bugs = Bug.where(project_id: project_id)
+      end
     when 'assigned'
       @bugs = Bug.where(qa_id: current_user.id)
       render 'assigned' and return
