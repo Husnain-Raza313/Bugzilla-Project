@@ -10,7 +10,7 @@ class BugsController < ApplicationController
     case params[:status]
     when 'all'
       project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
-      @bugs = params[:query].present? ? search_bug : Bug.where(project_id: project_id)
+      @bugs = params[:query].present? ? search_bug : Bug.paginate(:page => params[:page], :per_page => 2).where(project_id: project_id)
       # if params[:query].present?
       # @bugs = Bug.search(params[:query], match: :text_middle).results
       # else
@@ -102,7 +102,8 @@ class BugsController < ApplicationController
   end
 
   def search_bug
-    bugs= Bug.where(title: params[:query])
+    # bugs= Bug.paginate(:page => params[:page], :per_page => 4).where(title: params[:query])
+    bugs=Bug.search(params[:query],{ match: :text_middle, :page =>  params[:page], :per_page => 2})
   end
 
   def check_user
