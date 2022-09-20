@@ -9,10 +9,9 @@
   </span>
   <input type="search" class="form-control rounded border-0" placeholder="Search" />
 </div> %>
-<%= form_tag bugs_path, method: :get do %>
-<p>
-<%= text_field_tag :query, params[:query] %>
-<%= text_field_tag :status, params[:status] %>
+<%= form_for bugs_path,id: 'bugs_form', method: :get do %>
+<%=  text_field_tag :query, params[:query], id: 'bugs_search', name: :query, autocomplete: :off %>
+<%= text_field_tag :status, params[:status] ,type: :hidden, id: 'status' %>
 <%= submit_tag 'Search', name: nil%>
-</p>
 <% end %>
+<div id="divSearch"></div>

@@ -1,3 +1,5 @@
+
+<% environment.context_class.instance_eval { include Rails.application.routes.url_helpers } %>
 function changeStatusforBug(){
   var element = document.getElementById("feature_status");
   element.classList.add("status_class");
@@ -21,8 +23,31 @@ function changeStatusforBug(){
 function checkStatus(){
   link = document.querySelector('#feature_id');
     let check = link.getAttribute('checked');
-//  var check= document.getElementById("bug_id").getAttribute(checked)
   console.log(check)
   check== null ? changeStatusforBug() : changeStatusforFeature()
 
 }
+
+
+$(document).on('turbolinks:load', function() {
+  let STATUS = $('#status').val();
+  let url = "<%= bug_path(-1) %>"
+  var bugs = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.whitespace,
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    remote: {
+      url: '/bugs/autocomplete?query=%QUERY&&status='+ STATUS,
+       wildcard: "%QUERY",
+          filter: function(response) {
+        console.log(response);
+        return response;
+
+      }
+    },
+
+
+  });
+
+  $('#bugs_search').typeahead(null, {source: bugs});
+});
+

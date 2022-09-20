@@ -8,14 +8,14 @@
         <th scope="col"></th>
       </tr>
     </thead>
+    <tbody id="tableBody">
     <% @bugs.each do |bug| %>
-      <tbody>
-        <tr>
+        <tr id="tableRow">
           <%= render "bugs/columns", bug: bug %>
           <td><%= link_to "Show ", bug_path(bug.id), class:"btn btn-warning" %></td>
         </tr>
-      </tbody>
     <% end %>
+    </tbody>
   </table>
   <%= link_to "Back To Home", authenticated_root_path, class:'btn btn-primary'%>
 </div>

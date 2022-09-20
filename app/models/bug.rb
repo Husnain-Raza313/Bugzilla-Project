@@ -13,6 +13,6 @@ class Bug < ApplicationRecord
 
   enum piece_status: { new: 0, started: 1, resolved: 2 }, _prefix: :piece_status
 
-  searchkick
+  searchkick text_middle: [:title]
 
 end

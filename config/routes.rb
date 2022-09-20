@@ -18,7 +18,11 @@ Rails.application.routes.draw do
       end
 
       resources :users
-      resources :bugs, except: %i[new]
+      resources :bugs, except: %i[new] do
+        collection do
+          get :autocomplete
+        end
+      end
       resources :user_projects, except: %i[new update edit]
 
       namespace :developer do

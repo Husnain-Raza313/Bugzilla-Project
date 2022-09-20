@@ -10,15 +10,32 @@ class BugsController < ApplicationController
     case params[:status]
     when 'all'
       project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
-      if params[:query].present?
-      @bugs = Bug.search(params[:query])
-      puts "HERE AREEEE #{@bugs}"
-      else
-      @bugs = Bug.where(project_id: project_id)
-      end
+      @bugs = params[:query].present? ? search_bug : Bug.where(project_id: project_id)
+      # if params[:query].present?
+      # @bugs = Bug.search(params[:query], match: :text_middle).results
+      # else
+      # @bugs = Bug.where(project_id: project_id)
+      # end
     when 'assigned'
-      @bugs = Bug.where(qa_id: current_user.id)
+      @bugs = params[:query].present? ? search_bug : Bug.where(qa_id: current_user.id)
       render 'assigned' and return
+    end
+  end
+
+  def autocomplete
+    # render json: Bug.search(params[:query], {fields: ['title'],match: :word_start, limit: 10, load: false}).map(&:title)
+    # @bugs = Bug.search(params[:query], match: :text_middle).map(&:title)
+    puts "HERE IS MY PARAMS #{params[:query]}"
+    if params[:query].present?
+      if params[:status] === 'all'
+      project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
+      @bugs=Bug.search(params[:query], {fields: ['title'],match: :text_middle, limit: 10, where: {project_id: project_id} }).map(&:title)
+      else params[:status] === 'assigned'
+        @bugs=Bug.search(params[:query], {fields: ['title'],match: :text_middle, limit: 10, where: {qa_id: current_user.id} }).map(&:title)
+      end
+    puts "HELLO IM IN AUTOCOMPLEMENT #{@bugs}"
+    # render json: @bugs
+    render json: @bugs
     end
   end
 
@@ -82,6 +99,10 @@ class BugsController < ApplicationController
       params.require(:bug).permit(:id, :piece_status, :description, :title, :project_id, :deadline, :screenshot,
                                   :piece_type).merge(qa_id: current_user.id)
     end
+  end
+
+  def search_bug
+    bugs= Bug.where(title: params[:query])
   end
 
   def check_user
