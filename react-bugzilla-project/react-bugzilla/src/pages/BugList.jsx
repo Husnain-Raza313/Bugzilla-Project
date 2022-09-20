@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Table from "../components/Table";
 import Logout from "../components/Logout";
 import { fetchData } from "../api/index";
+import SearchBar from "../components/SearchBar";
 
 const BugList = () => {
   const [bugs, setBugs] = useState([]);
@@ -22,6 +23,8 @@ const BugList = () => {
   }, []);
 
   return (
+    <div>
+    <SearchBar  changeValues={(bugsArray) => setBugs(bugsArray)} address='bugs' />
     <div>
       <h1 className="text-left mt-5 ml-5 container"> All Bugs </h1>
       <table class="table table-hover table-striped table-bordered container">
@@ -45,6 +48,7 @@ const BugList = () => {
       </button>
 
       <Logout />
+    </div>
     </div>
   );
 };

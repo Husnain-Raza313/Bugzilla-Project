@@ -8,9 +8,12 @@ import ProjectShow from "./pages/ProjectShow";
 import ProjectList from "./pages/ProjectList";
 import ErrorPage from "./pages/ErrorPage";
 import LoginPage from "./pages/LoginPage";
-import Logout from "./components/Logout";
+import SearchBar from "./components/SearchBar";
 
 function App() {
+  let user_token = localStorage.getItem("user_token");
+
+
   return (
     <div className="App">
       <BrowserRouter>

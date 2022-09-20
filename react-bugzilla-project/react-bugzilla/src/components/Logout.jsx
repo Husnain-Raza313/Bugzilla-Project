@@ -7,7 +7,7 @@ const Logout = () => {
     <div className='mt-5'>
     <button className='btn btn-danger' onClick={() => {
       localStorage.setItem('user_token', "");
-      navigate('/');
+      window.location = '/';
     }}>Logout</button>
     </div>
   )

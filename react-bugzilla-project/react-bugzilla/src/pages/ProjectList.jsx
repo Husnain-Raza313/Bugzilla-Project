@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ProjectTable from "../components/ProjectTable";
 import { fetchData } from "../api/index";
+import SearchBar from "../components/SearchBar";
 
 const ProjectList = () => {
   const [projects, setProjects] = useState([]);
@@ -18,6 +19,8 @@ const ProjectList = () => {
   }, []);
 
   return (
+    <div>
+    <SearchBar  changeValues={(projectsArray) => setProjects(projectsArray)} address='projects' />
     <div>
       <h1 className="text-left mt-5 ml-5 container"> All Projects </h1>
       <table class="table table-hover table-striped table-bordered container">
@@ -40,6 +43,7 @@ const ProjectList = () => {
       <button className="btn btn-primary" onClick={() => navigate("/list")}>
         Bugs List
       </button>
+    </div>
     </div>
   );
 };
