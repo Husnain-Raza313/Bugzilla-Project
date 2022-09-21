@@ -23,6 +23,7 @@
       </tbody>
     <% end %>
   </table>
+  <%= will_paginate @bugs , class:"container-fluid text-center"%>
   <%= link_to "Back To Home", authenticated_root_path, class:'btn btn-primary'%>
 </div>
 
