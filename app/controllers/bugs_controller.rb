@@ -8,19 +8,19 @@ class BugsController < ApplicationController
   def index
     authorize Bug
     bugs_values
+    render 'assigned' and return if params[:status] == 'assigned'
 
   end
 
   def autocomplete
-    # render json: Bug.search(params[:query], {fields: ['title'],match: :word_start, limit: 10, load: false}).map(&:title)
-    # @bugs = Bug.search(params[:query], match: :text_middle).map(&:title)
     if params[:query].present?
-      if params[:status] === 'all'
-      project_id = UserProject.user_search(current_user.id)
-      @bugs=Bug.search(params[:query], {fields: ['title'],match: :text_middle, limit: 10, where: {project_id: project_id} }).map(&:title)
-      else params[:status] === 'assigned'
-        @bugs=Bug.search(params[:query], {fields: ['title'],match: :text_middle, limit: 10, where: {qa_id: current_user.id} }).map(&:title)
-      end
+      # if params[:status] === 'all'
+      # project_id = UserProject.user_search(current_user.id)
+      # @bugs=Bug.search(params[:query], {fields: ['title'],match: :text_middle, limit: 10, where: {project_id: project_id} }).map(&:title)
+      # else params[:status] === 'assigned'
+      #   @bugs=Bug.search(params[:query], {fields: ['title'],match: :text_middle, limit: 10, where: {qa_id: current_user.id} }).map(&:title)
+      # end
+      @bugs=bugs_values.map(&:title)
     render json: @bugs
     end
   end
@@ -87,12 +87,6 @@ class BugsController < ApplicationController
     end
   end
 
-  def search_bug
-    # bugs= Bug.paginate(:page => params[:page], :per_page => 4).where(title: params[:query])
-    # @bugs=Bug.search(params[:query], {fields: ['title'],match: :text_middle, limit: 10, where: {project_id: project_id} }).map(&:title)
-    bugs=Bug.search(params[:query],{fields: ['title'], match: :text_middle, :page =>  params[:page], :per_page => 2})
-  end
-
   def check_user
     project_id = @bug.nil? ? params[:project_id] : @bug.project_id
     if project_id.nil?
@@ -113,16 +107,17 @@ class BugsController < ApplicationController
   def bugs_values
     case params[:status]
     when 'all'
-      # project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
       project_id = UserProject.user_search(current_user.id)
       @bugs = bugs_search.where(project_id: project_id)
     when 'assigned'
       @bugs = bugs_search.where(qa_id: current_user.id)
-      render 'assigned' and return
     end
   end
 
   def bugs_search
-   params[:query].present? ? search_bug : Bug.paginate(:page => params[:page], :per_page => 2)
+   params[:query].present? ?
+   Bug.search(params[:query],{fields: ['title'], match: :text_middle,limit: 10, :page =>  params[:page], :per_page => 2})
+   :
+   Bug.paginate(:page => params[:page], :per_page => 2)
   end
 end
