@@ -30,46 +30,6 @@ function checkStatus(){
 
 
 $(document).on('turbolinks:load', function() {
-  let STATUS = $('#status').val();
-  <%# var bugs = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.whitespace,
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    remote: {
-      url: '/bugs/autocomplete?query=%QUERY&&status='+ STATUS,
-       wildcard: "%QUERY",
-          filter: function(response) {
-        console.log(response);
-        return response;
-
-      }
-    },
-
-
-  }); %>
-  var bugsvalue =[];
-$('#bugsss_search').on('input', function() {
-      let STATUS = $('#status').val();
-      let QUERY = $('#bugs_search').val();
-   $.ajax({
-      type: "GET",
-      contentType: "application/json; charset=utf-8",
-      url: "/bugs/autocomplete?query="+QUERY+"&&status="+STATUS,
-      corssDomain: true,
-      dataType: "json",
-      success: function (data) {
-        <%#  %>
-         console.log(data);
-         bugs=data;
-      },
-
-      error : function(data) {
-
-      }
-   });
- });
-
-
-<%# $('#bugs_search').typeahead(null, {source: bugsvalue}); %>
 
 $('#bugs_search').typeahead({minLength: 1,
     order: "asc",

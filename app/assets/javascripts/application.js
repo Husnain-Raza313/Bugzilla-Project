@@ -17,5 +17,4 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require rails.validations
-//= require typeahead.bundle
 //= require_tree .
