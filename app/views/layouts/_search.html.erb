@@ -1,4 +1,4 @@
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" integrity="sha512-HWlJyU4ut5HkEj0QsK/IxBCY55n5ZpskyjVlAoV9Z7XQwwkqXoYdCIC93/htL3Gu5H3R4an/S0h2NXfbZk3g7w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <%# <div class="input-group rounded border border-warning w-25">
   <span class="input-group-text border-0 search_bar" id="search-addon">
     <div class="search_bar">
@@ -10,7 +10,7 @@
   <input type="search" class="form-control rounded border-0" placeholder="Search" />
 </div> %>
 <%= form_for bugs_path,id: 'bugs_form', method: :get do %>
-<%=  text_field_tag :query, params[:query], id: 'bugs_search', name: :query, autocomplete: :off %>
+<%=  text_field_tag :query, params[:query], id: 'bugs_search', name: :query, class:"typeahead", autocomplete: :off %>
 <%= text_field_tag :status, params[:status] ,type: :hidden, id: 'status' %>
 <%= submit_tag 'Search', name: nil%>
 <% end %>

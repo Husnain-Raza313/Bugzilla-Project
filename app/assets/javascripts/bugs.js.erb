@@ -31,8 +31,7 @@ function checkStatus(){
 
 $(document).on('turbolinks:load', function() {
   let STATUS = $('#status').val();
-  let url = "<%= bug_path(-1) %>"
-  var bugs = new Bloodhound({
+  <%# var bugs = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.whitespace,
     queryTokenizer: Bloodhound.tokenizers.whitespace,
     remote: {
@@ -46,8 +45,60 @@ $(document).on('turbolinks:load', function() {
     },
 
 
-  });
+  }); %>
+  var bugsvalue =[];
+$('#bugsss_search').on('input', function() {
+      let STATUS = $('#status').val();
+      let QUERY = $('#bugs_search').val();
+   $.ajax({
+      type: "GET",
+      contentType: "application/json; charset=utf-8",
+      url: "/bugs/autocomplete?query="+QUERY+"&&status="+STATUS,
+      corssDomain: true,
+      dataType: "json",
+      success: function (data) {
+        <%#  %>
+         console.log(data);
+         bugs=data;
+      },
 
-  $('#bugs_search').typeahead(null, {source: bugs});
+      error : function(data) {
+
+      }
+   });
+ });
+
+
+<%# $('#bugs_search').typeahead(null, {source: bugsvalue}); %>
+
+$('#bugs_search').typeahead({minLength: 1,
+    order: "asc",
+    source: function(query, result){
+
+      let STATUS = $('#status').val();
+      let QUERY = $('#bugs_search').val();
+
+      $.ajax({
+      type: "GET",
+      contentType: "application/json; charset=utf-8",
+      url: "/bugs/autocomplete?query="+QUERY+"&&status="+STATUS,
+      dataType: "json",
+      success: function (data) {
+         console.log(data);
+         bugs=data;
+         result($.map(data,function(item){
+          return item;
+         }));
+      },
+
+      error : function(data) {
+
+      }
+   });
+
+
+}});
+
+
 });
 

@@ -13,16 +13,8 @@ class BugsController < ApplicationController
   end
 
   def autocomplete
-    if params[:query].present?
-      # if params[:status] === 'all'
-      # project_id = UserProject.user_search(current_user.id)
-      # @bugs=Bug.search(params[:query], {fields: ['title'],match: :text_middle, limit: 10, where: {project_id: project_id} }).map(&:title)
-      # else params[:status] === 'assigned'
-      #   @bugs=Bug.search(params[:query], {fields: ['title'],match: :text_middle, limit: 10, where: {qa_id: current_user.id} }).map(&:title)
-      # end
-      @bugs=bugs_values.map(&:title)
+      @bugs=bugs_values.map(&:title) if params[:query].present?
     render json: @bugs
-    end
   end
 
   def show
