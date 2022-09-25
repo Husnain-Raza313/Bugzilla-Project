@@ -15,4 +15,10 @@ class Bug < ApplicationRecord
 
   searchkick text_middle: [:title]
 
+  def search_data
+    {
+      title: title
+    }
+  end
+
 end

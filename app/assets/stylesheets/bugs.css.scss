@@ -1,0 +1,63 @@
+// Place all the styles related to the Bugs controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.autocomplete {
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  background-color: #e9e9e9;
+}
+
+.autocomplete-active {
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+.wrapper{
+  max-width: 450px;
+  margin: 150px auto;
+}
+.wrapper .search-input{
+  // position: relative;
+  background-color: #fff;
+  width: 100%;
+  border-radius: 5px;
+
+}
+#bugs_search{
+  height: 55px;
+  width: 100%;
+  padding: 0 60px 0 20px;
+}
+
+.search-input .autocom-box{
+  padding: 10px 8px;
+  overflow-y: auto;
+}
+
+.autocom-box li{
+  list-style: none;
+  padding: 8px 12px;
+  width: 100%;
+}
+.autocom-box li:hover{
+  background-color: #efefef;
+}

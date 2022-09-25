@@ -13,7 +13,7 @@ class BugsController < ApplicationController
   end
 
   def autocomplete
-      @bugs=bugs_values.map(&:title) if params[:query].present?
+      @bugs=bugs_values.map(&:title)
     render json: @bugs
   end
 
@@ -108,8 +108,8 @@ class BugsController < ApplicationController
 
   def bugs_search
    params[:query].present? ?
-   Bug.search(params[:query],{fields: ['title'], match: :text_middle,limit: 10, :page =>  params[:page], :per_page => 2})
+   Bug.search(params[:query],{fields: ['title'], match: :text_middle, page: params[:page], per_page: 4})
    :
-   Bug.paginate(:page => params[:page], :per_page => 2)
+   params[:autocomplete].present? ? Bug : Bug.paginate(:page => params[:page], :per_page => 2)
   end
 end

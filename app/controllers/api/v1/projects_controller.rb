@@ -7,7 +7,7 @@ module Api
 
       def index
         projects = Project.all
-        projects = params[:query].present? ? Project.search(params[:query],{ match: :text_middle}) : Project.all
+        projects = params[:query].present? ? Project.search(params[:query],{fields: ['name'], match: :text_middle}) : Project.all
         render json: projects
       end
 

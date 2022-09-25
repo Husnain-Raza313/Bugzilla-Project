@@ -30,8 +30,27 @@ function checkStatus(){
 
 
 $(document).on('turbolinks:load', function() {
+  var bugs=[];
+      let STATUS = $('#status').val();
+    $.ajax({
+      type: "GET",
+      contentType: "application/json; charset=utf-8",
+      url: "/bugs/autocomplete?status="+STATUS+"&&autocomplete=true",
+      dataType: "json",
+      success: function (data) {
+         console.log(data);
+         bugs=data;
+         <%# result($.map(data,function(item){
+          return item;
+         })); %>
+      },
 
-$('#bugs_search').typeahead({minLength: 1,
+      error : function(data) {
+
+      }
+   });
+
+<%# $('#bugs_search').typeahead({minLength: 1,
     order: "asc",
     source: function(query, result){
 
@@ -57,8 +76,53 @@ $('#bugs_search').typeahead({minLength: 1,
    });
 
 
-}});
+}}); %>
+
+var inputBox = document.querySelector(".typeahead");
+var searchWrapper = document.querySelector(".search-input");
+var suggBox = searchWrapper.querySelector(".autocom-box");
+inputBox.onkeyup = (e)=>{
+    let userData = e.target.value;
+    let emptyArray = [];
+    if(userData){
+      emptyArray = bugs.filter((data)=>{
+            return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
+        });
+        emptyArray = emptyArray.map((data)=>{
+            return data = `<li>${data}</li>`;
+        });
+        searchWrapper.classList.add("active");
+        showSuggestions(emptyArray);
+        let allList = suggBox.querySelectorAll("li");
+        for (let i = 0; i < allList.length; i++) {
+            allList[i].addEventListener ("click", function() { select(allList[i]) });
+        }
+    }else{
+        searchWrapper.classList.remove("active");
+    }
+}
+function select(element){
+    let selectData = element.textContent;
+    inputBox.value = selectData;
+    console.log(element);
+    searchWrapper.classList.remove("active");
+}
+function showSuggestions(list){
+    let listData;
+    if(!list.length){
+        userValue = inputBox.value;
+        listData = `<li>${userValue}</li>`;
+    }else{
+      listData = list.join('');
+    }
+    suggBox.innerHTML = listData;
+}
+
+
+
+
 
 
 });
+
 
