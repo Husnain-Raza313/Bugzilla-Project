@@ -28,9 +28,8 @@ function checkStatus(){
 
 }
 
-
-$(document).on('turbolinks:load', function() {
-  var bugs=[];
+function loadBugs() {
+   var bugs=[];
       let STATUS = $('#status').val();
     $.ajax({
       type: "GET",
@@ -118,11 +117,4 @@ function showSuggestions(list){
     suggBox.innerHTML = listData;
 }
 
-
-
-
-
-
-});
-
-
+};

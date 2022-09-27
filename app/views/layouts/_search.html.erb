@@ -1,25 +1,14 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" integrity="sha512-HWlJyU4ut5HkEj0QsK/IxBCY55n5ZpskyjVlAoV9Z7XQwwkqXoYdCIC93/htL3Gu5H3R4an/S0h2NXfbZk3g7w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<%# <div class="input-group rounded border border-warning w-25">
-  <span class="input-group-text border-0 search_bar" id="search-addon">
-    <div class="search_bar">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-      </svg>
-    </div>
-  </span>
-  <input type="search" class="form-control rounded border-0" placeholder="Search" />
-</div> %>
 <%= form_for bugs_path,id: 'bugs_form', method: :get do %>
 <div class="wrapper">
 <div class="search-input">
-<%=  text_field_tag :query, params[:query], id: 'bugs_search', name: :query, class:"typeahead", autocomplete: :off %>
+<%=  text_field_tag :query, params[:query], id: 'bugs_search', name: :query, class:"typeahead", autocomplete: :off, :onclick => 'loadBugs()' %>
+<%= text_field_tag :status, params[:status] ,type: :hidden, id: 'status' %>
+<%= submit_tag 'Search', name: nil , class:'btn btn-warning search-btn' %>
 <div class='autocom-box' >
 </div>
 </div>
 
 </div>
-<%# <%=  text_field_tag :query, params[:query], id: 'bugs_search', name: :query, class:"typeahead", autocomplete: :off %>
-<%= text_field_tag :status, params[:status] ,type: :hidden, id: 'status' %> %>
-<%= submit_tag 'Search', name: nil%>
+
 <% end %>
 <div id="divSearch"></div>
