@@ -7,20 +7,37 @@ const ProjectTable = (props) => {
     navigate(`/showproject/${id}`);
   };
   return (
-    <tr>
-      <td>{props.project.id}</td>
-      <td>{props.project.name}</td>
-      <td>{props.project.created_at}</td>
-      <td>{props.project.updated_at}</td>
+    <table class="table table-hover table-striped table-bordered container">
+        <thead>
+          <tr class="table-dark">
+            <th scope="col">Project ID</th>
+            <th scope="col">Project Title</th>
+            <th scope="col">Created At</th>
+            <th scope="col">Updated At</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.projects &&
+            props.projects.map((project) => (
+      <tr key={project.id} >
+      <td>{project.id}</td>
+      <td>{project.name}</td>
+      <td>{project.created_at}</td>
+      <td>{project.updated_at}</td>
       <td>
         <button
           className="btn btn-warning"
-          onClick={() => showProject(props.project.id)}
+          onClick={() => showProject(project.id)}
         >
           Show
         </button>
       </td>
     </tr>
+            ))}
+        </tbody>
+      </table>
+
   );
 };
 

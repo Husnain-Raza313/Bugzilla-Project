@@ -4,14 +4,20 @@ import Table from "../components/Table";
 import Logout from "../components/Logout";
 import { fetchData } from "../api/index";
 import SearchBar from "../components/SearchBar";
+import Pagination from "../components/Pagination";
+import { paginationData } from "../utilities/paginationData";
 
 const BugList = () => {
   const [bugs, setBugs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [bugsPerPage, setBugsPerPage] = useState(3);
   let navigate = useNavigate();
+
+  const currentBugs= paginationData(currentPage, bugsPerPage, bugs);
+  const paginate = pageNumber => setCurrentPage(pageNumber);
 
   const getData = async () => {
       let res = await fetchData("bugs");
-      console.log(res);
       setBugs(res);
   };
 
@@ -27,22 +33,8 @@ const BugList = () => {
     <SearchBar  changeValues={(bugsArray) => setBugs(bugsArray)} address='bugs' />
     <div>
       <h1 className="text-left mt-5 ml-5 container"> All Bugs </h1>
-      <table class="table table-hover table-striped table-bordered container">
-        <thead>
-          <tr class="table-dark">
-            <th scope="col">Bug ID</th>
-            <th scope="col">Title</th>
-            <th scope="col">Project ID</th>
-            <th scope="col">Status</th>
-            <th scope="col">Type</th>
-            <th scope="col">Creator ID</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {bugs && bugs.map((bug) => <Table key={bug.id} bug={bug} />)}
-        </tbody>
-      </table>
+      <Table bugs={currentBugs} />
+      <Pagination elementsPerPage={bugsPerPage} totalElements={bugs.length} paginate={paginate} currentPage={currentPage} />
       <button className="btn btn-primary" onClick={projectList}>
         Projects List
       </button>
