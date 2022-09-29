@@ -24,4 +24,7 @@ module BugsHelper
   def piece_status(bug)
     bug.piece_status == 'resolved' && bug.piece_type == 'Feature' ? 'completed' : bug.piece_status
   end
+  def bug_price(bug)
+    bug.bug_price = (bug.bug_price/100)
+  end
 end

@@ -8,6 +8,7 @@ class Bug < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: 40, minimum: 5 }
   validates :piece_type, presence: true
+  validates :bug_price, presence: true
   validates :piece_status, presence: true
   validates :title, uniqueness: { scope: %i[project_id] }
 
