@@ -75,7 +75,7 @@ class BugsController < ApplicationController
       params.require(:bug).permit(:piece_status)
     else
       params.require(:bug).permit(:id, :piece_status, :description, :title, :project_id, :deadline, :screenshot,
-                                  :piece_type).merge(qa_id: current_user.id)
+                                  :piece_type,:bug_price).merge(qa_id: current_user.id)
     end
   end
 
