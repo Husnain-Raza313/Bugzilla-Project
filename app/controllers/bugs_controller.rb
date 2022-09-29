@@ -7,14 +7,14 @@ class BugsController < ApplicationController
 
   def index
     authorize Bug
-    case params[:status]
-    when 'all'
-      project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
-      @bugs = Bug.where(project_id: project_id)
-    when 'assigned'
-      @bugs = Bug.where(qa_id: current_user.id)
-      render 'assigned' and return
-    end
+    bugs_values
+    render 'assigned' and return if params[:status] == 'assigned'
+
+  end
+
+  def autocomplete
+      @bugs=bugs_values.map(&:title)
+    render json: @bugs
   end
 
   def show
@@ -95,5 +95,21 @@ class BugsController < ApplicationController
 
   def set_bug
     @bug = Bug.find(params[:id])
+  end
+  def bugs_values
+    case params[:status]
+    when 'all'
+      project_id = UserProject.user_search(current_user.id)
+      @bugs = bugs_search.where(project_id: project_id)
+    when 'assigned'
+      @bugs = bugs_search.where(qa_id: current_user.id)
+    end
+  end
+
+  def bugs_search
+   params[:query].present? ?
+   Bug.search(params[:query],{fields: ['title'], match: :text_middle, page: params[:page], per_page: 4})
+   :
+   params[:autocomplete].present? ? Bug : Bug.paginate(:page => params[:page], :per_page => 2)
   end
 end

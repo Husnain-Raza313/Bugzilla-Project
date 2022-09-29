@@ -12,4 +12,13 @@ class Bug < ApplicationRecord
   validates :title, uniqueness: { scope: %i[project_id] }
 
   enum piece_status: { new: 0, started: 1, resolved: 2 }, _prefix: :piece_status
+
+  searchkick text_middle: [:title]
+
+  def search_data
+    {
+      title: title
+    }
+  end
+
 end

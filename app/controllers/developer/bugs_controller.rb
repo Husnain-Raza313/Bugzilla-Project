@@ -10,10 +10,10 @@ module Developer
       case params[:status]
       when 'all'
         project_id = UserProject.where(user_id: current_user.id).pluck(:project_id)
-        @bugs = Bug.where(project_id: project_id)
+        @bugs = Bug.where(project_id: project_id).paginate(:page => params[:page], :per_page => 2)
         render 'bugs/index' and return
       when 'assigned'
-        @bugs = Bug.where(id: bug_found)
+        @bugs = Bug.where(id: bug_found).paginate(:page => params[:page], :per_page => 3)
         render 'bugs/assigned' and return
       end
     end

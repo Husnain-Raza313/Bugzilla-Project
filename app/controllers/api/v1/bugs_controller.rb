@@ -6,7 +6,7 @@ module Api
       before_action :authenticate_user
 
       def index
-        bugs = Bug.all
+        bugs = params[:query].present? ? Bug.search(params[:query],{fields: ['title'], match: :text_middle}) : Bug.all
         render json: bugs
       end
 
