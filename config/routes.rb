@@ -29,9 +29,12 @@ Rails.application.routes.draw do
         resources :bugs, only: %i[index new destroy]
       end
 
+      resources :payment_intents, only: %i[create]
+
       get '/userprojects/viewprojects', to: 'user_projects#view_projects', as: :view_projects
       get '/project/bugs/:project_id', to: 'developer/bugs#project_bugs', as: :project_bugs
       post 'checkout/create', to: 'checkout#create'
+      get '/sub', to: 'bugs#submission', as: :sub
     end
 
     unauthenticated do

@@ -17,4 +17,5 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require rails.validations
+//= require jquery.readyselector
 //= require_tree .

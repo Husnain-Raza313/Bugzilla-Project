@@ -17,6 +17,10 @@ class BugsController < ApplicationController
     render json: @bugs
   end
 
+  def submission
+    render 'submission'
+  end
+
   def show
     authorize Bug
   end
