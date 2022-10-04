@@ -120,7 +120,7 @@ function showSuggestions(list){
 };
 
 
-$(document).on('click', '#title', function(){
+$(document).on('click', '.btn-submission', function(){
   var stripe = Stripe('<%= Rails.application.credentials[:stripe][:public] %>');
     var fonts = [{
     cssSrc: "https://fonts.googleapis.com/css?family=Karla",
@@ -187,6 +187,7 @@ $(document).on('click', '#title', function(){
   });
 
 });
+
 
 
 

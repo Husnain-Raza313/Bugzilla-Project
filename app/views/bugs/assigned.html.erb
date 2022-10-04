@@ -1,4 +1,5 @@
 <h1 class='m-3'><%= current_user.name %>'s Bugs</h1>
+<%= render "bugs/modal" %>
 <%= render "layouts/search" %>
 <div class="m-3">
   <table class="table table-hover table-striped table-bordered">
@@ -21,6 +22,9 @@
             <% end %>
             <td><%= button_to "Buy Now!", checkout_create_path, class:"btn btn-danger btn-md", id:'checkout-button', params: {id: bug.id}, remote: true %> </td>
             <td><%= link_to "Submission", sub_path, class:"btn btn-primary btn-md", id:'submission-btn'%> </td>
+            <button type="button" class="btn btn-primary btn-submission" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
 
 
         </tr>
