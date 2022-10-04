@@ -20,11 +20,10 @@
             <% else %>
               <td><%= link_to "Edit Status", edit_bug_path(bug), class:"btn btn-secondary" %></td>
             <% end %>
-            <td><%= button_to "Buy Now!", checkout_create_path, class:"btn btn-danger btn-md", id:'checkout-button', params: {id: bug.id}, remote: true %> </td>
-            <td><%= link_to "Submission", sub_path, class:"btn btn-primary btn-md", id:'submission-btn'%> </td>
-            <button type="button" class="btn btn-primary btn-submission" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
+            <td><%= button_to "Checkout", checkout_create_path, class:"btn btn-success btn-md", id:'checkout-button', params: {id: bug.id}, remote: true %> </td>
+            <td><button type="button" class="btn btn-primary btn-submission" id='submission-btn' data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Pay Now
+</button> </td>
 
 
         </tr>

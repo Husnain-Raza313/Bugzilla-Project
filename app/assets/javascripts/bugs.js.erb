@@ -120,7 +120,7 @@ function showSuggestions(list){
 };
 
 
-$(document).on('click', '.btn-submission', function(){
+$(document).on('click', '#submission-btn', function(){
   var stripe = Stripe('<%= Rails.application.credentials[:stripe][:public] %>');
     var fonts = [{
     cssSrc: "https://fonts.googleapis.com/css?family=Karla",
@@ -153,8 +153,9 @@ $(document).on('click', '.btn-submission', function(){
     const form = document.querySelector('#new_submission');
   form.addEventListener('submit', function(e) {
     e.preventDefault();
+    let bugID = $('#bugID').html();
     // Step 1: POST request to create payment intent
-    fetch('/payment_intents', {
+    fetch('/payment_intents?id='+bugID, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

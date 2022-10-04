@@ -1,9 +1,9 @@
 class PaymentIntentsController < ActionController::API
   def create
-    puts "HELLO IM IN CREATE"
+    bug=Bug.find(params[:id].to_i)
     paymentIntent= Stripe::PaymentIntent.create(
       {
-        amount: 1099,
+        amount: bug.bug_price.to_i,
         currency: 'usd',
       },
     )
