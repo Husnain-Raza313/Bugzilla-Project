@@ -121,7 +121,6 @@ function showSuggestions(list){
 
 
 $(document).on('click', '#submission-btn', function(){
-  alert("SUBMISSION BUTTON");
   var stripe = Stripe('<%= Rails.application.credentials[:stripe][:public] %>');
     var fonts = [{
     cssSrc: "https://fonts.googleapis.com/css?family=Karla",
@@ -154,7 +153,6 @@ $(document).on('click', '#submission-btn', function(){
     const form = document.querySelector('#new_submission');
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    alert("PRE METHOD");
     let bugID = $('#bugID').html();
     // Step 1: POST request to create payment intent
     fetch('/payment_intents?id='+bugID, {
@@ -165,8 +163,9 @@ $(document).on('click', '#submission-btn', function(){
     })
     .then((response) => response.json())
     .then((paymentIntent) => {
-      alert("PAYMENT METHOD");
       // Step 2: Create payment method and confirm payment intent.
+      if (paymentIntent.message){
+      alert(paymentIntent.message); }
       stripe.confirmCardPayment(
         paymentIntent.client_secret, {
           payment_method: {
@@ -177,17 +176,13 @@ $(document).on('click', '#submission-btn', function(){
         if(resp.error) {
           alert(resp.error.message);
         } else {
-          // Step 3: Embed payment ID in form
-          const paymentIdInput = document.querySelector('#payment');
-          paymentIdInput.value = paymentIntent.id;
-          console.log(paymentIdInput.value);
-          alert("Successfully Paid");
+          alert(resp.paymentIntent.status);
           <%# form.submit(); %>
         }
       })
     })
     .catch((error) => {
-      console.error('Error:', error);
+      console.log(error.message);
     });
   });
 
