@@ -121,8 +121,12 @@ function showSuggestions(list){
 
 
 $(document).on('click', '#submission-btn', function(){
+
+  $('.pay-btn').removeClass('disabled');
   $(".modal-success-message").remove();
   $(".modal-error-message").remove();
+
+
   var stripe = Stripe('<%= Rails.application.credentials[:stripe][:public] %>');
     var fonts = [{
     cssSrc: "https://fonts.googleapis.com/css?family=Karla",
@@ -155,9 +159,10 @@ $(document).on('click', '#submission-btn', function(){
     const form = document.querySelector('#new_submission');
   form.addEventListener('submit', function(e) {
     e.preventDefault();
+    $('.pay-btn').addClass('disabled');
     $('#loadingBar').addClass('loader');
     let bugID = $('#bugID').html();
-    // Step 1: POST request to create payment intent
+    //  POST request to create payment intent
     fetch('/payment_intents?id='+bugID, {
       method: 'POST',
       headers: {
@@ -166,7 +171,7 @@ $(document).on('click', '#submission-btn', function(){
     })
     .then((response) => response.json())
     .then((paymentIntent) => {
-      // Step 2: Create payment method and confirm payment intent.
+      // Create payment method and confirm payment intent.
       if (paymentIntent.message){
        errorMsgFn(paymentIntent.message);
        }
@@ -177,8 +182,10 @@ $(document).on('click', '#submission-btn', function(){
           }
         }
       ).then((resp) => {
+
         $('#loadingBar').removeClass('loader');
         if(resp.error) {
+          $('.pay-btn').removeClass('disabled');
           errorMsgFn(resp.error.message);
         } else {
           setTimeout(function () {

@@ -14,8 +14,8 @@ class CheckoutController < ApplicationController
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: authenticated_root_url,
-      cancel_url: authenticated_root_url,
+      success_url: bugs_url(status: "assigned"),
+      cancel_url: bugs_url(status: "assigned"),
     })
     respond_to do |format|
       format.js
