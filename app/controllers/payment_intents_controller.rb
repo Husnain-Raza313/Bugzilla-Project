@@ -12,12 +12,6 @@ class PaymentIntentsController < ApplicationController
         },
       )
       render json: paymentIntent
-    rescue Stripe::CardError => e
-      puts "A payment error occurred: #{e.error.message}"
-      render json: e.error
-    rescue Stripe::InvalidRequestError => e
-      p "Here"
-      render json: e.error
     rescue Stripe::StripeError => e
       puts "Another problem occurred, maybe unrelated to Stripe. #{e.error.message}"
       render json: e.error

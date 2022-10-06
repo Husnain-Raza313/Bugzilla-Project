@@ -121,6 +121,8 @@ function showSuggestions(list){
 
 
 $(document).on('click', '#submission-btn', function(){
+  $(".modal-success-message").remove();
+  $(".modal-error-message").remove();
   var stripe = Stripe('<%= Rails.application.credentials[:stripe][:public] %>');
     var fonts = [{
     cssSrc: "https://fonts.googleapis.com/css?family=Karla",
@@ -153,6 +155,7 @@ $(document).on('click', '#submission-btn', function(){
     const form = document.querySelector('#new_submission');
   form.addEventListener('submit', function(e) {
     e.preventDefault();
+    $('#loadingBar').addClass('loader');
     let bugID = $('#bugID').html();
     // Step 1: POST request to create payment intent
     fetch('/payment_intents?id='+bugID, {
@@ -165,7 +168,9 @@ $(document).on('click', '#submission-btn', function(){
     .then((paymentIntent) => {
       // Step 2: Create payment method and confirm payment intent.
       if (paymentIntent.message){
-      alert(paymentIntent.message); }
+       <%# $('.modal-error-message').html(paymentIntent.message); %>
+       errorMsgFn(paymentIntent.message);
+       }
       stripe.confirmCardPayment(
         paymentIntent.client_secret, {
           payment_method: {
@@ -173,11 +178,22 @@ $(document).on('click', '#submission-btn', function(){
           }
         }
       ).then((resp) => {
+        $('#loadingBar').removeClass('loader');
         if(resp.error) {
-          alert(resp.error.message);
+          <%# $('.modal-error-message').html(resp.error.message); %>
+          errorMsgFn(resp.error.message);
         } else {
-          alert(resp.paymentIntent.status);
-          <%# form.submit(); %>
+          setTimeout(function () {
+              $('#close-btn').trigger('click');
+              $(".modal-success-message").remove();
+              $(".modal-success-error").remove();
+            }, 1000);
+          <%# $(".modal-body").prepend("<div class='added bg-success text-white'>"{resp.paymentIntent.status}+"</div>"); %>
+          <%# $(".modal-error-message").remove();
+          $(".modal-body").prepend("<div class='modal-success-message bg-success text-white text-center '></div>");
+          $('.modal-success-message').html(resp.paymentIntent.status); %>
+          successMsgFn(resp.paymentIntent.status);
+          form.clear();
         }
       })
     })
@@ -188,10 +204,17 @@ $(document).on('click', '#submission-btn', function(){
 
 });
 
+successMsgFn = (msg) =>{
+          $(".modal-error-message").remove();
+          $(".modal-body").prepend("<div class='modal-success-message bg-success text-white text-center '></div>");
+          $('.modal-success-message').html(msg);
+}
 
-
-
-
+errorMsgFn = (msg) =>{
+          $(".modal-success-message").remove();
+          $(".modal-body").prepend("<div class='modal-error-message bg-danger text-white text-center '></div>");
+          $('.modal-error-message').html(msg);
+}
 
 
 
