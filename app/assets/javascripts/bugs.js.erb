@@ -168,7 +168,6 @@ $(document).on('click', '#submission-btn', function(){
     .then((paymentIntent) => {
       // Step 2: Create payment method and confirm payment intent.
       if (paymentIntent.message){
-       <%# $('.modal-error-message').html(paymentIntent.message); %>
        errorMsgFn(paymentIntent.message);
        }
       stripe.confirmCardPayment(
@@ -180,7 +179,6 @@ $(document).on('click', '#submission-btn', function(){
       ).then((resp) => {
         $('#loadingBar').removeClass('loader');
         if(resp.error) {
-          <%# $('.modal-error-message').html(resp.error.message); %>
           errorMsgFn(resp.error.message);
         } else {
           setTimeout(function () {
@@ -188,10 +186,7 @@ $(document).on('click', '#submission-btn', function(){
               $(".modal-success-message").remove();
               $(".modal-success-error").remove();
             }, 1000);
-          <%# $(".modal-body").prepend("<div class='added bg-success text-white'>"{resp.paymentIntent.status}+"</div>"); %>
-          <%# $(".modal-error-message").remove();
-          $(".modal-body").prepend("<div class='modal-success-message bg-success text-white text-center '></div>");
-          $('.modal-success-message').html(resp.paymentIntent.status); %>
+
           successMsgFn(resp.paymentIntent.status);
           form.clear();
         }
