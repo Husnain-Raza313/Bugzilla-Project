@@ -3,6 +3,7 @@
  <div class=" image image-pfp d-flex flex-column justify-content-center align-items-center">
  <button class="btn btn-secondary"> <img src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" height="100" width="100" /></button>
  <span class="name name-pfp mt-3"><%= current_user.name %></span> <span class="idd-pfp"><%= current_user.email %></span>
+ <span class="idd1-pfp">STRIPE ID: </span> <span><%= current_user.stripe_customer_id%></span>
  <div class="d-flex flex-row justify-content-center align-items-center gap-2">
   <span class="idd1-pfp">User ID: <%= current_user.id%></span> <span><i class="fa fa-copy"></i></span>
   </div>

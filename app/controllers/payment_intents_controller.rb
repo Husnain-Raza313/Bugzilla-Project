@@ -16,6 +16,5 @@ class PaymentIntentsController < ApplicationController
       puts "Another problem occurred, maybe unrelated to Stripe. #{e.error.message}"
       render json: e.error
     end
-
   end
 end

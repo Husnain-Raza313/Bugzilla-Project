@@ -24,4 +24,9 @@ class User < ApplicationRecord
   def set_default_user_type
     self.user_type ||= :user
   end
+
+  after_create do
+    customer= Stripe::Customer.create(email: self.email)
+    update(stripe_customer_id: customer.id)
+  end
 end
