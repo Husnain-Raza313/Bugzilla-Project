@@ -1,0 +1,26 @@
+<h1>Subscription Plans </h1>
+
+ <table class="table table-hover table-striped table-bordered container">
+    <thead >
+      <tr class="table-dark">
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Currency</th>
+        <th scope="col">Duration</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <% @plans.each do |plan| %>
+      <tbody>
+        <tr>
+          <td><%= plan.id %></td>
+          <td><%= plan.product.name %></td>
+          <td><%= plan.unit_amount/100 %></td>
+          <td><%= plan.currency %></td>
+          <td><%= plan.recurring.interval %></td>
+          <td> <%= button_to "Subscribe", subscription_checkout_index_path(id: plan.id), class:"btn btn-warning", remote: true %></td>
+        </tr>
+      </tbody>
+    <% end %>
+  </table>
