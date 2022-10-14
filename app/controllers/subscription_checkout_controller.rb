@@ -4,7 +4,8 @@ class SubscriptionCheckoutController < ApplicationController
 
     # @session = Stripe::Checkout::Session.create({
      @session = Stripe::Checkout::Session.create({
-        mode: 'subscription',
+      customer: current_user.stripe_customer_id,
+      mode: 'subscription',
         line_items: [{
           quantity: 1,
           price: params[:id]

@@ -16,7 +16,7 @@
         <tr>
           <td><%= plan.id %></td>
           <td><%= plan.product.name %></td>
-          <td><%= plan.unit_amount/100 %></td>
+          <td><%= plan.unit_amount/100 %>$</td>
           <td><%= plan.currency %></td>
           <td><%= plan.recurring.interval %></td>
           <td> <%= button_to "Subscribe", subscription_checkout_index_path(id: plan.id), class:"btn btn-warning", remote: true %></td>
