@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :projects, only: %i[index show]
     end
   end
+  resources :webhooks, only: %i[create]
 
   devise_scope :user do
     authenticated :user do
@@ -32,6 +33,7 @@ Rails.application.routes.draw do
       resources :payment_intents, only: %i[create]
       resources :billing_portal, only: %i[create]
       resources :subscription_checkout, only: %i[index create]
+
 
       get '/userprojects/viewprojects', to: 'user_projects#view_projects', as: :view_projects
       get '/project/bugs/:project_id', to: 'developer/bugs#project_bugs', as: :project_bugs
