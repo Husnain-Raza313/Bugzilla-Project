@@ -6,7 +6,13 @@ class WebhooksController < ApplicationController
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     event = nil
+    p "Already Processed #{params[:id]}"
+    if !Webhook.find_by(source: 'stripe', external_id: params[:id]).nil?
+      render json: { message: "Already Processed #{payload.id}"}
+      return
+    end
 
+    Webhook.create(webhook_params)
     begin
       event = Stripe::Webhook.construct_event(
         payload, sig_header, Rails.application.credentials.dig(:stripe, :webhook).to_s
@@ -17,7 +23,6 @@ class WebhooksController < ApplicationController
     rescue Stripe::SignatureVerificationError => e
       # Invalid signature
       puts "Signature error"
-      p e
       return
     end
 
@@ -40,5 +45,14 @@ class WebhooksController < ApplicationController
     end
 
     render json: { message: 'success' }
+  end
+
+  def webhook_params
+    {
+      source: 'stripe',
+      data: params[:data],
+      external_id: params[:id]
+
+    }
   end
 end

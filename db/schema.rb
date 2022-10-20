@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_12_094345) do
+ActiveRecord::Schema.define(version: 2022_10_19_171613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,19 @@ ActiveRecord::Schema.define(version: 2022_10_12_094345) do
     t.string "stripe_customer_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "webhooks", force: :cascade do |t|
+    t.string "source"
+    t.string "external_id"
+    t.json "data"
+    t.integer "state", default: 0
+    t.text "processing_errors"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_webhooks_on_external_id"
+    t.index ["source", "external_id"], name: "index_webhooks_on_source_and_external_id"
+    t.index ["source"], name: "index_webhooks_on_source"
   end
 
   add_foreign_key "bugs", "projects"
