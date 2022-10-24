@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_19_171613) do
+ActiveRecord::Schema.define(version: 2022_10_24_100714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2022_10_19_171613) do
     t.string "developer_ids", default: [], array: true
     t.bigint "qa_id"
     t.decimal "bug_price", default: "0.0", null: false
+    t.string "premium", default: "false", null: false
     t.index ["project_id"], name: "index_bugs_on_project_id"
     t.index ["qa_id"], name: "index_bugs_on_qa_id"
     t.index ["title", "project_id"], name: "index_bugs_on_title_and_project_id", unique: true
@@ -64,6 +65,8 @@ ActiveRecord::Schema.define(version: 2022_10_19_171613) do
     t.string "name", default: "", null: false
     t.integer "user_type", default: 0, null: false
     t.string "stripe_customer_id"
+    t.string "plan"
+    t.string "subscription_status", default: "incomplete"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

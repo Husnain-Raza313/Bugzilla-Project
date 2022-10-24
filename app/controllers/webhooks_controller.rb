@@ -6,7 +6,6 @@ class WebhooksController < ApplicationController
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     event = nil
-    p "Already Processed #{params[:id]}"
     if !Webhook.find_by(source: 'stripe', external_id: params[:id]).nil?
       render json: { message: "Already Processed #{payload.id}"}
       return
