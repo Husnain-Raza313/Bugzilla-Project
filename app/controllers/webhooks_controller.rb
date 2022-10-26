@@ -25,22 +25,20 @@ class WebhooksController < ApplicationController
       return
     end
 
-    # Handle the event
     case event.type
     when 'checkout.session.completed'
-
-      puts "CHECKOUT SESSION COMPLETEDDDDDD"
-      # session = event.data.object
-      # @user = User.find_by(stripe_customer_id: session.customer)
-      # @user.update(subscription_status: 'active')
+     if event.data.object.object === "subscription"
+      session = event.data.object
+      @user = User.find_by(stripe_customer_id: session.customer)
+      @user.update(subscription_status: 'active')
+     end
     when 'customer.subscription.updated', 'customer.subscription.deleted'
-      puts "SUBSCRIPTION SESSION COMPLETEDDDDDD"
-      # subscription = event.data.object
-      # @user = User.find_by(stripe_customer_id: subscription.customer)
-      # @user.update(
-      #   subscription_status: subscription.status,
-      #   plan: subscription.items.data[0].price.lookup_key,
-      # )
+      subscription = event.data.object
+      @user = User.find_by(stripe_customer_id: subscription.customer)
+      @user.update(
+        subscription_status: subscription.canceled_at ? 'Canceled' : subscription.status,
+        plan: subscription.items.data[0].price.lookup_key,
+      )
     end
 
     render json: { message: 'success' }

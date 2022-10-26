@@ -102,7 +102,7 @@ class BugsController < ApplicationController
       project_id = UserProject.user_search(current_user.id)
       @bugs = bugs_search.where(project_id: project_id)
     when 'assigned'
-      @bugs = bugs_search.where(qa_id: current_user.id)
+      @bugs =  current_user.subscription_status === 'active' ?  bugs_search.where(qa_id: current_user.id) : bugs_search.where(qa_id: current_user.id, premium: 'false')
     end
   end
 
@@ -112,4 +112,6 @@ class BugsController < ApplicationController
    :
    params[:autocomplete].present? ? Bug : Bug.paginate(:page => params[:page], :per_page => 2)
   end
+
+
 end
