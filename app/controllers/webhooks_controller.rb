@@ -42,6 +42,8 @@ class WebhooksController < ApplicationController
         subscription_status: subscription.canceled_at ? 'Canceled' : subscription.status,
         plan: subscription.items.data[0].price.lookup_key,
       )
+      puts "hello #{@user.subscription_status}"
+      # redirect_to authenticated_root_url and return
     end
 
     render json: { message: 'success' }

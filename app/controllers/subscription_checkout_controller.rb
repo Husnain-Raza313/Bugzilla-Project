@@ -21,10 +21,15 @@ class SubscriptionCheckoutController < ApplicationController
   end
 
   def destroy
-    deleted_subscription = Stripe::Subscription.delete(params[:id])
-    sleep(1.seconds)
-    # redirect_back(fallback_location: authenticated_root_url)
-    redirect_to authenticated_root_url
+    deleted_subscription = Stripe::Subscription.cancel(params[:id])
+    current_user.update(
+      subscription_status: 'Canceled',
+    )
+    # respond_to do |format|
+    #       format.html { redirect_to authenticated_root_url, flash: { success: 'Successfully Unsubscribed and Status Updated.' } }
+    #     end
+    redirect_to subscription_checkout_index_path , notice: "Successfully Unsubscribed and Status Updated"
+    # render json: { message: 'success' }
     # puts "deleted object : #{deleted_subscription}"
     # flash[:success] = "successfully updated"
     # render 'users/index' and return
