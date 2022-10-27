@@ -27,10 +27,13 @@ class WebhooksController < ApplicationController
 
     case event.type
     when 'checkout.session.completed'
-     if event.data.object.object === "subscription"
+     if event.data.object.mode === "subscription"
       session = event.data.object
       @user = User.find_by(stripe_customer_id: session.customer)
-      @user.update(subscription_status: 'active')
+      @user.update(
+        subscription_status: 'active',
+        subscription_id: session.subscription,
+      )
      end
     when 'customer.subscription.updated', 'customer.subscription.deleted'
       subscription = event.data.object

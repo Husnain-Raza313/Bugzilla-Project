@@ -21,7 +21,7 @@
           <td><%= plan.recurring.interval %></td>
           <td>
          <% if (current_user.plan.include? plan.recurring.interval and current_user.subscription_status == 'active') %>
-          <%= button_to "Unsubscribe", subscription_checkout_index_path(id: plan.id), class:"btn btn-danger", remote: true %>
+          <%= link_to "Unsubscribe", subscription_checkout_path(id: current_user.subscription_id), method: :delete, class:"btn btn-danger" %>
         <% else %>
           <%= button_to "Subscribe", subscription_checkout_index_path(id: plan.id), class:"btn btn-warning", remote: true %>
         <% end %>

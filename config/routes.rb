@@ -32,7 +32,7 @@ Rails.application.routes.draw do
 
       resources :payment_intents, only: %i[create]
       resources :billing_portal, only: %i[create]
-      resources :subscription_checkout, only: %i[index create]
+      resources :subscription_checkout, only: %i[index create destroy]
 
 
       get '/userprojects/viewprojects', to: 'user_projects#view_projects', as: :view_projects
