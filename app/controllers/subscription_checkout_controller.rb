@@ -23,9 +23,8 @@ class SubscriptionCheckoutController < ApplicationController
   def destroy
     deleted_subscription = Stripe::Subscription.cancel(params[:id])
     current_user.update(
-      subscription_status: 'Canceled',
+      subscription_status: deleted_subscription.status,
     )
-
     redirect_to subscription_checkout_index_path , notice: "Successfully Unsubscribed and Status Updated"
 
 

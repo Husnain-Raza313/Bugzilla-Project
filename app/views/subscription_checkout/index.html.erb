@@ -20,11 +20,15 @@
           <td><%= plan.currency %></td>
           <td><%= plan.recurring.interval %></td>
           <td>
-         <% if (current_user.plan.include? plan.recurring.interval and current_user.subscription_status == 'active') %>
-          <%= link_to "Unsubscribe", subscription_checkout_path(id: current_user.subscription_id), method: :delete, remote: true, class:"btn btn-danger" %>
-        <% else %>
-          <%= button_to "Subscribe", subscription_checkout_index_path(id: plan.id), class:"btn btn-warning", remote: true %>
-        <% end %>
+            <% if (current_user.plan.include? plan.recurring.interval and current_user.subscription_status == 'active') %>
+                <%= link_to "Unsubscribe", subscription_checkout_path(id: current_user.subscription_id), method: :delete, remote: true, class:"btn btn-danger" %>
+            <% else %>
+                <% if current_user.subscription_status == 'active' %>
+                    <%= button_to "Subscribe", subscription_checkout_index_path(id: plan.id), class:"btn btn-warning disabled", remote: true %>
+                <% else %>
+                    <%= button_to "Subscribe", subscription_checkout_index_path(id: plan.id), class:"btn btn-warning", remote: true %>
+                <% end %>
+            <% end %>
           </td>
         </tr>
       </tbody>
