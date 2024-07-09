@@ -1,0 +1,5 @@
+<% if params[:report] == 'success' %>
+  <% flash.now[:success] ="Operation is Successfully Done" %>
+<% elsif params[:report] == 'failed' %>
+  <% flash.now[:error] ="Operation Failed" %>
+<% end %>

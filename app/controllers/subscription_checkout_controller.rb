@@ -9,8 +9,8 @@ class SubscriptionCheckoutController < ApplicationController
           quantity: 1,
           price: params[:id]
         }],
-        success_url: authenticated_root_url,
-        cancel_url: authenticated_root_url,
+        success_url: view_projects_url(report: "success"),
+        cancel_url: view_projects_url(report: "failed"),
       })
     respond_to do |format|
       format.js
@@ -25,7 +25,7 @@ class SubscriptionCheckoutController < ApplicationController
     current_user.update(
       subscription_status: deleted_subscription.status,
     )
-    redirect_to subscription_checkout_index_path , notice: "Successfully Unsubscribed and Status Updated"
+    redirect_to subscription_checkout_index_path , notice: "Successfully Unsubscribed and Refunded"
 
 
   end

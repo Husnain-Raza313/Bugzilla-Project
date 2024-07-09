@@ -35,18 +35,38 @@ class WebhooksController < ApplicationController
         subscription_id: session.subscription,
       )
      end
-    when 'customer.subscription.updated', 'customer.subscription.deleted'
+    when 'payment_intent.succeeded'
+      payment_intent = event.data.object
+      if payment_intent.charges.data[0].description.include?('Subscription')
+        @user = User.find_by(stripe_customer_id: payment_intent.charges.data[0].customer)
+        @user.update(
+        payment_id: payment_intent.charges.data[0].id
+        )
+      end
+    when 'customer.subscription.updated'
       subscription = event.data.object
       @user = User.find_by(stripe_customer_id: subscription.customer)
       @user.update(
         subscription_status: subscription.canceled_at ? 'Canceled' : subscription.status,
         plan: subscription.items.data[0].price.lookup_key,
       )
-      puts "hello #{@user.subscription_status}"
-      # redirect_to authenticated_root_url and return
+    when 'customer.subscription.deleted'
+      subscription = event.data.object
+      @user = User.find_by(stripe_customer_id: subscription.customer)
+      @user.update(
+        subscription_status: subscription.canceled_at ? 'Canceled' : subscription.status,
+        plan: subscription.items.data[0].price.lookup_key,
+      )
+
+      refund = Stripe::Refund.create({
+        charge: @user.payment_id,
+      })
     end
 
-    render json: { message: 'success' }
+    # render json: { message: 'success' }
+    respond_to do |format|
+      format.js { flash[:notice] = 'Email was successfully registered' }
+    end
   end
 
   def webhook_params
